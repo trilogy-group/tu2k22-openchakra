@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const fileName = req.body.path.split('/').slice(-1)[0]
   let fileArray = fileName.split('-')
   fileArray = fileArray.map(word => {
