@@ -181,8 +181,7 @@ const ParametersPanel = () => {
               </Tooltip>
             </Checkbox>
             <Spacer />
-
-            <Checkbox
+            {/* <Checkbox
               size="sm"
               isChecked={quickParams.exposed}
               onChange={event => {
@@ -201,7 +200,7 @@ const ParametersPanel = () => {
               >
                 <InfoOutlineIcon color="teal.300" w={3} h={3} ml={1} />
               </Tooltip>
-            </Checkbox>
+            </Checkbox> */}
           </Flex>
           <Button
             type="submit"

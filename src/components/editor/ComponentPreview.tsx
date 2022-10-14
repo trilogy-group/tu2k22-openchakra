@@ -21,6 +21,7 @@ import WithChildrenPreviewContainer from '~components/editor/WithChildrenPreview
 import IconPreview from './previews/IconPreview'
 import IconButtonPreview from './previews/IconButtonPreview'
 import SelectPreview from '~components/editor/previews/SelectPreview'
+import ConditionalPreview from './previews/ConditionalPreview'
 import NumberInputPreview from '~components/editor/previews/NumberInputPreview'
 import BreadcrumbPreview from './previews/BreadcrumbPreview'
 import BreadcrumbItemPreview from './previews/BreadcrumbItemPreview'
@@ -213,6 +214,8 @@ const ComponentPreview: React.FC<{
       return <StatHelpTextPreview component={component} />
     case 'StatGroup':
       return <StatGroupPreview component={component} />
+    case 'Conditional':
+      return <ConditionalPreview component={component} />
     default:
       return null
   }
