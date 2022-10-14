@@ -331,8 +331,8 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     children: 'Tag name',
   },
   Text: { children: 'Text value' },
-  Conditional: {condition: false },
-  Loop:{},
+  Conditional: { condition: false },
+  Loop: { list: [1, 2, 3, 4] },
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {

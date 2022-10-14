@@ -159,7 +159,8 @@ const buildSingleBlock = ({
       content += `<${childComponent.props.icon} ${propsContent} />`
     } else if (
       childComponent.children.length &&
-      componentName !== 'Conditional'
+      componentName !== 'Conditional' &&
+      componentName !== 'Loop'
     ) {
       content += `<${componentName} ${propsContent}>
       ${buildBlock({ component: childComponent, components, forceBuildBlock })}
@@ -179,6 +180,12 @@ const buildSingleBlock = ({
         components,
         forceBuildBlock,
       })}</>}`
+    } else if (componentName === 'Loop') {
+      content += `{list.map((item) => (<Box>${buildBlock({
+        component: childComponent,
+        components,
+        forceBuildBlock,
+      })}</Box>))}`
     } else {
       content += `<${componentName} ${propsContent} />`
     }
@@ -330,7 +337,7 @@ export const generateCode = async (
   const { paramTypes, params } = buildParams(components.root.params)
   const iconImports = Array.from(new Set(getIconsImports(components)))
 
-  const imports = [
+  let imports = [
     ...new Set(
       Object.keys(components)
         .filter(
@@ -342,6 +349,11 @@ export const generateCode = async (
         .map(name => components[name].type),
     ),
   ]
+
+  const index = imports.indexOf('Loop')
+  if (index !== -1) {
+    imports[index] = 'Box'
+  }
 
   const customImports = [
     ...new Set(
@@ -412,6 +424,11 @@ export const generateOcTsxCode = async (
         .map(name => components[name].type),
     ),
   ]
+
+  const index = imports.indexOf('Loop')
+  if (index !== -1) {
+    imports[index] = 'Box'
+  }
 
   const customImports = [
     ...new Set(

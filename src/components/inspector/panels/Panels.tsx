@@ -54,6 +54,7 @@ import StatArrowPanel from './components/StatArrowPanel'
 import StatLabelPanel from './components/StatLabelPanel'
 import SkeletonPanel from './components/SkeletonPanel'
 import ConditionalPanel from './components/ConditionalPanel'
+import LoopPanel from './components/LoopPanel'
 import { useSelector } from 'react-redux'
 import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from '~components/editor/Editor'
@@ -163,6 +164,7 @@ const Panels: React.FC<{
       {type === 'StatLabel' && <StatLabelPanel />}
       {type === 'StatNumber' && <StatLabelPanel />}
       {type === 'Conditional' && <ConditionalPanel />}
+      {type === 'Loop' && <LoopPanel />}
     </>
   )
 }
