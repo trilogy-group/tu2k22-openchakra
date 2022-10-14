@@ -90,6 +90,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'StatMeta',
   // Allow custom components
   'Conditional',
+  'Loop',
 ]
 
 export const AccordionWhitelist: (
