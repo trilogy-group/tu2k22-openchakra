@@ -113,6 +113,17 @@ const returnConditionalValue = (
   return conditionValue
 }
 
+const returnLoopValue = (propsNames: string[], childComponent: IComponent) => {
+  let loopValue = [1]
+
+  propsNames.forEach((propName: string) => {
+    if (propName === 'list') {
+      loopValue = childComponent.props[propName]
+    }
+  })
+  return loopValue
+}
+
 const buildSingleBlock = ({
   index,
   component,
@@ -181,7 +192,13 @@ const buildSingleBlock = ({
         forceBuildBlock,
       })}</>}`
     } else if (componentName === 'Loop') {
-      content += `{list.map((item) => (<Box>${buildBlock({
+      content += `{${returnLoopValue(
+        propsNames,
+        childComponent,
+      )}.map((item${childComponent.id.slice(
+        10,
+        13,
+      )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
         component: childComponent,
         components,
         forceBuildBlock,
@@ -242,7 +259,8 @@ const buildBlock = ({
         content += `<${childComponent.props.icon} ${propsContent} />`
       } else if (
         childComponent.children.length &&
-        componentName !== 'Conditional'
+        componentName !== 'Conditional' &&
+        componentName !== 'Loop'
       ) {
         content += `<${componentName} ${propsContent}>
       ${buildBlock({ component: childComponent, components, forceBuildBlock })}
@@ -262,6 +280,18 @@ const buildBlock = ({
           components,
           forceBuildBlock,
         })}</>}`
+      } else if (componentName === 'Loop') {
+        content += `{${returnLoopValue(
+          propsNames,
+          childComponent,
+        )}.map((item${childComponent.id.slice(
+          10,
+          13,
+        )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
+          component: childComponent,
+          components,
+          forceBuildBlock,
+        })}</Box>))}`
       } else {
         content += `<${componentName} ${propsContent} />`
       }
@@ -350,9 +380,12 @@ export const generateCode = async (
     ),
   ]
 
-  const index = imports.indexOf('Loop')
-  if (index !== -1) {
-    imports[index] = 'Box'
+  const loopIndex = imports.indexOf('Loop')
+  const boxIndex = imports.indexOf('Box')
+  if (loopIndex !== -1 && boxIndex === -1) {
+    imports[loopIndex] = 'Box'
+  } else if (loopIndex !== -1 && boxIndex !== -1) {
+    imports = imports.filter(imp => imp !== 'Loop')
   }
 
   const customImports = [
@@ -412,7 +445,7 @@ export const generateOcTsxCode = async (
   const { paramTypes, params } = buildParams(components.root.params)
   const iconImports = Array.from(new Set(getIconsImports(components)))
 
-  const imports = [
+  let imports = [
     ...new Set(
       Object.keys(components)
         .filter(
@@ -425,9 +458,12 @@ export const generateOcTsxCode = async (
     ),
   ]
 
-  const index = imports.indexOf('Loop')
-  if (index !== -1) {
-    imports[index] = 'Box'
+  const loopIndex = imports.indexOf('Loop')
+  const boxIndex = imports.indexOf('Box')
+  if (loopIndex !== -1 && boxIndex === -1) {
+    imports[loopIndex] = 'Box'
+  } else if (loopIndex !== -1 && boxIndex !== -1) {
+    imports = imports.filter(imp => imp !== 'Loop')
   }
 
   const customImports = [
