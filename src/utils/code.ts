@@ -113,7 +113,10 @@ const returnConditionalValue = (
   return conditionValue
 }
 
-const returnLoopValue = (propsNames: string[], childComponent: IComponent) => {
+const returnLoopValue: (
+  propsNames: string[],
+  childComponent: IComponent,
+) => any[] = (propsNames: string[], childComponent: IComponent) => {
   let loopValue = [1]
 
   propsNames.forEach((propName: string) => {
@@ -192,10 +195,10 @@ const buildSingleBlock = ({
         forceBuildBlock,
       })}</>}`
     } else if (componentName === 'Loop') {
-      content += `{${returnLoopValue(
+      content += `{Object.values({list: ${returnLoopValue(
         propsNames,
         childComponent,
-      )}.map((item${childComponent.id.slice(
+      )}})[0].map((item${childComponent.id.slice(
         10,
         13,
       )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
@@ -281,10 +284,10 @@ const buildBlock = ({
           forceBuildBlock,
         })}</>}`
       } else if (componentName === 'Loop') {
-        content += `{${returnLoopValue(
+        content += `{[${returnLoopValue(
           propsNames,
           childComponent,
-        )}.map((item${childComponent.id.slice(
+        )}].map((item${childComponent.id.slice(
           10,
           13,
         )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
@@ -292,6 +295,7 @@ const buildBlock = ({
           components,
           forceBuildBlock,
         })}</Box>))}`
+        console.log(returnLoopValue(propsNames, childComponent))
       } else {
         content += `<${componentName} ${propsContent} />`
       }
