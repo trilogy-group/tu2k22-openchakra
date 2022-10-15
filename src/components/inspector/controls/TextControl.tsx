@@ -20,7 +20,13 @@ const TextControl: React.FC<TextControlPropsType> = ({
   placeholder = '',
 }) => {
   const { setValueFromEvent } = useForm()
-  const value = usePropsSelector(name)
+  let value = usePropsSelector(name)
+
+  React.useEffect(() => {
+    if (typeof (value) === 'object') {
+      value = JSON.stringify(value)
+    }
+  }, [value])
 
   return (
     <FormControl hasColumn={hasColumn} htmlFor={name} label={label}>

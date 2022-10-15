@@ -332,7 +332,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   },
   Text: { children: 'Text value' },
   Conditional: { condition: false },
-  Loop: { list: [1, 2, 3, 4] },
+  Loop: { list: ['Guru-G', 'Master-Bilal'] },
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {
