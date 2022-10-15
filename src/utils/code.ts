@@ -195,10 +195,11 @@ const buildSingleBlock = ({
         forceBuildBlock,
       })}</>}`
     } else if (componentName === 'Loop') {
-      content += `{Object.values({list: ${returnLoopValue(
-        propsNames,
-        childComponent,
-      )}})[0].map((item${childComponent.id.slice(
+      content += `{${
+        typeof returnLoopValue(propsNames, childComponent) === 'object'
+          ? `${JSON.stringify(returnLoopValue(propsNames, childComponent))}`
+          : `${returnLoopValue(propsNames, childComponent)}`
+      }.map((item${childComponent.id.slice(
         10,
         13,
       )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({

@@ -48,8 +48,9 @@ const importView = (component: any) => {
 }
 
 const ComponentPreview: React.FC<{
-  componentName: string
-}> = ({ componentName, ...forwardedProps }) => {
+  componentName: string,
+  item?: string
+}> = ({ componentName, item, ...forwardedProps }) => {
   const component = useSelector(getComponentBy(componentName))
   if (!component) {
     console.error(`ComponentPreview unavailable for component ${componentName}`)
@@ -188,7 +189,7 @@ const ComponentPreview: React.FC<{
     case 'AspectRatio':
       return <AspectRatioPreview component={component} />
     case 'Button':
-      return <ButtonPreview component={component} />
+      return <ButtonPreview component={component} item={item}/>
     case 'Breadcrumb':
       return <BreadcrumbPreview component={component} />
     case 'BreadcrumbItem':

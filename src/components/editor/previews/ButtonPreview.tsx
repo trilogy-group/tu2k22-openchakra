@@ -5,10 +5,11 @@ import { Button } from '@chakra-ui/react'
 import icons from '~iconsList'
 
 interface Props {
-  component: IComponent
+  component: IComponent,
+  item?: string
 }
 
-const ButtonPreview = ({ component }: Props) => {
+const ButtonPreview = ({ component, item }: Props) => {
   const { isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
 
@@ -32,6 +33,11 @@ const ButtonPreview = ({ component }: Props) => {
     } else {
       props.rightIcon = undefined
     }
+  }
+
+  if(props.children.slice(-1) === '}' && typeof(item) === 'string'){
+    console.log(item)
+    props.children = item;
   }
 
   return <Button ref={ref} {...props} />
