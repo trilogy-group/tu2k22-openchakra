@@ -103,10 +103,10 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
   return propsContent
 }
 
-const returnConditionalValue = (
+const returnConditionalValue: (
   propsNames: string[],
   childComponent: IComponent,
-) => {
+) => any = (propsNames: string[], childComponent: IComponent) => {
   let conditionValue = false
 
   propsNames.forEach((propName: string) => {
@@ -120,7 +120,7 @@ const returnConditionalValue = (
 const returnLoopValue: (
   propsNames: string[],
   childComponent: IComponent,
-) => any[] = (propsNames: string[], childComponent: IComponent) => {
+) => any = (propsNames: string[], childComponent: IComponent) => {
   let loopValue = [1]
 
   propsNames.forEach((propName: string) => {
@@ -184,10 +184,20 @@ const buildSingleBlock = ({
       ${buildBlock({ component: childComponent, components, forceBuildBlock })}
       </${componentName}>`
     } else if (componentName === 'Conditional') {
-      content += `{${returnConditionalValue(
-        propsNames,
-        childComponent,
-      )}? <>${buildSingleBlock({
+      content += `{${
+        returnConditionalValue(propsNames, childComponent) === true ||
+        returnConditionalValue(propsNames, childComponent) === false
+          ? `${returnConditionalValue(propsNames, childComponent)}`
+          : `${
+              returnConditionalValue(propsNames, childComponent).slice(0, 1) ===
+              '{'
+                ? `${returnConditionalValue(propsNames, childComponent).slice(
+                    1,
+                    -1,
+                  )}`
+                : `'${returnConditionalValue(propsNames, childComponent)}'`
+            }`
+      }? <>${buildSingleBlock({
         index: 0,
         component: childComponent,
         components,
@@ -199,10 +209,15 @@ const buildSingleBlock = ({
         forceBuildBlock,
       })}</>}`
     } else if (componentName === 'Loop') {
-      content += `{Object.values({list: ${returnLoopValue(
-        propsNames,
-        childComponent,
-      )}})[0].map((item${childComponent.id.slice(
+      content += `{${
+        typeof returnLoopValue(propsNames, childComponent) === 'object'
+          ? `${JSON.stringify(returnLoopValue(propsNames, childComponent))}`
+          : `${
+              returnLoopValue(propsNames, childComponent).slice(0, 1) === '{'
+                ? `${returnLoopValue(propsNames, childComponent).slice(1, -1)}`
+                : `${returnLoopValue(propsNames, childComponent)}`
+            }`
+      }.map((item${childComponent.id.slice(
         10,
         13,
       )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
@@ -273,10 +288,22 @@ const buildBlock = ({
       ${buildBlock({ component: childComponent, components, forceBuildBlock })}
       </${componentName}>`
       } else if (componentName === 'Conditional') {
-        content += `{${returnConditionalValue(
-          propsNames,
-          childComponent,
-        )}? <>${buildSingleBlock({
+        content += `{${
+          returnConditionalValue(propsNames, childComponent) === true ||
+          returnConditionalValue(propsNames, childComponent) === false
+            ? `${returnConditionalValue(propsNames, childComponent)}`
+            : `${
+                returnConditionalValue(propsNames, childComponent).slice(
+                  0,
+                  1,
+                ) === '{'
+                  ? `${returnConditionalValue(propsNames, childComponent).slice(
+                      1,
+                      -1,
+                    )}`
+                  : `'${returnConditionalValue(propsNames, childComponent)}'`
+              }`
+        }? <>${buildSingleBlock({
           index: 0,
           component: childComponent,
           components,
@@ -288,10 +315,18 @@ const buildBlock = ({
           forceBuildBlock,
         })}</>}`
       } else if (componentName === 'Loop') {
-        content += `{[${returnLoopValue(
-          propsNames,
-          childComponent,
-        )}].map((item${childComponent.id.slice(
+        content += `{${
+          typeof returnLoopValue(propsNames, childComponent) === 'object'
+            ? `${JSON.stringify(returnLoopValue(propsNames, childComponent))}`
+            : `${
+                returnLoopValue(propsNames, childComponent).slice(0, 1) === '{'
+                  ? `${returnLoopValue(propsNames, childComponent).slice(
+                      1,
+                      -1,
+                    )}`
+                  : `${returnLoopValue(propsNames, childComponent)}`
+              }`
+        }.map((item${childComponent.id.slice(
           10,
           13,
         )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
