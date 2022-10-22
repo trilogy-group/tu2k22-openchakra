@@ -30,13 +30,8 @@ type BuildBlockParams = {
   component: IComponent
   components: IComponents
   forceBuildBlock?: boolean
-}
-
-type BuildSingleBlockParams = {
-  index: number
-  component: IComponent
-  components: IComponents
-  forceBuildBlock?: boolean
+  isSingleBlock?: boolean
+  index?: number
 }
 
 const buildParams = (paramsName: any) => {
@@ -106,7 +101,7 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
 const returnConditionalValue: (
   propsNames: string[],
   childComponent: IComponent,
-) => any = (propsNames: string[], childComponent: IComponent) => {
+) => boolean | string = (propsNames: string[], childComponent: IComponent) => {
   let conditionValue = false
 
   propsNames.forEach((propName: string) => {
@@ -131,116 +126,18 @@ const returnLoopValue: (
   return loopValue
 }
 
-const buildSingleBlock = ({
-  index,
-  component,
-  components,
-  forceBuildBlock = false,
-}: BuildSingleBlockParams) => {
-  let content = ''
-
-  const key: string = component.children[index]
-
-  let childComponent = components[key]
-  if (!childComponent) {
-    console.error(`invalid component ${key}`)
-  } else if (forceBuildBlock || !childComponent.componentName) {
-    const componentName = convertToPascal(childComponent.type)
-    let propsContent = ''
-
-    const propsNames = Object.keys(childComponent.props).filter(propName => {
-      if (childComponent.type === 'Icon') {
-        return propName !== 'icon'
-      }
-
-      return true
-    })
-
-    // Special case for Highlight component
-    if (componentName === 'Highlight') {
-      const [query, children, ...restProps] = propsNames
-      propsContent += buildStyledProps([query, children], childComponent)
-
-      propsContent += `styles={{${restProps
-        .filter(propName => childComponent.props[propName])
-        .map(propName => `${propName}:'${childComponent.props[propName]}'`)}}}`
-    } else {
-      propsContent += buildStyledProps(propsNames, childComponent)
-    }
-
-    if (
-      typeof childComponent.props.children === 'string' &&
-      childComponent.children.length === 0
-    ) {
-      content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
-    } else if (childComponent.type === 'Icon') {
-      content += `<${childComponent.props.icon} ${propsContent} />`
-    } else if (
-      childComponent.children.length &&
-      componentName !== 'Conditional' &&
-      componentName !== 'Loop'
-    ) {
-      content += `<${componentName} ${propsContent}>
-      ${buildBlock({ component: childComponent, components, forceBuildBlock })}
-      </${componentName}>`
-    } else if (componentName === 'Conditional') {
-      content += `{${
-        returnConditionalValue(propsNames, childComponent) === true ||
-        returnConditionalValue(propsNames, childComponent) === false
-          ? `${returnConditionalValue(propsNames, childComponent)}`
-          : `${
-              returnConditionalValue(propsNames, childComponent).slice(0, 1) ===
-              '{'
-                ? `${returnConditionalValue(propsNames, childComponent).slice(
-                    1,
-                    -1,
-                  )}`
-                : `'${returnConditionalValue(propsNames, childComponent)}'`
-            }`
-      }? <>${buildSingleBlock({
-        index: 0,
-        component: childComponent,
-        components,
-        forceBuildBlock,
-      })}</>: <>${buildSingleBlock({
-        index: 1,
-        component: childComponent,
-        components,
-        forceBuildBlock,
-      })}</>}`
-    } else if (componentName === 'Loop') {
-      content += `{${
-        typeof returnLoopValue(propsNames, childComponent) === 'object'
-          ? `${JSON.stringify(returnLoopValue(propsNames, childComponent))}`
-          : `${
-              returnLoopValue(propsNames, childComponent).slice(0, 1) === '{'
-                ? `${returnLoopValue(propsNames, childComponent).slice(1, -1)}`
-                : `${returnLoopValue(propsNames, childComponent)}`
-            }`
-      }.map((item${childComponent.id.slice(
-        10,
-        13,
-      )}, index${childComponent.id.slice(10, 13)}) => (<Box>${buildBlock({
-        component: childComponent,
-        components,
-        forceBuildBlock,
-      })}</Box>))}`
-    } else {
-      content += `<${componentName} ${propsContent} />`
-    }
-  } else {
-    content += `<${childComponent.componentName} />`
-  }
-
-  return content
-}
-
 const buildBlock = ({
   component,
   components,
   forceBuildBlock = false,
+  isSingleBlock,
+  index = 0,
 }: BuildBlockParams) => {
   let content = ''
+
+  if (isSingleBlock) {
+    component.children = [component.children[index]]
+  }
 
   component.children.forEach((key: string) => {
     let childComponent = components[key]
@@ -288,43 +185,39 @@ const buildBlock = ({
       ${buildBlock({ component: childComponent, components, forceBuildBlock })}
       </${componentName}>`
       } else if (componentName === 'Conditional') {
+        const conditionalValue = returnConditionalValue(
+          propsNames,
+          childComponent,
+        )
         content += `{${
-          returnConditionalValue(propsNames, childComponent) === true ||
-          returnConditionalValue(propsNames, childComponent) === false
-            ? `${returnConditionalValue(propsNames, childComponent)}`
+          typeof conditionalValue === 'boolean'
+            ? `${conditionalValue}`
             : `${
-                returnConditionalValue(propsNames, childComponent).slice(
-                  0,
-                  1,
-                ) === '{'
-                  ? `${returnConditionalValue(propsNames, childComponent).slice(
-                      1,
-                      -1,
-                    )}`
-                  : `'${returnConditionalValue(propsNames, childComponent)}'`
+                conditionalValue.slice(0, 1) === '{'
+                  ? `${conditionalValue.slice(1, -1)}`
+                  : `'${conditionalValue}'`
               }`
-        }? <>${buildSingleBlock({
-          index: 0,
+        }? <>${buildBlock({
           component: childComponent,
           components,
           forceBuildBlock,
-        })}</>: <>${buildSingleBlock({
+          isSingleBlock: true,
+        })}</>: <>${buildBlock({
+          component: childComponent,
+          components,
+          forceBuildBlock,
+          isSingleBlock: true,
           index: 1,
-          component: childComponent,
-          components,
-          forceBuildBlock,
         })}</>}`
       } else if (componentName === 'Loop') {
+        const loopValue = returnLoopValue(propsNames, childComponent)
         content += `{${
-          typeof returnLoopValue(propsNames, childComponent) === 'object'
-            ? `${JSON.stringify(returnLoopValue(propsNames, childComponent))}`
+          typeof loopValue === 'object'
+            ? `${JSON.stringify(loopValue)}`
             : `${
-                returnLoopValue(propsNames, childComponent).slice(0, 1) === '{'
-                  ? `${returnLoopValue(propsNames, childComponent).slice(
-                      1,
-                      -1,
-                    )}`
-                  : `${returnLoopValue(propsNames, childComponent)}`
+                loopValue.slice(0, 1) === '{'
+                  ? `${loopValue.slice(1, -1)}`
+                  : `${loopValue}`
               }`
         }.map((item${childComponent.id.slice(
           10,
