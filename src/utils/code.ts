@@ -203,17 +203,17 @@ const buildSingleBlock = ({
                 ? `${conditionalValue.slice(1, -1)}`
                 : `'${conditionalValue}'`
             }`
-      }? ${buildSingleBlock({
+      }? <>${buildSingleBlock({
         index: 0,
         component: childComponent,
         components,
         forceBuildBlock,
-      })}: ${buildSingleBlock({
+      })}</>: <>${buildSingleBlock({
         index: 1,
         component: childComponent,
         components,
         forceBuildBlock,
-      })}}`
+      })}</>}`
     } else if (componentName === 'Loop') {
       const loopValue = returnLoopValue(propsNames, childComponent)
       content += `{${
@@ -299,17 +299,17 @@ const buildBlock = ({
                   ? `${conditionalValue.slice(1, -1)}`
                   : `'${conditionalValue}'`
               }`
-        }? ${buildSingleBlock({
+        }? <>${buildSingleBlock({
           index: 0,
           component: childComponent,
           components,
           forceBuildBlock,
-        })}: ${buildSingleBlock({
+        })}</>: <>${buildSingleBlock({
           index: 1,
           component: childComponent,
           components,
           forceBuildBlock,
-        })}}`
+        })}</>}`
       } else if (componentName === 'Loop') {
         const loopValue = returnLoopValue(propsNames, childComponent)
         content += `{${
