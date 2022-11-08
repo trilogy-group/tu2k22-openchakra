@@ -40,8 +40,7 @@ import { useInteractive } from '~hooks/useInteractive'
 
 const ConditionalPreview: React.FC<IPreviewProps> = ({ component }) => {
   const acceptedTypes = [
-    'TrueBox',
-    'FalseBox',
+    'Box',
   ] as ComponentType[]
   const { props, ref } = useInteractive(component, true)
   const { drop, isOver } = useDropComponent(component.id, acceptedTypes)

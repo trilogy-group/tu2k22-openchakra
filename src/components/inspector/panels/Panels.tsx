@@ -172,8 +172,6 @@ const Panels: React.FC<{
       {type === 'Th' && <TdPanel />}
       {type === 'Conditional' && <ConditionalPanel />}
       {type === 'Loop' && <LoopPanel />}
-      {type === 'TrueBox' && <BoxPanel />}
-      {type === 'FalseBox' && <BoxPanel />}
     </>
   )
 }

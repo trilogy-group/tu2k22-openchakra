@@ -30,7 +30,6 @@ import NumberInputPreview from '~components/editor/previews/NumberInputPreview'
 import BreadcrumbPreview from './previews/BreadcrumbPreview'
 import BreadcrumbItemPreview from './previews/BreadcrumbItemPreview'
 import HighlightPreview from './previews/HighlightPreview'
-import BoxPreview from './previews/BoxPreview'
 import StatGroupPreview, {
   StatHelpTextPreview,
   StatPreview,
@@ -235,10 +234,6 @@ const ComponentPreview: React.FC<{
       return <ConditionalPreview component={component} />
     case 'Loop':
       return <LoopPreview component={component} />
-    case 'TrueBox':
-      return <BoxPreview component={component} />
-    case 'FalseBox':
-      return <BoxPreview component={component} />
     default:
       return null
   }

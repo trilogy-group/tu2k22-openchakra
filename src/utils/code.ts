@@ -182,10 +182,6 @@ const buildSingleBlock = ({
       content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
     } else if (childComponent.type === 'Icon') {
       content += `<${childComponent.props.icon} ${propsContent} />`
-    } else if (componentName === 'TrueBox' || componentName === 'FalseBox') {
-      content += `<Box ${propsContent}>
-    ${buildBlock({ component: childComponent, components, forceBuildBlock })}
-    </Box>`
     } else if (
       childComponent.children.length &&
       componentName !== 'Conditional' &&
@@ -282,10 +278,6 @@ const buildBlock = ({
         content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
       } else if (childComponent.type === 'Icon') {
         content += `<${childComponent.props.icon} ${propsContent} />`
-      } else if (componentName === 'TrueBox' || componentName === 'FalseBox') {
-        content += `<Box ${propsContent}>
-      ${buildBlock({ component: childComponent, components, forceBuildBlock })}
-      </Box>`
       } else if (
         childComponent.children.length &&
         componentName !== 'Conditional' &&
@@ -439,8 +431,6 @@ export const generateCode = async (
             components[name].type !== 'Conditional' &&
             components[name].type !== 'Loop' &&
             components[name].type !== 'Box' &&
-            components[name].type !== 'TrueBox' &&
-            components[name].type !== 'FalseBox' &&
             !Object.keys(currentComponents).includes(components[name].type),
         )
         .map(name => components[name].type),
@@ -513,8 +503,6 @@ export const generateOcTsxCode = async (
             components[name].type !== 'Conditional' &&
             components[name].type !== 'Loop' &&
             components[name].type !== 'Box' &&
-            components[name].type !== 'TrueBox' &&
-            components[name].type !== 'FalseBox' &&
             !Object.keys(currentComponents).includes(components[name].type),
         )
         .map(name => components[name].type),

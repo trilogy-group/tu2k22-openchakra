@@ -89,8 +89,6 @@ type ComponentType =
   | 'Td'
   | 'TableCaption'
   | 'TableContainer'
-  | 'TrueBox'
-  | 'FalseBox'
   | string
 
 type MetaComponentType =

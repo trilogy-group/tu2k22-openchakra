@@ -106,8 +106,6 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   // Allow custom components
   'Conditional',
   'Loop',
-  'TrueBox',
-  'FalseBox',
 ]
 
 export const AccordionWhitelist: (
@@ -129,7 +127,5 @@ export const rootComponents = COMPONENTS
         'AccordionIcon',
         'BreadcrumbItem',
         'BreadcrumbLink',
-        'TrueBox',
-        'FalseBox',
       ].includes(name),
   )

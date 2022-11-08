@@ -48,8 +48,7 @@ export const menuItems: MenuItems = {
   Center: {},
   Conditional: {
     children: {
-      TrueBox: {},
-      FalseBox: {},
+      Box: {}
     },
   },
   Container: {},
@@ -236,6 +235,4 @@ export const componentsList: ComponentType[] = [
   'Tag',
   'Text',
   'Textarea',
-  'TrueBox',
-  'FalseBox',
 ]
