@@ -10,12 +10,30 @@ const LoopPreview: React.FC<{ component: IComponent }> = ({ component }) => {
   if (isOver) {
     props.bg = 'teal.50'
   }
+  const loopArray: number[] = []
+  const loopLength = Number(props.loopNumber)
+
+  const getArray = (length: number) => {
+    for (let i = 1; i <= length; i++) {
+      loopArray.push(i)
+    }
+  }
+
+  if (loopLength && loopLength > 0) {
+    getArray(loopLength)
+  }
 
   return (
     <Box pos="relative" ref={drop(ref)} {...props}>
-      {props.loopView ? (
+      {!props.loopView ? (
         <>
-          {[1,2,3,4].map(() =>
+          {component.children.map((key: string) => (
+            <ComponentPreview key={key} componentName={key} />
+          ))}
+        </>
+      ) : loopLength && loopLength > 0 ? (
+        <>
+          {loopArray.map(() =>
             component.children.map((key: string) => (
               <ComponentPreview key={key} componentName={key} />
             )),
@@ -23,9 +41,11 @@ const LoopPreview: React.FC<{ component: IComponent }> = ({ component }) => {
         </>
       ) : (
         <>
-          {component.children.map((key: string) => (
-            <ComponentPreview key={key} componentName={key} />
-          ))}
+          {[1, 2, 3, 4].map(() =>
+            component.children.map((key: string) => (
+              <ComponentPreview key={key} componentName={key} />
+            )),
+          )}
         </>
       )}
     </Box>
