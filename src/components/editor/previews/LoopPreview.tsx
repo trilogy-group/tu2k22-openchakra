@@ -15,7 +15,7 @@ const LoopPreview: React.FC<{ component: IComponent }> = ({ component }) => {
     <Box pos="relative" ref={drop(ref)} {...props}>
       {props.loopView ? (
         <>
-          {props.list.map(() =>
+          {[1,2,3,4].map(() =>
             component.children.map((key: string) => (
               <ComponentPreview key={key} componentName={key} />
             )),
