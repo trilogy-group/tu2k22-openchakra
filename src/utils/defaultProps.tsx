@@ -67,6 +67,9 @@ import {
   StatNumberProps,
   StatArrowProps,
   SkeletonProps,
+  SliderProps,
+  SliderTrackProps,
+  SliderThumbProps,
   TableContainerProps,
   TableProps,
   TableCaptionProps,
@@ -159,6 +162,10 @@ type PreviewDefaultProps = {
   Skeleton?: PropsWithForm<SkeletonProps>
   SkeletonCircle?: PropsWithForm<SkeletonProps>
   SkeletonText?: PropsWithForm<SkeletonProps>
+  Slider?: PropsWithForm<SliderProps>
+  SliderTrack?: PropsWithForm<SliderTrackProps>
+  SliderFilledTrack?: PropsWithForm<any>
+  SliderThumb?: PropsWithForm<SliderThumbProps>
   TableContainer?: PropsWithForm<TableContainerProps>
   Table?: PropsWithForm<TableProps>
   TableCaption?: PropsWithForm<TableCaptionProps>
@@ -303,6 +310,17 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     spacingX: 1,
     spacingY: 1,
   },
+  Slider: {
+    step: 1,
+    size: 'md',
+    value: 50,
+    min: 1,
+    max: 100,
+    'aria-label': 'slider',
+  },
+  SliderFilledTrack: {},
+  SliderThumb: {},
+  SliderTrack: {},
   Stack: {
     spacing: 2,
     form: {

@@ -40,6 +40,10 @@ import SkeletonPreview, {
 } from './previews/SkeletonPreview'
 import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from './Editor'
+import SliderPreview from './previews/SliderPreview'
+import SliderTrackPreview from './previews/SliderTrackPreview'
+import SliderThumbPreview from './previews/SliderThumbPreview'
+import SliderFilledTrackPreview from './previews/SliderFilledTrackPreview'
 
 const importView = (component: any) => {
   component = convertToPascal(component)
@@ -107,6 +111,7 @@ const ComponentPreview: React.FC<{
     case 'StatLabel':
     case 'StatNumber':
     case 'StatArrow':
+    case 'SliderFilledTrack':
     case 'Td':
     case 'Th':
     case 'TableCaption':
@@ -226,6 +231,12 @@ const ComponentPreview: React.FC<{
       return <StatHelpTextPreview component={component} />
     case 'StatGroup':
       return <StatGroupPreview component={component} />
+    case 'SliderTrack':
+      return <SliderTrackPreview component={component} />
+    case 'Slider':
+      return <SliderPreview component={component} />
+    case 'SliderThumb':
+      return <SliderThumbPreview component={component} />
     case 'Table':
       return <TablePreview component={component} />
     case 'Tr':

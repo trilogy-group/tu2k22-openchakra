@@ -103,6 +103,14 @@ export const menuItems: MenuItems = {
   Skeleton: {},
   SkeletonCircle: {},
   SkeletonText: {},
+  Slider: {
+    children: {
+      Slider: {},
+      SliderTrack: {},
+      SliderFilledTrack: {},
+      SliderThumb: {},
+    },
+  },
   Spinner: {},
   Select: {},
   Stack: {},

@@ -48,11 +48,12 @@ import AspectRatioPanel from '~components/inspector/panels/components/AspectRati
 import BreadcrumbPanel from '~components/inspector/panels/components/BreadcrumbPanel'
 import BreadcrumbItemPanel from '~components/inspector/panels/components/BreadcrumbItemPanel'
 import HighlightPanel from '~components/inspector/panels/components/HighlightPanel'
-import KbdPanel from './components/KbdPanel'
-import TabPanel from './components/TabPanel'
-import StatArrowPanel from './components/StatArrowPanel'
-import StatLabelPanel from './components/StatLabelPanel'
-import SkeletonPanel from './components/SkeletonPanel'
+import KbdPanel from '~components/inspector/panels/components/KbdPanel'
+import TabPanel from '~components/inspector/panels/components/TabPanel'
+import StatArrowPanel from '~components/inspector/panels/components//StatArrowPanel'
+import StatLabelPanel from '~components/inspector/panels/components/StatLabelPanel'
+import SkeletonPanel from '~components/inspector/panels/components/SkeletonPanel'
+import SliderPanel from '~components/inspector/panels/components/SliderPanel'
 import TablePanel from './components/TablePanel'
 import ConditionalPanel from './components/ConditionalPanel'
 import LoopPanel from './components/LoopPanel'
@@ -166,6 +167,7 @@ const Panels: React.FC<{
       {type === 'StatArrow' && <StatArrowPanel />}
       {type === 'StatLabel' && <StatLabelPanel />}
       {type === 'StatNumber' && <StatLabelPanel />}
+      {type === 'Slider' && <SliderPanel />}
       {type === 'Table' && <TablePanel />}
       {type === 'TableCaption' && <TableCaptionPanel />}
       {type === 'Td' && <TdPanel />}
