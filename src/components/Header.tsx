@@ -20,6 +20,7 @@ import {
   PopoverFooter,
   Tooltip,
   HStack,
+  Portal,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
@@ -37,6 +38,7 @@ import {
 import { getShowLayout, getShowCode } from '~core/selectors/app'
 import HeaderMenu from '~components/headerMenu/HeaderMenu'
 import { FaReact } from 'react-icons/fa'
+import OutlineView from './OutlineView'
 
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
@@ -204,6 +206,37 @@ const Header = () => {
                   size="sm"
                 />
               </LightMode>
+            </FormControl>
+
+            <FormControl display="flex" flexDirection="row" alignItems="center">
+              <Popover trigger="hover" boundary="scrollParent">
+                <PopoverTrigger>
+                  <FormLabel
+                    color="gray.200"
+                    fontSize="xs"
+                    mr={2}
+                    mb={0}
+                    htmlFor="outline"
+                    pb={0}
+                    whiteSpace="nowrap"
+                  >
+                    Outline View
+                  </FormLabel>
+                </PopoverTrigger>
+                <PopoverContent
+                  color="white"
+                  maxHeight="50vh"
+                  maxWidth="50vw"
+                  overflow="scroll"
+                >
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>Outline View</PopoverHeader>
+                  <PopoverBody>
+                    <OutlineView />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
             </FormControl>
           </HStack>
 
