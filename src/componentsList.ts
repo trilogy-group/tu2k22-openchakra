@@ -45,10 +45,18 @@ export const menuItems: MenuItems = {
     },
   },
   Button: {},
+  Card: {
+    children: {
+      Card: {},
+      CardHeader: {},
+      CardBody: {},
+      CardFooter: {},
+    },
+  },
   Center: {},
   Conditional: {
     children: {
-      Box: {}
+      Box: {},
     },
   },
   Container: {},

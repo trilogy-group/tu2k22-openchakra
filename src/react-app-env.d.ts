@@ -23,6 +23,10 @@ type ComponentType =
   | 'BreadcrumbItem'
   | 'BreadcrumbLink'
   | 'Button'
+  | 'Card' 
+  | 'CardHeader'
+  | 'CardBody'
+  | 'CardFooter'
   | 'Center'
   | 'Checkbox'
   | 'CircularProgress'
@@ -103,6 +107,7 @@ type MetaComponentType =
   | 'TableMeta'
   | 'TableRowMeta'
   | 'ConditionalMeta'
+  | 'CardMeta'
 
 interface ParametersType {
   name: string
