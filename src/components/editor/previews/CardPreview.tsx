@@ -2,21 +2,21 @@ import React from 'react'
 import { useDropComponent } from '~hooks/useDropComponent'
 import { useInteractive } from '~hooks/useInteractive'
 import ComponentPreview from '~components/editor/ComponentPreview'
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Box } from '@chakra-ui/react'
 
 interface Props {
   component: IComponent
 }
 
 const CardPreview = ({ component }: Props) => {
-  const { isOver } = useDropComponent(component.id)
+  const { drop, isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
 
   if (isOver) {
     props.bg = 'teal.50'
   }
   return (
-    <Card ref={ref} {...props}>
+    <Card ref={drop(ref)} {...props}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
@@ -25,7 +25,7 @@ const CardPreview = ({ component }: Props) => {
 }
 
 export const CardHeaderPreview = ({ component }: Props) => {
-  const { isOver } = useDropComponent(component.id)
+  const { drop, isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
 
   if (isOver) {
@@ -33,7 +33,7 @@ export const CardHeaderPreview = ({ component }: Props) => {
   }
 
   return (
-    <CardHeader ref={ref} {...props}>
+    <CardHeader ref={drop(ref)} {...props}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
@@ -42,7 +42,7 @@ export const CardHeaderPreview = ({ component }: Props) => {
 }
 
 export const CardFooterPreview = ({ component }: Props) => {
-  const { isOver } = useDropComponent(component.id)
+  const { drop, isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
 
   if (isOver) {
@@ -50,7 +50,7 @@ export const CardFooterPreview = ({ component }: Props) => {
   }
 
   return (
-    <CardFooter ref={ref} {...props}>
+    <CardFooter ref={drop(ref)} {...props}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
@@ -59,7 +59,7 @@ export const CardFooterPreview = ({ component }: Props) => {
 }
 
 export const CardBodyPreview = ({ component }: Props) => {
-  const { isOver } = useDropComponent(component.id)
+  const { drop, isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
 
   if (isOver) {
@@ -67,7 +67,7 @@ export const CardBodyPreview = ({ component }: Props) => {
   }
 
   return (
-    <CardBody ref={ref} {...props}>
+    <CardBody ref={drop(ref)} {...props}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
