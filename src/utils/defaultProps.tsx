@@ -5,6 +5,10 @@ import {
   BadgeProps,
   BoxProps,
   ButtonProps,
+  CardProps,
+  CardHeaderProps,
+  CardBodyProps,
+  CardFooterProps,
   IconProps,
   IconButtonProps,
   ImageProps,
@@ -97,6 +101,10 @@ type PreviewDefaultProps = {
   Checkbox?: PropsWithForm<CheckboxProps>
   Link?: PropsWithForm<LinkProps>
   Spinner?: PropsWithForm<SpinnerProps>
+  Card?: PropsWithForm<CardProps>
+  CardHeader?: PropsWithForm<CardHeaderProps>
+  CardBody?: PropsWithForm<CardBodyProps>
+  CardFooter?: PropsWithForm<CardFooterProps>
   CloseButton?: PropsWithForm<CloseButtonProps>
   Divider?: PropsWithForm<DividerProps>
   Code?: PropsWithForm<CodeProps>
@@ -209,6 +217,10 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     variant: 'solid',
     size: 'md',
   },
+  Card: { direction: 'column', maxW: 'sm' },
+  CardHeader: {},
+  CardBody: {},
+  CardFooter: {},
   Checkbox: {
     children: 'Label checkbox',
     isReadOnly: true,

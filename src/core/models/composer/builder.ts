@@ -280,6 +280,26 @@ export const buildInputGroup = (parent: string): ComposedComponent => {
   }
 }
 
+export const buildCard = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'Card', parent })
+  const header = composer.addNode({ type: 'CardHeader', parent: nodeId })
+  composer.addNode({type: 'Heading', parent: header})
+  const body = composer.addNode({ type: 'CardBody', parent: nodeId })
+  composer.addNode({ type: 'Text', parent: body })
+  const footer = composer.addNode({ type: 'CardFooter', parent: nodeId })
+  composer.addNode({ type: 'Button', parent: footer })
+
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
 type BuilderFn = (parent: string) => ComposedComponent
 
 type ComposerBuilders = {
@@ -298,6 +318,7 @@ const builders: ComposerBuilders = {
   TableMeta: buildTable,
   TableRowMeta: buildTableRow,
   ConditionalMeta: buildConditional,
+  CardMeta: buildCard,
 }
 
 export default builders
