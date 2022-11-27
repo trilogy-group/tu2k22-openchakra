@@ -4,9 +4,8 @@ import FormControl from '~components/inspector/controls/FormControl'
 import { useForm } from '~hooks/useForm'
 import usePropsSelector from '~hooks/usePropsSelector'
 import SizeControl from '~components/inspector/controls/SizeControl'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
 
-const ModalPanel = () => {
+const CardPanel = () => {
   const { setValueFromEvent } = useForm()
   const size = usePropsSelector('size')
   const variant = usePropsSelector('variant')
@@ -112,9 +111,8 @@ const ModalPanel = () => {
           <option>full</option>
         </Select>
       </FormControl>
-      <ColorsControl label="Color Scheme" name="colorScheme" />
     </>
   )
 }
 
-export default memo(ModalPanel)
+export default memo(CardPanel)
