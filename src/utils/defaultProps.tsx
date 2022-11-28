@@ -35,6 +35,13 @@ import {
   BreadcrumbItemProps,
   EditableProps,
   MenuProps,
+  MenuButtonProps,
+  MenuListProps,
+  MenuItemProps,
+  MenuItemOptionProps,
+  MenuGroupProps,
+  MenuOptionGroupProps,
+  MenuDividerProps,
   NumberInputProps,
   RadioProps,
   SelectProps,
@@ -147,6 +154,13 @@ type PreviewDefaultProps = {
   BreadcrumbLink?: PropsWithForm<BreadcrumbLinkProps>
   Editable?: PropsWithForm<EditableProps>
   Menu?: PropsWithForm<MenuProps>
+  MenuButton?: PropsWithForm<MenuButtonProps>
+  MenuList?: PropsWithForm<MenuListProps>
+  MenuItem?: PropsWithForm<MenuItemProps>
+  MenuItemOption?: PropsWithForm<MenuItemOptionProps>
+  MenuGroup?: PropsWithForm<MenuGroupProps>
+  MenuOptionGroup?: PropsWithForm<MenuOptionGroupProps>
+  MenuDivider?: PropsWithForm<MenuDividerProps>
   NumberInput?: PropsWithForm<NumberInputProps>
   Radio?: PropsWithForm<RadioProps>
   RadioGroup?: PropsWithForm<RadioGroupProps>
@@ -276,6 +290,14 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   },
   ListItem: { children: 'list' },
   Kbd: { children: 'shift' },
+  Menu: {},
+  MenuButton: {},
+  MenuList: {},
+  MenuItem: {},
+  MenuItemOption: {},
+  MenuGroup: {},
+  MenuOptionGroup: {},
+  MenuDivider: {},
   Progress: {
     value: 60,
     min: 0,

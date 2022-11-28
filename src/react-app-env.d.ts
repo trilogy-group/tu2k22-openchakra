@@ -54,6 +54,13 @@ type ComponentType =
   | 'ListIcon'
   | 'Kbd'
   | 'Menu'
+  | 'MenuButton'
+  | 'MenuList'
+  | 'MenuItem'
+  | 'MenuItemOption'
+  | 'MenuGroup'
+  | 'MenuOptionGroup'
+  | 'MenuDivider'  
   | 'NumberInput'
   | 'Progress'
   | 'Radio'
@@ -103,6 +110,7 @@ type MetaComponentType =
   | 'TableMeta'
   | 'TableRowMeta'
   | 'ConditionalMeta'
+  | 'MenuMeta'
 
 interface ParametersType {
   name: string

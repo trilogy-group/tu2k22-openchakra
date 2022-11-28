@@ -48,7 +48,7 @@ export const menuItems: MenuItems = {
   Center: {},
   Conditional: {
     children: {
-      Box: {}
+      Box: {},
     },
   },
   Container: {},
@@ -92,6 +92,18 @@ export const menuItems: MenuItems = {
     },
   },
   Loop: {},
+  Menu: {
+    children: {
+      Menu: {},
+      MenuButton: {},
+      MenuList: {},
+      MenuItem: {},
+      MenuItemOption: {},
+      MenuGroup: {},
+      MenuOptionGroup: {},
+      MenuDivider: {},
+    },
+  },
   Kbd: {},
   NumberInput: {},
   Progress: {},
@@ -145,7 +157,6 @@ export const menuItems: MenuItems = {
   Tag: {},
   Text: {},
   Textarea: {},
-  Menu: { soon: true },
 }
 
 export const componentsList: ComponentType[] = [

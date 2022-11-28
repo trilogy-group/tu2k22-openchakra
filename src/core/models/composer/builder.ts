@@ -157,6 +157,31 @@ export const buildAccordion = (parent: string): ComposedComponent => {
   }
 }
 
+export const buildMenu = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'Menu', parent })
+  composer.addNode({ type: 'MenuButton', parent: nodeId })
+  const list = composer.addNode({ type: 'MenuList', parent: nodeId })
+  const groupOption = composer.addNode({
+    type: 'MenuOptionGroup',
+    parent: list,
+  })
+  composer.addNode({ type: 'MenuItemOption', parent: groupOption })
+  composer.addNode({ type: 'MenuDivider', parent: list })
+  const group = composer.addNode({ type: 'MenuGroup', parent: list })
+  composer.addNode({ type: 'MenuItem', parent: group })
+  composer.addNode({ type: 'MenuItem', parent: group })
+
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
 export const buildTabs = (parent: string): ComposedComponent => {
   const composer = new Composer('Tabs')
 
@@ -298,6 +323,7 @@ const builders: ComposerBuilders = {
   TableMeta: buildTable,
   TableRowMeta: buildTableRow,
   ConditionalMeta: buildConditional,
+  MenuMeta: buildMenu,
 }
 
 export default builders
