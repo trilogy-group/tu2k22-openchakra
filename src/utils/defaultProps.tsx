@@ -289,7 +289,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   },
   ListItem: { children: 'list' },
   Kbd: { children: 'shift' },
-  Modal: {},
+  Modal: { size: 'md' },
   ModalOverlay: {},
   ModalContent: {},
   ModalHeader: { children: 'Modal Title' },

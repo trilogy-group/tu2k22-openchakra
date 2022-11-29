@@ -10,12 +10,13 @@ const ModalPanel = () => {
 
   return (
     <>
+      <SwitchControl label="Show Preview" name="showpreview" />
       <SwitchControl label="Open" name="isOpen" />
       <SwitchControl label="Centered" name="isCentered" />
 
       <SizeControl
         label="Size"
-        options={['xs', 'sm', 'md', 'lg', 'xl', 'full']}
+        options={['xs', 'sm', 'md', 'lg', 'xl']}
         value={size}
       />
     </>
