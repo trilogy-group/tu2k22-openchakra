@@ -61,6 +61,8 @@ import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from '~components/editor/Editor'
 import TdPanel from './components/TdPanel'
 import TableCaptionPanel from './components/TableCaptionPanel'
+import ModalPanel from './components/ModalPanel'
+import ModalHeaderPanel from './components/ModalHeaderPanel'
 
 const importView = (component: any) => {
   component = convertToPascal(component)
@@ -172,6 +174,8 @@ const Panels: React.FC<{
       {type === 'Th' && <TdPanel />}
       {type === 'Conditional' && <ConditionalPanel />}
       {type === 'Loop' && <LoopPanel />}
+      {type === 'Modal' && <ModalPanel />}
+      {type === 'ModalHeader' && <ModalHeaderPanel />}
     </>
   )
 }

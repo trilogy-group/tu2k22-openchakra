@@ -54,6 +54,13 @@ type ComponentType =
   | 'ListIcon'
   | 'Kbd'
   | 'Menu'
+  | 'Modal'
+  | 'ModalOverlay'
+  | 'ModalContent'
+  | 'ModalHeader'
+  | 'ModalFooter'
+  | 'ModalBody'
+  | 'ModalCloseButton'
   | 'NumberInput'
   | 'Progress'
   | 'Radio'
@@ -103,6 +110,7 @@ type MetaComponentType =
   | 'TableMeta'
   | 'TableRowMeta'
   | 'ConditionalMeta'
+  | 'ModalMeta'
 
 interface ParametersType {
   name: string
