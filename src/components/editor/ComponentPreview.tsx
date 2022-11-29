@@ -38,6 +38,15 @@ import SkeletonPreview, {
   SkeletonCirclePreview,
   SkeletonTextPreview,
 } from './previews/SkeletonPreview'
+import MenuPreview, {
+  MenuListPreview,
+  MenuButtonPreview,
+  MenuItemPreview,
+  MenuItemOptionPreview,
+  MenuGroupPreview,
+  MenuOptionGroupPreview,
+  MenuDividerPreview,
+} from './previews/MenuPreview'
 import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from './Editor'
 
@@ -234,6 +243,22 @@ const ComponentPreview: React.FC<{
       return <ConditionalPreview component={component} />
     case 'Loop':
       return <LoopPreview component={component} />
+    case 'Menu':
+      return <MenuPreview component={component} />
+    case 'MenuButton':
+      return <MenuButtonPreview component={component} />
+    case 'MenuList':
+      return <MenuListPreview component={component} />
+    case 'MenuGroup':
+      return <MenuGroupPreview component={component} />
+    case 'MenuOptionGroup':
+      return <MenuOptionGroupPreview component={component} />
+    case 'MenuItemOption':
+      return <MenuItemOptionPreview component={component} />
+    case 'MenuItem':
+      return <MenuItemPreview component={component} />
+    case 'MenuDivider':
+      return <MenuDividerPreview component={component} />
     default:
       return null
   }

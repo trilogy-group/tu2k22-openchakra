@@ -61,6 +61,11 @@ import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from '~components/editor/Editor'
 import TdPanel from './components/TdPanel'
 import TableCaptionPanel from './components/TableCaptionPanel'
+import MenuPanel from './components/MenuPanel'
+import MenuItemOptionsPanel from './components/MenuItemOptionsPanel'
+import MenuOptionsGroupPanel from './components/MenuOptionsGroupPanel'
+import MenuGroupPanel from './components/MenuGroupPanel'
+import MenuItemPanel from './components/MenuItemPanel'
 
 const importView = (component: any) => {
   component = convertToPascal(component)
@@ -172,6 +177,11 @@ const Panels: React.FC<{
       {type === 'Th' && <TdPanel />}
       {type === 'Conditional' && <ConditionalPanel />}
       {type === 'Loop' && <LoopPanel />}
+      {type === 'Menu' && <MenuPanel />}
+      {type === 'MenuItemOptions' && <MenuItemOptionsPanel />}
+      {type === 'MenuOptionsGroup' && <MenuOptionsGroupPanel />}
+      {type === 'MenuGroup' && <MenuGroupPanel />}
+      {type === 'MenuItem' && <MenuItemPanel />}
     </>
   )
 }

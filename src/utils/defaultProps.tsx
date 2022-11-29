@@ -3,6 +3,7 @@ import * as Chakra from '@chakra-ui/react'
 
 import {
   BadgeProps,
+  Button,
   BoxProps,
   ButtonProps,
   IconProps,
@@ -291,12 +292,12 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   ListItem: { children: 'list' },
   Kbd: { children: 'shift' },
   Menu: {},
-  MenuButton: {},
+  MenuButton: { as: Button, children: 'Menu Button' },
   MenuList: {},
-  MenuItem: {},
-  MenuItemOption: {},
-  MenuGroup: {},
-  MenuOptionGroup: {},
+  MenuItem: { children: 'My Account' },
+  MenuItemOption: { value: 'asc', children: 'Ascending' },
+  MenuGroup: { title: 'Profile' },
+  MenuOptionGroup: { defaultValue: 'asc', title: 'Order', type: 'radio' },
   MenuDivider: {},
   Progress: {
     value: 60,
