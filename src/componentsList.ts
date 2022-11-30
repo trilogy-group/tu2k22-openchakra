@@ -236,4 +236,5 @@ export const componentsList: ComponentType[] = [
   'Tag',
   'Text',
   'Textarea',
+  'Tooltip',
 ]
