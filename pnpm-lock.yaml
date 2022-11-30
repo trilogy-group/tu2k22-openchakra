@@ -655,6 +655,7 @@ packages:
     dev: false
 
   /@chakra-ui/control-box/2.0.11_xivvz2l3eyrkvszadds3phcwaq:
+=======
     resolution: {integrity: sha512-UJb4vqq+/FPuwTCuaPeHa2lwtk6u7eFvLuwDCST2e/sBWGJC1R+1/Il5pHccnWs09FWxyZ9v/Oxkg/CG3jZR4Q==}
     peerDependencies:
       '@chakra-ui/system': '>=2.0.0'
@@ -1073,7 +1074,6 @@ packages:
       '@chakra-ui/react-use-event-listener': 2.0.5_react@18.2.0
       react: 18.2.0
     dev: false
-
   /@chakra-ui/react-use-callback-ref/2.0.5_react@18.2.0:
     resolution: {integrity: sha512-vKnXleD2PzB0nGabY35fRtklMid4z7cecbMG0fkasNNsgWmrQcXJOuEKUUVCynL6FBU6gBnpKFi5Aqj6x+K4tw==}
     peerDependencies:

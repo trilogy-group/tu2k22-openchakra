@@ -302,6 +302,43 @@ export const buildInputGroup = (parent: string): ComposedComponent => {
   }
 }
 
+export const buildCard = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'Card', parent })
+  const header = composer.addNode({ type: 'CardHeader', parent: nodeId })
+  composer.addNode({type: 'Heading', parent: header})
+  const body = composer.addNode({ type: 'CardBody', parent: nodeId })
+  composer.addNode({ type: 'Text', parent: body })
+  const footer = composer.addNode({ type: 'CardFooter', parent: nodeId })
+  composer.addNode({ type: 'Button', parent: footer })
+  
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
+export const buildTag = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'Tag', parent })
+  composer.addNode({ type: 'TagLeftIcon', parent: nodeId })
+  composer.addNode({ type: 'TagLabel', parent: nodeId })
+  composer.addNode({ type: 'TagCloseButton', parent: nodeId })
+
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
 type BuilderFn = (parent: string) => ComposedComponent
 
 type ComposerBuilders = {
@@ -321,6 +358,8 @@ const builders: ComposerBuilders = {
   TableRowMeta: buildTableRow,
   ConditionalMeta: buildConditional,
   ModalMeta: buildModal,
+  CardMeta: buildCard,
+  TagMeta: buildTag,
 }
 
 export default builders

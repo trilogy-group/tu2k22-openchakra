@@ -45,10 +45,18 @@ export const menuItems: MenuItems = {
     },
   },
   Button: {},
+  Card: {
+    children: {
+      Card: {},
+      CardHeader: {},
+      CardBody: {},
+      CardFooter: {},
+    },
+  },
   Center: {},
   Conditional: {
     children: {
-      Box: {}
+      Box: {},
     },
   },
   Container: {},
@@ -153,9 +161,18 @@ export const menuItems: MenuItems = {
       TabPanels: {},
     },
   },
-  Tag: {},
+  Tag: {
+    children: {
+      Tag: {},
+      TagLabel: {},
+      TagLeftIcon: {},
+      TagRightIcon: {},
+      TagCloseButton: {},
+    },
+  },
   Text: {},
   Textarea: {},
+  Tooltip: {},
   Menu: { soon: true },
 }
 
@@ -178,6 +195,10 @@ export const componentsList: ComponentType[] = [
   'BreadcrumbItem',
   'BreadcrumbLink',
   'Button',
+  'Card',
+  'CardHeader',
+  'CardBody',
+  'CardFooter',
   'Center',
   'Checkbox',
   'CircularProgress',
@@ -251,6 +272,11 @@ export const componentsList: ComponentType[] = [
   'TabPanels',
   'Tabs',
   'Tag',
+  'TagLabel',
+  'TagLeftIcon',
+  'TagRightIcon',
+  'TagCloseButton',
   'Text',
   'Textarea',
+  'Tooltip',
 ]
