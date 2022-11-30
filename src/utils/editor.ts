@@ -61,6 +61,10 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Stack',
   'Switch',
   'Tag',
+  'TagLabel',
+  'TagLeftIcon',
+  'TagRightIcon',
+  'TagCloseButton',
   'Text',
   'Kbd',
   'Textarea',
@@ -104,6 +108,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'TableMeta',
   'TableRowMeta',
   'ConditionalMeta',
+  'TagMeta',
   // Allow custom components
   'Conditional',
   'Loop',

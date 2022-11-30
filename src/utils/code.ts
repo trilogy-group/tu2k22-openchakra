@@ -97,6 +97,12 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
 
         propsContent += `${propName}${operand} `
       }
+    } else if (
+      propName.toLowerCase() === 'as' &&
+      childComponent.type !== 'Icon'
+    ) {
+      let operand = `={${propsValue}}`
+      propsContent += `${propName}${operand} `
     } else if (propName !== 'children' && propsValue) {
       let operand = `='${propsValue}'`
       if (propsValue[0] === '{' && propsValue[propsValue.length - 1] === '}') {
@@ -487,7 +493,7 @@ export default App;`
 
 export const generateOcTsxCode = async (
   components: IComponents,
-  currentComponents: CustomDictionary,
+  currentComponents: CustomDictionary = {},
 ) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
