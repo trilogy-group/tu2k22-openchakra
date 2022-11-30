@@ -10,7 +10,6 @@ const CardPanel = () => {
   const size = usePropsSelector('size')
   const variant = usePropsSelector('variant')
   const align = usePropsSelector('align')
-  const justify = usePropsSelector('justify')
   const direction = usePropsSelector('direction')
   const maxW = usePropsSelector('maxW')
 
@@ -50,27 +49,6 @@ const CardPanel = () => {
           <option>revert-layer</option>
           <option>self-end</option>
           <option>end</option>
-        </Select>
-      </FormControl>
-      <FormControl htmlFor="justify" label="Justify">
-        <Select
-          id="justify"
-          onChange={setValueFromEvent}
-          name="justify"
-          size="sm"
-          value={justify || ''}
-        >
-          <option>normal</option>
-          <option>left</option>
-          <option>center</option>
-          <option>flex-end</option>
-          <option>flex-start</option>
-          <option>inherit</option>
-          <option>initial</option>
-          <option>revert</option>
-          <option>revert-layer</option>
-          <option>self-end</option>
-          <option>right</option>
         </Select>
       </FormControl>
       <FormControl htmlFor="direction" label="Direction">
