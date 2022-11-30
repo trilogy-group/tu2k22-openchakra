@@ -21,6 +21,8 @@ import {
   CloseButtonProps,
   HeadingProps,
   TagProps,
+  TagLabelProps,
+  TagCloseButtonProps,
   SimpleGridProps,
   SwitchProps,
   AlertProps,
@@ -78,11 +80,13 @@ import {
   TableRowProps,
   TableFooterProps,
   TableHeadProps,
+  TooltipProps,
   TableColumnHeaderProps,
   TableCellProps,
 } from '@chakra-ui/react'
 
 import iconsList from '~iconsList'
+import { AddIcon } from '@chakra-ui/icons'
 
 type PropsWithForm<T> = T & { form?: T }
 
@@ -113,6 +117,10 @@ type PreviewDefaultProps = {
   Heading?: PropsWithForm<HeadingProps>
   Highlight?: PropsWithForm<HighlightProps>
   Tag?: PropsWithForm<TagProps>
+  TagLabel?: PropsWithForm<TagLabelProps>
+  TagLeftIcon?: PropsWithForm<any>
+  TagRightIcon?: PropsWithForm<any>
+  TagCloseButton?: PropsWithForm<TagCloseButtonProps>
   SimpleGrid?: PropsWithForm<SimpleGridProps>
   Switch?: PropsWithForm<SwitchProps>
   Alert?: PropsWithForm<AlertProps>
@@ -155,6 +163,7 @@ type PreviewDefaultProps = {
   BreadcrumbLink?: PropsWithForm<BreadcrumbLinkProps>
   Editable?: PropsWithForm<EditableProps>
   Menu?: PropsWithForm<MenuProps>
+  Tooltip?: PropsWithForm<TooltipProps>
   NumberInput?: PropsWithForm<NumberInputProps>
   Radio?: PropsWithForm<RadioProps>
   RadioGroup?: PropsWithForm<RadioGroupProps>
@@ -356,9 +365,11 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Tab: { children: 'Tab' },
   Tabs: { children: '', size: 'md' },
   TabPanel: { children: 'Tab' },
-  Tag: {
-    children: 'Tag name',
-  },
+  Tag: { rounded: 'full', variant: 'subtle' },
+  TagLabel: { children: 'Tag name' },
+  TagLeftIcon: { as: 'AddIcon' },
+  TagRightIcon: { as: 'AddIcon' },
+  TagCloseButton: {},
   Text: { children: 'Text value' },
   Td: { children: 'data', isNumeric: false },
   Th: { children: 'heading', isNumeric: false },
@@ -366,6 +377,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Table: { variant: 'simple' },
   Conditional: { condition: false },
   Loop: { list: [1, 2, 3, 4] },
+  Tooltip: {label: 'This is my label', 'aria-label': 'beautiful tooltip'},
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {

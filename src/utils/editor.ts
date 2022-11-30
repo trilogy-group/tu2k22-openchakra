@@ -65,6 +65,10 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Stack',
   'Switch',
   'Tag',
+  'TagLabel',
+  'TagLeftIcon',
+  'TagRightIcon',
+  'TagCloseButton',
   'Text',
   'Kbd',
   'Textarea',
@@ -95,6 +99,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'StatHelpText',
   'StatArrow',
   'StatGroup',
+  'Tooltip',
   // Allow meta components
   'AlertMeta',
   'FormControlMeta',
@@ -108,6 +113,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'TableRowMeta',
   'ConditionalMeta',
   'CardMeta',
+  'TagMeta',
   // Allow custom components
   'Conditional',
   'Loop',

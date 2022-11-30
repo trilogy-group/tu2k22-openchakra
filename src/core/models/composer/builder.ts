@@ -290,6 +290,23 @@ export const buildCard = (parent: string): ComposedComponent => {
   composer.addNode({ type: 'Text', parent: body })
   const footer = composer.addNode({ type: 'CardFooter', parent: nodeId })
   composer.addNode({ type: 'Button', parent: footer })
+  
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
+export const buildTag = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'Tag', parent })
+  composer.addNode({ type: 'TagLeftIcon', parent: nodeId })
+  composer.addNode({ type: 'TagLabel', parent: nodeId })
+  composer.addNode({ type: 'TagCloseButton', parent: nodeId })
 
   const components = composer.getComponents()
 
@@ -319,6 +336,7 @@ const builders: ComposerBuilders = {
   TableRowMeta: buildTableRow,
   ConditionalMeta: buildConditional,
   CardMeta: buildCard,
+  TagMeta: buildTag,
 }
 
 export default builders
