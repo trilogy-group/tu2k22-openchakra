@@ -73,7 +73,7 @@ export const TagLeftIconPreview = ({ component }: Props) => {
     }
   }
 
-  return <TagLeftIcon ref={ref} {...props} />
+  return <TagLeftIcon ref={ref} {...props} p={0}/>
 }
 
 export const TagRightIconPreview = ({ component }: Props) => {
@@ -93,7 +93,7 @@ export const TagRightIconPreview = ({ component }: Props) => {
     }
   }
 
-  return <TagRightIcon ref={ref} {...props} />
+  return <TagRightIcon ref={ref} {...props} p={0}/>
 }
 
 
