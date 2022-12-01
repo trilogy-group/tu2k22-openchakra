@@ -12,7 +12,8 @@ const MenuPanel = () => {
 
   return (
     <>
-      <SwitchControl label="Open" name="isOpen" />
+      <SwitchControl label="Show Menu" name="showpreview" />
+      <SwitchControl label="isOpen" name="isOpen" />
       <FormControl htmlFor="placement" label="Placement">
         <Select
           id="placement"

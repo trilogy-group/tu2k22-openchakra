@@ -66,6 +66,7 @@ import MenuItemOptionsPanel from './components/MenuItemOptionsPanel'
 import MenuOptionsGroupPanel from './components/MenuOptionsGroupPanel'
 import MenuGroupPanel from './components/MenuGroupPanel'
 import MenuItemPanel from './components/MenuItemPanel'
+import MenuButtonPanel from './components/MenuButtonPanel'
 
 const importView = (component: any) => {
   component = convertToPascal(component)
@@ -178,10 +179,11 @@ const Panels: React.FC<{
       {type === 'Conditional' && <ConditionalPanel />}
       {type === 'Loop' && <LoopPanel />}
       {type === 'Menu' && <MenuPanel />}
-      {type === 'MenuItemOptions' && <MenuItemOptionsPanel />}
-      {type === 'MenuOptionsGroup' && <MenuOptionsGroupPanel />}
+      {type === 'MenuItemOption' && <MenuItemOptionsPanel />}
+      {type === 'MenuOptionGroup' && <MenuOptionsGroupPanel />}
       {type === 'MenuGroup' && <MenuGroupPanel />}
       {type === 'MenuItem' && <MenuItemPanel />}
+      {type === 'MenuButton' && <MenuButtonPanel />}
     </>
   )
 }

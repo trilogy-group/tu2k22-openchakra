@@ -11,7 +11,6 @@ const MenuOptionsGroupPanel = () => {
 
   return (
     <>
-      <TextControl name="defaultValue" label="Default Value" />
       <TextControl name="title" label="Title" />
 
       <FormControl htmlFor="type" label="Type">

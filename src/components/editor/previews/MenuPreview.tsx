@@ -11,6 +11,8 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
+  Button,
+  IconButton,
 } from '@chakra-ui/react'
 import icons from '~iconsList'
 
@@ -21,12 +23,14 @@ interface Props {
 const MenuPreview = ({ component }: Props) => {
   const { drop, isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
+  let prop = { ...props }
+  delete prop['isOpen']
 
   if (isOver) {
     props.bg = 'teal.50'
   }
   return (
-    <Menu ref={drop(ref)} {...props}>
+    <Menu ref={drop(ref)} isOpen={props.showpreview} {...prop}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
@@ -44,6 +48,9 @@ export const MenuButtonPreview = ({ component }: Props) => {
   if (isOver) {
     props.bg = 'teal.50'
   }
+
+  let prop = { ...props }
+  delete prop['as']
 
   if (props.leftIcon) {
     if (Object.keys(icons).includes(props.leftIcon)) {
@@ -63,7 +70,24 @@ export const MenuButtonPreview = ({ component }: Props) => {
     }
   }
 
-  return <MenuButton ref={ref} {...props} />
+  if (icon) {
+    if (Object.keys(icons).includes(icon)) {
+      const Icon = icons[icon as keyof typeof icons]
+      props.icon = <Icon path="" />
+    } else {
+      props.icon = undefined
+    }
+  }
+
+  return (
+    <MenuButton ref={ref} {...props}>
+      {props.as === 'Button' ? (
+        <Button ref={ref} {...prop} />
+      ) : (
+        <IconButton ref={ref} {...prop} />
+      )}
+    </MenuButton>
+  )
 }
 
 export const MenuListPreview = ({ component }: Props) => {
@@ -109,11 +133,11 @@ export const MenuOptionGroupPreview = ({ component }: Props) => {
   }
 
   return (
-    <MenuOptionGroup ref={drop(ref)} {...props}>
+    <MenuGroup ref={drop(ref)} {...props}>
       {component.children.map((key: string) => (
         <ComponentPreview key={key} componentName={key} />
       ))}
-    </MenuOptionGroup>
+    </MenuGroup>
   )
 }
 

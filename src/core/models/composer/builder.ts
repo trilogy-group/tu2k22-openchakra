@@ -163,15 +163,29 @@ export const buildMenu = (parent: string): ComposedComponent => {
   const nodeId = composer.addNode({ type: 'Menu', parent })
   composer.addNode({ type: 'MenuButton', parent: nodeId })
   const list = composer.addNode({ type: 'MenuList', parent: nodeId })
-  const groupOption = composer.addNode({
-    type: 'MenuOptionGroup',
-    parent: list,
+  const groupOne = composer.addNode({ type: 'MenuGroup', parent: list })
+  composer.addNode({ type: 'MenuItem', parent: groupOne })
+  composer.addNode({
+    type: 'MenuItem',
+    parent: groupOne,
+    props: { children: 'Payments' },
   })
-  composer.addNode({ type: 'MenuItemOption', parent: groupOption })
   composer.addNode({ type: 'MenuDivider', parent: list })
-  const group = composer.addNode({ type: 'MenuGroup', parent: list })
-  composer.addNode({ type: 'MenuItem', parent: group })
-  composer.addNode({ type: 'MenuItem', parent: group })
+  const groupTwo = composer.addNode({
+    type: 'MenuGroup',
+    parent: list,
+    props: { title: 'Help' },
+  })
+  composer.addNode({
+    type: 'MenuItem',
+    parent: groupTwo,
+    props: { children: 'Docs' },
+  })
+  composer.addNode({
+    type: 'MenuItem',
+    parent: groupTwo,
+    props: { children: 'FAQ' },
+  })
 
   const components = composer.getComponents()
 
