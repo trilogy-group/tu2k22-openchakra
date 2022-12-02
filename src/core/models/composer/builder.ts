@@ -27,6 +27,42 @@ export const buildAlert = (parent: string): ComposedComponent => {
   }
 }
 
+export const buildAlertDialog = (parent: string): ComposedComponent => {
+  const composer = new Composer()
+
+  const nodeId = composer.addNode({ type: 'AlertDialog', parent })
+  composer.addNode({ type: 'AlertDialogOverlay', parent: nodeId })
+  const content = composer.addNode({
+    type: 'AlertDialogContent',
+    parent: nodeId,
+  })
+  composer.addNode({ type: 'AlertDialogHeader', parent: content })
+  composer.addNode({ type: 'AlertDialogCloseButton', parent: content })
+  composer.addNode({ type: 'AlertDialogBody', parent: content })
+  const footer = composer.addNode({
+    type: 'AlertDialogFooter',
+    parent: content,
+  })
+  composer.addNode({
+    type: 'Button',
+    parent: footer,
+    props: { children: 'Cancel', variant: 'ghost' },
+  })
+  composer.addNode({
+    type: 'Button',
+    parent: footer,
+    props: { children: 'Proceed', variant: 'solid', ml: 3 },
+  })
+
+  const components = composer.getComponents()
+
+  return {
+    components,
+    root: nodeId,
+    parent,
+  }
+}
+
 export const buildTable = (parent: string): ComposedComponent => {
   const composer = new Composer()
 
@@ -417,7 +453,8 @@ const builders: ComposerBuilders = {
   ModalMeta: buildModal,
   CardMeta: buildCard,
   TagMeta: buildTag,
-  PopoverMeta: buildPopover
+  PopoverMeta: buildPopover,
+  AlertDialogMeta: buildAlertDialog,
 }
 
 export default builders

@@ -18,6 +18,13 @@ const TABLE_COMPONENTS: (ComponentType | MetaComponentType)[] = [
 
 const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   ...ALERT_COMPONENTS,
+  'AlertDialog',
+  'AlertDialogBody',
+  'AlertDialogFooter',
+  'AlertDialogHeader',
+  'AlertDialogContent',
+  'AlertDialogOverlay',
+  'AlertDialogCloseButton',
   'Avatar',
   'AvatarBadge',
   'AvatarGroup',
@@ -132,6 +139,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'CardMeta',
   'TagMeta',
   'PopoverMeta',
+  'AlertDialogMeta',
   // Allow custom components
   'Conditional',
   'Loop',

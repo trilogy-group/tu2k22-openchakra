@@ -3,6 +3,7 @@ import * as Chakra from '@chakra-ui/react'
 
 import {
   BadgeProps,
+  AlertDialogProps,
   BoxProps,
   ButtonProps,
   CardProps,
@@ -105,6 +106,13 @@ type PropsWithForm<T> = T & { form?: T }
 
 type PreviewDefaultProps = {
   Badge?: PropsWithForm<BadgeProps>
+  AlertDialog?: PropsWithForm<AlertDialogProps>
+  AlertDialogBody?: PropsWithForm<any>
+  AlertDialogFooter?: PropsWithForm<any>
+  AlertDialogHeader?: PropsWithForm<any>
+  AlertDialogContent?: PropsWithForm<any>
+  AlertDialogOverlay?: PropsWithForm<any>
+  AlertDialogCloseButton?: PropsWithForm<any>
   Box?: PropsWithForm<BoxProps>
   Button?: PropsWithForm<ButtonProps>
   Icon?: PropsWithForm<IconProps> & { icon: keyof typeof iconsList }
@@ -129,15 +137,15 @@ type PreviewDefaultProps = {
   CircularProgress?: PropsWithForm<CircularProgressProps>
   Heading?: PropsWithForm<HeadingProps>
   Highlight?: PropsWithForm<HighlightProps>
-  Popover?: PropsWithForm<PopoverProps>,
-  PopoverTrigger?: PropsWithForm<any>,
-  PopoverContent?: PropsWithForm<PopoverContentProps>,
-  PopoverHeader?: PropsWithForm<PopoverHeaderProps>,
-  PopoverBody?: PropsWithForm<PopoverBodyProps>,
-  PopoverFooter?: PropsWithForm<PopoverFooterProps>,
-  PopoverArrow?: PropsWithForm<PopoverArrowProps>,
-  PopoverCloseButton?: PropsWithForm<PopoverCloseButtonProps>,
-  PopoverAnchor?: PropsWithForm<any>,
+  Popover?: PropsWithForm<PopoverProps>
+  PopoverTrigger?: PropsWithForm<any>
+  PopoverContent?: PropsWithForm<PopoverContentProps>
+  PopoverHeader?: PropsWithForm<PopoverHeaderProps>
+  PopoverBody?: PropsWithForm<PopoverBodyProps>
+  PopoverFooter?: PropsWithForm<PopoverFooterProps>
+  PopoverArrow?: PropsWithForm<PopoverArrowProps>
+  PopoverCloseButton?: PropsWithForm<PopoverCloseButtonProps>
+  PopoverAnchor?: PropsWithForm<any>
   Tag?: PropsWithForm<TagProps>
   TagLabel?: PropsWithForm<TagLabelProps>
   TagLeftIcon?: PropsWithForm<any>
@@ -225,6 +233,15 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     mr: 1,
     fontWeight: 'bold',
   },
+  AlertDialog: { size: 'md' },
+  AlertDialogBody: {
+    children: 'Are you sure you want to proceed with this decision?',
+  },
+  AlertDialogFooter: {},
+  AlertDialogHeader: { children: 'Advance' },
+  AlertDialogContent: {},
+  AlertDialogOverlay: {},
+  AlertDialogCloseButton: {},
   AvatarBadge: {
     bg: 'green.500',
     boxSize: '1.25rem',
@@ -336,8 +353,8 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Popover: {},
   PopoverTrigger: {},
   PopoverContent: {},
-  PopoverHeader: {children: 'Popover Title'},
-  PopoverBody: {children: 'This is the body of my popover'},
+  PopoverHeader: { children: 'Popover Title' },
+  PopoverBody: { children: 'This is the body of my popover' },
   PopoverFooter: {},
   PopoverArrow: {},
   PopoverCloseButton: {},
@@ -422,7 +439,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Table: { variant: 'simple' },
   Conditional: { condition: false },
   Loop: { list: [1, 2, 3, 4] },
-  Tooltip: {label: 'This is my label', 'aria-label': 'beautiful tooltip'},
+  Tooltip: { label: 'This is my label', 'aria-label': 'beautiful tooltip' },
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {

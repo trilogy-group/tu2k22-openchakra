@@ -46,6 +46,14 @@ import ModalPreview, {
   ModalHeaderPreview,
   ModalOverlayPreview,
 } from './previews/ModalPreview'
+import AlertDialogPreview, {
+  AlertDialogCloseButtonPreview,
+  AlertDialogBodyPreview,
+  AlertDialogContentPreview,
+  AlertDialogFooterPreview,
+  AlertDialogHeaderPreview,
+  AlertDialogOverlayPreview,
+} from './previews/AlertDialogPreview'
 import PopoverPreview, {
   PopoverHeaderPreview,
   PopoverArrowPreview,
@@ -208,6 +216,20 @@ const ComponentPreview: React.FC<{
       return <InputRightElementPreview component={component} />
     case 'InputLeftElement':
       return <InputLeftElementPreview component={component} />
+    case 'AlertDialog':
+      return <AlertDialogPreview component={component} />
+    case 'AlertDialogCloseButton':
+      return <AlertDialogCloseButtonPreview component={component} />
+    case 'AlertDialogHeader':
+      return <AlertDialogHeaderPreview component={component} />
+    case 'AlertDialogContent':
+      return <AlertDialogContentPreview component={component} />
+    case 'AlertDialogOverlay':
+      return <AlertDialogOverlayPreview component={component} />
+    case 'AlertDialogFooter':
+      return <AlertDialogFooterPreview component={component} />
+    case 'AlertDialogBody':
+      return <AlertDialogBodyPreview component={component} />
     case 'Avatar':
       return <AvatarPreview component={component} />
     case 'AvatarBadge':

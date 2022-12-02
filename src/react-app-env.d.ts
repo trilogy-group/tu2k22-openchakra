@@ -13,6 +13,13 @@ type ComponentType =
   | 'AlertIcon'
   | 'AlertTitle'
   | 'AlertDescription'
+  | 'AlertDialog'
+  | 'AlertDialogBody'
+  | 'AlertDialogFooter'
+  | 'AlertDialogHeader'
+  | 'AlertDialogContent'
+  | 'AlertDialogOverlay'
+  | 'AlertDialogCloseButton'
   | 'AspectRatio'
   | 'AvatarBadge'
   | 'AvatarGroup'
@@ -132,6 +139,7 @@ type MetaComponentType =
   | 'CardMeta'
   | 'TagMeta'
   | 'PopoverMeta'
+  | 'AlertDialogMeta'
 
 interface ParametersType {
   name: string

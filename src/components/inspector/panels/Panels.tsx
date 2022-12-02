@@ -13,6 +13,8 @@ import IconButtonPanel from '~components/inspector/panels/components/IconButtonP
 import ProgressPanel from '~components/inspector/panels/components/ProgressPanel'
 import LinkPanel from '~components/inspector/panels/components/LinkPanel'
 import SpinnerPanel from '~components/inspector/panels/components/SpinnerPanel'
+import AlertDialogContentPanel from './components/AlertDialogContentPanel'
+import AlertDialogPanel from './components/AlertDialogPanel'
 import PopoverContentPanel from './components/PopoverContentPanel'
 import PopoverPanel from './components/PopoverPanel'
 import CloseButtonPanel from '~components/inspector/panels/components/CloseButtonPanel'
@@ -115,6 +117,9 @@ const Panels: React.FC<{
   return (
     <>
       {type === 'Button' && <ButtonPanel />}
+      {type === 'AlertDialog' && <AlertDialogPanel />}
+      {type === 'AlertDialogHeader' && <AlertDialogContentPanel />}
+      {type === 'AlertDialogBody' && <AlertDialogContentPanel />}
       {type === 'Checkbox' && <CheckboxPanel />}
       {type === 'Box' && <BoxPanel />}
       {type === 'Badge' && <BadgePanel />}
