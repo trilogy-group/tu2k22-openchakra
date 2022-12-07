@@ -3,8 +3,9 @@ import { useForm } from '~hooks/useForm'
 import usePropsSelector from '~hooks/usePropsSelector'
 import SizeControl from '~components/inspector/controls/SizeControl'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
-import { Select } from '@chakra-ui/react'
+import { Select, Tooltip } from '@chakra-ui/react'
 import FormControl from '~components/inspector/controls/FormControl'
+import TextControl from '~components/inspector/controls/TextControl'
 
 const AlertDialogPanel = () => {
   const { setValueFromEvent } = useForm()
@@ -14,8 +15,12 @@ const AlertDialogPanel = () => {
   return (
     <>
       <SwitchControl label="Show Preview" name="showpreview" />
-      <SwitchControl label="Open" name="isOpen" />
+      <SwitchControl label="isOpen" name="isOpen" />
       <SwitchControl label="Centered" name="isCentered" />
+      <TextControl
+        name="leastDestructiveRef"
+        label="Least Destructive Ref(Required)"
+      />
       <FormControl htmlFor="motionPreset" label="Transition">
         <Select
           id="motionPreset"
