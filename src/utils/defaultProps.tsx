@@ -5,6 +5,10 @@ import {
   BadgeProps,
   BoxProps,
   ButtonProps,
+  CardProps,
+  CardHeaderProps,
+  CardBodyProps,
+  CardFooterProps,
   IconProps,
   IconButtonProps,
   ImageProps,
@@ -13,10 +17,19 @@ import {
   AvatarProps,
   CheckboxProps,
   LinkProps,
+  PopoverProps,
+  PopoverContentProps,
+  PopoverHeaderProps,
+  PopoverBodyProps,
+  PopoverFooterProps,
+  PopoverArrowProps,
+  PopoverCloseButtonProps,
   SpinnerProps,
   CloseButtonProps,
   HeadingProps,
   TagProps,
+  TagLabelProps,
+  TagCloseButtonProps,
   SimpleGridProps,
   SwitchProps,
   AlertProps,
@@ -77,11 +90,19 @@ import {
   TableRowProps,
   TableFooterProps,
   TableHeadProps,
+  TooltipProps,
   TableColumnHeaderProps,
   TableCellProps,
+  ModalProps,
+  ModalOverlayProps,
+  ModalContentProps,
+  ModalHeaderProps,
+  ModalFooterProps,
+  ModalBodyProps,
 } from '@chakra-ui/react'
 
 import iconsList from '~iconsList'
+import { AddIcon } from '@chakra-ui/icons'
 
 type PropsWithForm<T> = T & { form?: T }
 
@@ -100,6 +121,10 @@ type PreviewDefaultProps = {
   Checkbox?: PropsWithForm<CheckboxProps>
   Link?: PropsWithForm<LinkProps>
   Spinner?: PropsWithForm<SpinnerProps>
+  Card?: PropsWithForm<CardProps>
+  CardHeader?: PropsWithForm<CardHeaderProps>
+  CardBody?: PropsWithForm<CardBodyProps>
+  CardFooter?: PropsWithForm<CardFooterProps>
   CloseButton?: PropsWithForm<CloseButtonProps>
   Divider?: PropsWithForm<DividerProps>
   Code?: PropsWithForm<CodeProps>
@@ -107,7 +132,20 @@ type PreviewDefaultProps = {
   CircularProgress?: PropsWithForm<CircularProgressProps>
   Heading?: PropsWithForm<HeadingProps>
   Highlight?: PropsWithForm<HighlightProps>
+  Popover?: PropsWithForm<PopoverProps>,
+  PopoverTrigger?: PropsWithForm<any>,
+  PopoverContent?: PropsWithForm<PopoverContentProps>,
+  PopoverHeader?: PropsWithForm<PopoverHeaderProps>,
+  PopoverBody?: PropsWithForm<PopoverBodyProps>,
+  PopoverFooter?: PropsWithForm<PopoverFooterProps>,
+  PopoverArrow?: PropsWithForm<PopoverArrowProps>,
+  PopoverCloseButton?: PropsWithForm<PopoverCloseButtonProps>,
+  PopoverAnchor?: PropsWithForm<any>,
   Tag?: PropsWithForm<TagProps>
+  TagLabel?: PropsWithForm<TagLabelProps>
+  TagLeftIcon?: PropsWithForm<any>
+  TagRightIcon?: PropsWithForm<any>
+  TagCloseButton?: PropsWithForm<TagCloseButtonProps>
   SimpleGrid?: PropsWithForm<SimpleGridProps>
   Switch?: PropsWithForm<SwitchProps>
   Alert?: PropsWithForm<AlertProps>
@@ -150,6 +188,7 @@ type PreviewDefaultProps = {
   BreadcrumbLink?: PropsWithForm<BreadcrumbLinkProps>
   Editable?: PropsWithForm<EditableProps>
   Menu?: PropsWithForm<MenuProps>
+  Tooltip?: PropsWithForm<TooltipProps>
   NumberInput?: PropsWithForm<NumberInputProps>
   Radio?: PropsWithForm<RadioProps>
   RadioGroup?: PropsWithForm<RadioGroupProps>
@@ -175,6 +214,13 @@ type PreviewDefaultProps = {
   TBody?: PropsWithForm<TableBodyProps>
   THead?: PropsWithForm<TableHeadProps>
   TFoot?: PropsWithForm<TableFooterProps>
+  Modal?: PropsWithForm<ModalProps>
+  ModalOverlay?: PropsWithForm<ModalOverlayProps>
+  ModalContent?: PropsWithForm<ModalContentProps>
+  ModalHeader?: PropsWithForm<ModalHeaderProps>
+  ModalFooter?: PropsWithForm<ModalFooterProps>
+  ModalBody?: PropsWithForm<ModalBodyProps>
+  ModalCloseButton?: PropsWithForm<any>
 }
 
 export const DEFAULT_PROPS: PreviewDefaultProps | any = {
@@ -216,6 +262,10 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     variant: 'solid',
     size: 'md',
   },
+  Card: { direction: 'column', maxW: 'sm' },
+  CardHeader: {},
+  CardBody: {},
+  CardFooter: {},
   Checkbox: {
     children: 'Label checkbox',
     isReadOnly: true,
@@ -283,6 +333,22 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   },
   ListItem: { children: 'list' },
   Kbd: { children: 'shift' },
+  Modal: { size: 'md' },
+  ModalOverlay: {},
+  ModalContent: {},
+  ModalHeader: { children: 'Modal Title' },
+  ModalFooter: {},
+  ModalBody: {},
+  ModalCloseButton: {},
+  Popover: {},
+  PopoverTrigger: {},
+  PopoverContent: {},
+  PopoverHeader: {children: 'Popover Title'},
+  PopoverBody: {children: 'This is the body of my popover'},
+  PopoverFooter: {},
+  PopoverArrow: {},
+  PopoverCloseButton: {},
+  PopoverAnchor: {},
   Progress: {
     value: 60,
     min: 0,
@@ -362,9 +428,11 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Tab: { children: 'Tab' },
   Tabs: { children: '', size: 'md' },
   TabPanel: { children: 'Tab' },
-  Tag: {
-    children: 'Tag name',
-  },
+  Tag: { rounded: 'full', variant: 'subtle' },
+  TagLabel: { children: 'Tag name' },
+  TagLeftIcon: { as: 'AddIcon' },
+  TagRightIcon: { as: 'AddIcon' },
+  TagCloseButton: {},
   Text: { children: 'Text value' },
   Td: { children: 'data', isNumeric: false },
   Th: { children: 'heading', isNumeric: false },
@@ -372,6 +440,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Table: { variant: 'simple' },
   Conditional: { condition: false },
   Loop: { list: [1, 2, 3, 4] },
+  Tooltip: {label: 'This is my label', 'aria-label': 'beautiful tooltip'},
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {

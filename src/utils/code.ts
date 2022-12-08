@@ -97,7 +97,13 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
 
         propsContent += `${propName}${operand} `
       }
-    } else if (propName !== 'children' && propsValue) {
+    } else if (
+      propName.toLowerCase() === 'as' &&
+      childComponent.type !== 'Icon'
+    ) {
+      let operand = `={${propsValue}}`
+      propsContent += `${propName}${operand} `
+    } else if (propName !== 'children' && propsValue && propName !== 'showpreview') {
       let operand = `='${propsValue}'`
       if (propsValue[0] === '{' && propsValue[propsValue.length - 1] === '}') {
         operand = `=${propsValue}`
@@ -476,9 +482,9 @@ ${paramTypes ? paramTypes : ''}
 ${componentsCodes}
 
 const App = (${params ? params : ''}) => (
-  <ChakraProvider resetCSS>
+  <>
     ${code}
-  </ChakraProvider>
+  </>
 );
 
 export default App;`
@@ -487,7 +493,7 @@ export default App;`
 
 export const generateOcTsxCode = async (
   components: IComponents,
-  currentComponents: CustomDictionary,
+  currentComponents: CustomDictionary = {},
 ) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
@@ -548,9 +554,9 @@ ${paramTypes ? paramTypes : ''}
 ${componentsCodes}
 
 const App = (${params ? params : ''}) => (
-  <ChakraProvider resetCSS>
+  <>
     ${code}
-  </ChakraProvider>
+  </>
 );
 
 export default App;`
@@ -573,33 +579,33 @@ export const generatePreview = async (
   import { Box } from "@chakra-ui/react";
 
   ${`import { ${fileName} } from 'src/custom-components/customOcTsx/${selectedComponent}';`}
-  
+
   ${
     iconImports.length
       ? `
   import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
       : ''
-  }  
+  }
 
-  interface Props { 
+  interface Props {
     component: IComponent
   }
-  
+
   const ${fileName}Preview = ({ component }: Props) => {
   const { isOver } = useDropComponent(component.id)
   const { props, ref } = useInteractive(component, true)
-  
+
   if (isOver) {
       props.bg = 'teal.50'
     }
 
     ${paramsContent}
-  
+
     return (<Box {...props} ref={ref}>
       ${`<${fileName}  {...props}/>`}
     </Box>)
   }
-  
+
   export default ${fileName}Preview`
 
   code = await formatCode(code)
@@ -766,7 +772,7 @@ export const generatePanel = async (
       ? `import IconControl from '~components/inspector/controls/IconControl'`
       : ''
   }
-  
+
   const ${fileName}Panel = () => {
     ${
       eligibleParams?.some(param => param.type === 'display')
