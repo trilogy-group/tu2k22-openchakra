@@ -243,4 +243,8 @@ export const componentsList: ComponentType[] = [
   'Tag',
   'Text',
   'Textarea',
+  'Slider',
+  'SliderTrack' ,
+  'SliderFilledTrack',
+  'SliderThumb'
 ]
