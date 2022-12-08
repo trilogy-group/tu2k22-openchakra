@@ -89,7 +89,11 @@ export const MenuButtonPreview = ({ component }: Props) => {
   delete prop['as']
 
   return (
-    <MenuButton ref={ref} as={props.as === 'Button'? Button : IconButton} {...prop} />
+    <MenuButton
+      ref={ref}
+      as={props.as === 'Button' ? Button : IconButton}
+      {...prop}
+    />
   )
 }
 
@@ -146,10 +150,22 @@ export const MenuOptionGroupPreview = ({ component }: Props) => {
 
 export const MenuItemPreview = ({ component }: Props) => {
   const { isOver } = useDropComponent(component.id)
-  const { props, ref } = useInteractive(component, true)
+  const {
+    props: { icon, ...props },
+    ref,
+  } = useInteractive(component, true)
 
   if (isOver) {
     props.bg = 'teal.50'
+  }
+
+  if (icon) {
+    if (Object.keys(icons).includes(icon)) {
+      const Icon = icons[icon as keyof typeof icons]
+      props.icon = <Icon path="" />
+    } else {
+      props.icon = undefined
+    }
   }
 
   return <MenuItem ref={ref} {...props} />
@@ -157,10 +173,22 @@ export const MenuItemPreview = ({ component }: Props) => {
 
 export const MenuItemOptionPreview = ({ component }: Props) => {
   const { isOver } = useDropComponent(component.id)
-  const { props, ref } = useInteractive(component, true)
+  const {
+    props: { icon, ...props },
+    ref,
+  } = useInteractive(component, true)
 
   if (isOver) {
     props.bg = 'teal.50'
+  }
+
+  if (icon) {
+    if (Object.keys(icons).includes(icon)) {
+      const Icon = icons[icon as keyof typeof icons]
+      props.icon = <Icon path="" />
+    } else {
+      props.icon = undefined
+    }
   }
 
   return <MenuItemOption ref={ref} {...props} />

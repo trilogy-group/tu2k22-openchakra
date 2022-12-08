@@ -90,7 +90,8 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
 
     if (
       propName.toLowerCase().includes('icon') &&
-      childComponent.type !== 'Icon'
+      childComponent.type !== 'Icon' &&
+      propName !== 'iconSpacing'
     ) {
       if (Object.keys(icons).includes(propsValue)) {
         let operand = `={<${propsValue} />}`
@@ -397,7 +398,9 @@ const ${componentName} = () => (
 const getIconsImports = (components: IComponents) => {
   return Object.keys(components).flatMap(name => {
     return Object.keys(components[name].props)
-      .filter(prop => prop.toLowerCase().includes('icon'))
+      .filter(
+        prop => prop.toLowerCase().includes('icon') && prop !== 'iconSpacing',
+      )
       .filter(prop => !!components[name].props[prop])
       .map(prop => components[name].props[prop])
   })

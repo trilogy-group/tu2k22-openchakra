@@ -3,7 +3,6 @@ import { Select, Input } from '@chakra-ui/react'
 import FormControl from '~components/inspector/controls/FormControl'
 import { useForm } from '~hooks/useForm'
 import usePropsSelector from '~hooks/usePropsSelector'
-import SizeControl from '~components/inspector/controls/SizeControl'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
 
 const MenuPanel = () => {
@@ -45,6 +44,7 @@ const MenuPanel = () => {
           <option>start-start</option>
         </Select>
       </FormControl>
+      <SwitchControl label="isLazy" name="isLazy" />
     </>
   )
 }
