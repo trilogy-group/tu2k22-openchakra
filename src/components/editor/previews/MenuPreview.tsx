@@ -49,9 +49,15 @@ export const MenuButtonPreview = ({ component }: Props) => {
     props.bg = 'teal.50'
   }
 
-  let prop = { ...props }
-  delete prop['as']
-
+  let proper = { ...props }
+  delete proper['size']
+  delete proper['variant']
+  delete proper['isRound']
+  delete proper['icon']
+  delete proper['rightIcon']
+  delete proper['leftIcon']
+  delete proper['children']
+  delete proper['as']
   if (props.leftIcon) {
     if (Object.keys(icons).includes(props.leftIcon)) {
       const Icon = icons[props.leftIcon as keyof typeof icons]
@@ -79,14 +85,11 @@ export const MenuButtonPreview = ({ component }: Props) => {
     }
   }
 
+  let prop = { ...props }
+  delete prop['as']
+
   return (
-    <MenuButton ref={ref} {...props}>
-      {props.as === 'Button' ? (
-        <Button ref={ref} {...prop} />
-      ) : (
-        <IconButton ref={ref} {...prop} />
-      )}
-    </MenuButton>
+    <MenuButton ref={ref} as={props.as === 'Button'? Button : IconButton} {...prop} />
   )
 }
 
