@@ -13,6 +13,7 @@ import {
   MenuDivider,
   Button,
   IconButton,
+  Box,
 } from '@chakra-ui/react'
 import icons from '~iconsList'
 
@@ -87,6 +88,14 @@ export const MenuButtonPreview = ({ component }: Props) => {
 
   let prop = { ...props }
   delete prop['as']
+  if (props.as === 'Button') {
+    delete prop['icon']
+    delete prop['isRound']
+  } else {
+    delete prop['children']
+    delete prop['leftIcon']
+    delete prop['rightIcon']
+  }
 
   return (
     <MenuButton

@@ -82,6 +82,24 @@ const destructureParams = (params: any) => {
     .toString()} } = props`
 }
 
+const buildMenuButtonProps = (
+  propNames: string[],
+  childComponent: IComponent,
+) => {
+  let props = []
+  if (childComponent.props['as'] === 'Button') {
+    props = propNames.filter((prop: string) => {
+      return prop !== 'isRound' && prop !== 'icon'
+    })
+  } else {
+    props = propNames.filter((prop: string) => {
+      return prop !== 'leftIcon' && prop !== 'rightIcon' && prop !== 'children'
+    })
+  }
+  console.log(props)
+  return props
+}
+
 const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
   let propsContent = ``
 
@@ -98,10 +116,7 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
 
         propsContent += `${propName}${operand} `
       }
-    } else if (
-      propName.toLowerCase() === 'as' &&
-      childComponent.type !== 'Icon'
-    ) {
+    } else if (propName.toLowerCase() === 'as') {
       let operand = `={${propsValue}}`
       propsContent += `${propName}${operand} `
     } else if (
@@ -170,12 +185,16 @@ const buildSingleBlock = ({
   } else if (forceBuildBlock || !childComponent.componentName) {
     const componentName = convertToPascal(childComponent.type)
     let propsContent = ''
-    const propsNames = Object.keys(childComponent.props).filter(propName => {
+    let propsNames = Object.keys(childComponent.props).filter(propName => {
       if (childComponent.type === 'Icon') {
         return propName !== 'icon'
       }
       return true
     })
+
+    if (componentName === 'MenuButton') {
+      propsNames = buildMenuButtonProps(propsNames, childComponent)
+    }
     // Special case for Highlight component
     if (componentName === 'Highlight') {
       const [query, children, ...restProps] = propsNames
@@ -188,7 +207,8 @@ const buildSingleBlock = ({
     }
     if (
       typeof childComponent.props.children === 'string' &&
-      childComponent.children.length === 0
+      childComponent.children.length === 0 &&
+      propsNames.includes('children')
     ) {
       content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
     } else if (childComponent.type === 'Icon') {
@@ -264,12 +284,16 @@ const buildBlock = ({
     } else if (forceBuildBlock || !childComponent.componentName) {
       const componentName = convertToPascal(childComponent.type)
       let propsContent = ''
-      const propsNames = Object.keys(childComponent.props).filter(propName => {
+      let propsNames = Object.keys(childComponent.props).filter(propName => {
         if (childComponent.type === 'Icon') {
           return propName !== 'icon'
         }
         return true
       })
+
+      if (componentName === 'MenuButton') {
+        propsNames = buildMenuButtonProps(propsNames, childComponent)
+      }
       // Special case for Highlight component
       if (componentName === 'Highlight') {
         const [query, children, ...restProps] = propsNames
@@ -284,7 +308,8 @@ const buildBlock = ({
       }
       if (
         typeof childComponent.props.children === 'string' &&
-        childComponent.children.length === 0
+        childComponent.children.length === 0 &&
+        propsNames.includes('children')
       ) {
         content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
       } else if (childComponent.type === 'Icon') {
