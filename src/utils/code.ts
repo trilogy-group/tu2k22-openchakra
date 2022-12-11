@@ -421,10 +421,14 @@ const ${componentName} = () => (
 }
 
 const getIconsImports = (components: IComponents) => {
+  console.log(icons)
   return Object.keys(components).flatMap(name => {
     return Object.keys(components[name].props)
       .filter(
-        prop => prop.toLowerCase().includes('icon') && prop !== 'iconSpacing',
+        prop =>
+          (prop.toLowerCase().includes('icon') && prop !== 'iconSpacing') ||
+          (prop.toLowerCase() === 'as' &&
+            Object.keys(icons).includes(components[name].props[prop])),
       )
       .filter(prop => !!components[name].props[prop])
       .map(prop => components[name].props[prop])
@@ -461,18 +465,32 @@ export const generateCode = async (
   const iconImports = Array.from(new Set(getIconsImports(components)))
 
   let imports = [
-    ...new Set(
-      Object.keys(components)
-        .filter(
-          name =>
-            name !== 'root' &&
-            components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            !Object.keys(currentComponents).includes(components[name].type),
-        )
-        .map(name => components[name].type),
-    ),
+    ...new Set([
+      ...new Set(
+        Object.keys(components)
+          .filter(
+            name =>
+              name !== 'root' &&
+              components[name].type !== 'Conditional' &&
+              components[name].type !== 'Loop' &&
+              components[name].type !== 'Box' &&
+              !Object.keys(currentComponents).includes(components[name].type),
+          )
+          .map(name => components[name].type),
+      ),
+      ...new Set(
+        Object.keys(components).flatMap(name => {
+          return Object.keys(components[name].props)
+            .filter(
+              prop =>
+                prop.toLowerCase() === 'as' &&
+                !Object.keys(icons).includes(components[name].props[prop]),
+            )
+            .filter(prop => !!components[name].props[prop])
+            .map(prop => components[name].props[prop])
+        }),
+      ),
+    ]),
   ]
 
   const customImports = [
@@ -533,18 +551,32 @@ export const generateOcTsxCode = async (
   const iconImports = Array.from(new Set(getIconsImports(components)))
 
   let imports = [
-    ...new Set(
-      Object.keys(components)
-        .filter(
-          name =>
-            name !== 'root' &&
-            components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            !Object.keys(currentComponents).includes(components[name].type),
-        )
-        .map(name => components[name].type),
-    ),
+    ...new Set([
+      ...new Set(
+        Object.keys(components)
+          .filter(
+            name =>
+              name !== 'root' &&
+              components[name].type !== 'Conditional' &&
+              components[name].type !== 'Loop' &&
+              components[name].type !== 'Box' &&
+              !Object.keys(currentComponents).includes(components[name].type),
+          )
+          .map(name => components[name].type),
+      ),
+      ...new Set(
+        Object.keys(components).flatMap(name => {
+          return Object.keys(components[name].props)
+            .filter(
+              prop =>
+                prop.toLowerCase() === 'as' &&
+                !Object.keys(icons).includes(components[name].props[prop]),
+            )
+            .filter(prop => !!components[name].props[prop])
+            .map(prop => components[name].props[prop])
+        }),
+      ),
+    ]),
   ]
 
   const customImports = [
