@@ -96,7 +96,6 @@ const buildMenuButtonProps = (
       return prop !== 'leftIcon' && prop !== 'rightIcon' && prop !== 'children'
     })
   }
-  console.log(props)
   return props
 }
 
