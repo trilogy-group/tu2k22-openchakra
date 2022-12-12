@@ -126,7 +126,6 @@ const ComponentPreview: React.FC<{
     case 'FormLabel':
     case 'FormHelperText':
     case 'FormErrorMessage':
-    case 'TabPanel':
     case 'Tab':
     case 'Input':
     case 'Radio':
@@ -174,6 +173,7 @@ const ComponentPreview: React.FC<{
     case 'Tabs':
     case 'List':
     case 'TabList':
+    case 'TabPanel':
     case 'TabPanels':
     case 'Grid':
     case 'Center':
