@@ -5,10 +5,6 @@ import {
   BadgeProps,
   BoxProps,
   ButtonProps,
-  CardProps,
-  CardHeaderProps,
-  CardBodyProps,
-  CardFooterProps,
   IconProps,
   IconButtonProps,
   ImageProps,
@@ -118,10 +114,7 @@ type PreviewDefaultProps = {
   Checkbox?: PropsWithForm<CheckboxProps>
   Link?: PropsWithForm<LinkProps>
   Spinner?: PropsWithForm<SpinnerProps>
-  Card?: PropsWithForm<CardProps>
-  CardHeader?: PropsWithForm<CardHeaderProps>
-  CardBody?: PropsWithForm<CardBodyProps>
-  CardFooter?: PropsWithForm<CardFooterProps>
+  Card?: PropsWithForm<any>
   CloseButton?: PropsWithForm<CloseButtonProps>
   Divider?: PropsWithForm<DividerProps>
   Code?: PropsWithForm<CodeProps>
@@ -129,15 +122,15 @@ type PreviewDefaultProps = {
   CircularProgress?: PropsWithForm<CircularProgressProps>
   Heading?: PropsWithForm<HeadingProps>
   Highlight?: PropsWithForm<HighlightProps>
-  Popover?: PropsWithForm<PopoverProps>,
-  PopoverTrigger?: PropsWithForm<any>,
-  PopoverContent?: PropsWithForm<PopoverContentProps>,
-  PopoverHeader?: PropsWithForm<PopoverHeaderProps>,
-  PopoverBody?: PropsWithForm<PopoverBodyProps>,
-  PopoverFooter?: PropsWithForm<PopoverFooterProps>,
-  PopoverArrow?: PropsWithForm<PopoverArrowProps>,
-  PopoverCloseButton?: PropsWithForm<PopoverCloseButtonProps>,
-  PopoverAnchor?: PropsWithForm<any>,
+  Popover?: PropsWithForm<PopoverProps>
+  PopoverTrigger?: PropsWithForm<any>
+  PopoverContent?: PropsWithForm<PopoverContentProps>
+  PopoverHeader?: PropsWithForm<PopoverHeaderProps>
+  PopoverBody?: PropsWithForm<PopoverBodyProps>
+  PopoverFooter?: PropsWithForm<PopoverFooterProps>
+  PopoverArrow?: PropsWithForm<PopoverArrowProps>
+  PopoverCloseButton?: PropsWithForm<PopoverCloseButtonProps>
+  PopoverAnchor?: PropsWithForm<any>
   Tag?: PropsWithForm<TagProps>
   TagLabel?: PropsWithForm<TagLabelProps>
   TagLeftIcon?: PropsWithForm<any>
@@ -255,10 +248,12 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
     variant: 'solid',
     size: 'md',
   },
-  Card: { direction: 'column', maxW: 'sm' },
-  CardHeader: {},
-  CardBody: {},
-  CardFooter: {},
+  Card: {
+    maxW: 'sm',
+    borderRadius: 6,
+    backgroundColor: 'whiteAlpha.900',
+    variant: 'outline',
+  },
   Checkbox: {
     children: 'Label checkbox',
     isReadOnly: true,
@@ -336,8 +331,8 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Popover: {},
   PopoverTrigger: {},
   PopoverContent: {},
-  PopoverHeader: {children: 'Popover Title'},
-  PopoverBody: {children: 'This is the body of my popover'},
+  PopoverHeader: { children: 'Popover Title' },
+  PopoverBody: { children: 'This is the body of my popover' },
   PopoverFooter: {},
   PopoverArrow: {},
   PopoverCloseButton: {},
@@ -422,7 +417,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Table: { variant: 'simple' },
   Conditional: { condition: false },
   Loop: { list: [1, 2, 3, 4] },
-  Tooltip: {label: 'This is my label', 'aria-label': 'beautiful tooltip'},
+  Tooltip: { label: 'This is my label', 'aria-label': 'beautiful tooltip' },
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {
