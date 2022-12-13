@@ -10,7 +10,6 @@ import SwitchControl from '~components/inspector/controls/SwitchControl'
 
 const RangeSliderPanel = () => {
   const { setValueFromEvent } = useForm()
-  const size = usePropsSelector('size')
   const orientation = usePropsSelector('orientation')
   const label = usePropsSelector('aria-label')
 
@@ -19,8 +18,7 @@ const RangeSliderPanel = () => {
       <TextControl name="defaultvalue" label="Value" />
       <TextControl name="min" label="Min" />
       <TextControl name="max" label="Max" />
-      {/* <TextControl name="step" label="Step" /> */}
-
+      <TextControl name="minStepsBetweenThumbs" label="Min Steps Between Thumbs" />
       <SwitchControl label="Reversed" name="isReversed" />
       <SwitchControl label="ReadOnly" name="isReadOnly" />
 
