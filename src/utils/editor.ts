@@ -78,6 +78,10 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Skeleton',
   'SkeletonCircle',
   'SkeletonText',
+  'RangeSLider',
+  'RangeSliderTrack',
+  'RangeSliderFilledTrack',
+  'RangeSliderThumb',
   'Stack',
   'Switch',
   'Tag',
@@ -131,6 +135,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'CardMeta',
   'TagMeta',
   'PopoverMeta',
+  'RangeSliderMeta',
   // Allow custom components
   'Conditional',
   'Loop',
