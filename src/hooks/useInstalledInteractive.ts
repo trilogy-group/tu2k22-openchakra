@@ -1,3 +1,4 @@
+// for installed components only
 import { useRef, MouseEvent } from 'react'
 import { useSelector } from 'react-redux'
 import useDispatch from './useDispatch'
