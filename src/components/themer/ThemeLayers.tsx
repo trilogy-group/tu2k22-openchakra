@@ -1,28 +1,13 @@
-import {
-  AddIcon,
-  CheckIcon,
-  DeleteIcon,
-  InfoOutlineIcon,
-} from '@chakra-ui/icons'
+import { AddIcon, CheckIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
   Button,
-  ChakraProvider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  useDisclosure,
-  extendTheme,
   theme as baseTheme,
   Select,
-  withDefaultProps,
   Box,
   Text,
   Stack,
@@ -32,16 +17,9 @@ import {
   Tooltip,
   IconButton,
 } from '@chakra-ui/react'
-import { omit } from 'lodash'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { getTheme, getThemePath } from '~core/selectors/customComponents'
+import React from 'react'
 import useDispatch from '~hooks/useDispatch'
-import API from '~custom-components/api'
-
-const themeColors: any = Object.keys(
-  omit(baseTheme.colors, ['transparent', 'current', 'black', 'white']),
-)
+import { themeColors } from '../editor/Editor'
 
 const componentsWithLabel = Object.keys(baseTheme.components).map(
   (comp: string) => ({
@@ -50,30 +28,13 @@ const componentsWithLabel = Object.keys(baseTheme.components).map(
   }),
 )
 
-const ThemeLayers = () => {
-  const themeState = useSelector(getTheme)
-  const themePath = useSelector(getThemePath)
+const ThemeLayers = ({ themeState }: any) => {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    // TODO: baseStyle, parts, fonts, layer & text styles
-
-    const updateThemeJson = async () => {
-      if (themePath)
-        await API.post('/save-theme', {
-          themePath,
-          themeState,
-        })
-    }
-    dispatch.app.toggleLoader()
-    updateThemeJson()
-    dispatch.app.toggleLoader()
-  }, [themeState])
 
   return (
     <>
       <Accordion allowToggle>
-        {themeState.map((layer, i) => {
+        {themeState.map((layer: any, i: number) => {
           return (
             <AccordionItem key={i}>
               <AccordionButton _expanded={{ bg: 'teal.100' }}>
@@ -257,48 +218,4 @@ const ThemeLayers = () => {
   )
 }
 
-const Themer = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  return (
-    <ChakraProvider resetCSS>
-      <Button
-        px={6}
-        bgGradient="linear(to-br, blue.300, green.300, yellow.300, red.300)"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        fontSize="sm"
-        whiteSpace="nowrap"
-        _hover={{
-          bgGradient: 'linear(to-br, blue.200, green.200, yellow.200, red.200)',
-        }}
-        onClick={onOpen}
-        color="black"
-      >
-        Theme
-      </Button>
-      <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size="xl">
-        <DrawerOverlay />
-        <DrawerContent bgColor="white">
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
-            Customize Project Theme
-            <Tooltip
-              label="Add theme layers where the lower layer overrides the theme configuration set in above layers"
-              fontSize="md"
-              hasArrow
-              placement="left"
-            >
-              <InfoOutlineIcon color="teal.300" w={4} h={4} ml={2} />
-            </Tooltip>
-          </DrawerHeader>
-          <DrawerBody>
-            <ThemeLayers />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-    </ChakraProvider>
-  )
-}
-
-export default Themer
+export default ThemeLayers
