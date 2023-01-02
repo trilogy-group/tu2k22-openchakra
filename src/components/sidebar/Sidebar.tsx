@@ -13,6 +13,19 @@ import {
   TabPanels,
   TabPanel,
   ButtonGroup,
+  Button,
+  Tooltip,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  Link,
+  Text,
+  list,
 } from '@chakra-ui/react'
 import { CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
 import DragItem from './DragItem'
@@ -20,20 +33,25 @@ import { menuItems, MenuItem } from '~componentsList'
 import { useSelector } from 'react-redux'
 import {
   getCustomComponents,
+  getInstalledComponents,
   getSelectedCustomComponentId,
 } from '~core/selectors/customComponents'
 import useDispatch from '~hooks/useDispatch'
 import API from '~custom-components/api'
 import AddComponent from './AddComponent'
 import DeleteComponent from './DeleteComponent'
+import InstallComponent from './InstallComponent'
+import InstalledPropTable from './InstalledPropTable'
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const dispatch = useDispatch()
   const customComponents = useSelector(getCustomComponents)
+  const installedComponents = useSelector(getInstalledComponents)
   const selectedComponent = useSelector(getSelectedCustomComponentId)
 
   const handleEditClick = async (name: string) => {
+    if (!customComponents[name]) return
     const response = await API.post('/read-json', {
       path: customComponents[name],
     })
@@ -54,11 +72,15 @@ const Menu = () => {
 
   useEffect(() => {
     const initFunction = async () => {
-      const { newComponentsList, themeJsonPath } = await API.post('/init').then(
-        res => res.data,
-      )
+      const {
+        newComponentsList,
+        themePath,
+        newTheme,
+        installedList,
+      } = await API.post('/init').then(res => res.data)
       dispatch.customComponents.updateCustomComponents(newComponentsList)
-      dispatch.customComponents.setThemePath(themeJsonPath)
+      dispatch.customComponents.setTheme(themePath, newTheme)
+      dispatch.customComponents.initInstalledComponents(installedList)
     }
     dispatch.app.toggleLoader()
     initFunction()
@@ -71,9 +93,20 @@ const Menu = () => {
     dispatch.app.toggleLoader()
   }, [customComponents])
 
+  const [param, setParam] = useState('[{}]')
+
+  const getParameters = async (name: string, pathPackage: string) => {
+    const res = await API.post('/get-parameters', {
+      component: name,
+      path: pathPackage,
+    })
+    setParam(JSON.stringify(res.data))
+  }
+
   return (
     <DarkMode>
       <Box
+        className="sidebar"
         maxH="calc(100vh - 3rem)"
         overflowY="auto"
         overflowX="visible"
@@ -85,12 +118,23 @@ const Menu = () => {
         backgroundColor="#2e3748"
         width="15rem"
       >
-        <Box p={0} pb={0} position="sticky" w="100%" bgColor="#2e3748" top={0}>
+        <Box
+          p={0}
+          pb={0}
+          position="sticky"
+          w="100%"
+          bgColor="#2e3748"
+          top={0}
+          zIndex={2}
+        >
           <InputGroup size="sm" mb={0}>
             <Input
               value={searchTerm}
               color="gray.300"
               placeholder="Search ..."
+              _placeholder={{
+                color: 'gray',
+              }}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setSearchTerm(event.target.value)
               }
@@ -101,7 +145,7 @@ const Menu = () => {
               }}
               zIndex={0}
             />
-            <InputRightElement zIndex={1}>
+            <InputRightElement>
               {searchTerm ? (
                 <IconButton
                   color="gray.300"
@@ -111,7 +155,7 @@ const Menu = () => {
                   onClick={() => setSearchTerm('')}
                 />
               ) : (
-                <SearchIcon path="" color="gray.300" />
+                <SearchIcon color="gray" />
               )}
             </InputRightElement>
           </InputGroup>
@@ -122,7 +166,9 @@ const Menu = () => {
             top={8}
             boxShadow="dark-lg"
             bgColor="#2e3748"
+            borderColor="gray"
             color="white"
+            zIndex={2}
           >
             <Tab>Built-in</Tab>
             <Tab>Custom</Tab>
@@ -188,7 +234,18 @@ const Menu = () => {
             </TabPanel>
             <TabPanel>
               <Box p={0} pt={0}>
-                <AddComponent />
+                <ButtonGroup
+                  size="sm"
+                  isAttached
+                  variant="outline"
+                  colorScheme="teal"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <AddComponent />
+                  <InstallComponent />
+                </ButtonGroup>
 
                 {(Object.keys(customComponents) as ComponentType[])
                   .filter(c =>
@@ -201,7 +258,7 @@ const Menu = () => {
                         justifyContent="space-between"
                         key={name}
                       >
-                        <Box flex={1}>
+                        <Box flex={1} width="60%">
                           <DragItem
                             key={name}
                             custom={true}
@@ -214,22 +271,86 @@ const Menu = () => {
                             {name}
                           </DragItem>
                         </Box>
+                        <Box>
+                          <ButtonGroup
+                            size="xs"
+                            isAttached
+                            variant="outline"
+                            colorScheme="teal"
+                          >
+                            <IconButton
+                              aria-label="Edit"
+                              onClick={() => {
+                                handleEditClick(name)
+                              }}
+                              disabled={name === selectedComponent}
+                            >
+                              <EditIcon color="gray.300" />
+                            </IconButton>
+                            <DeleteComponent name={name} />
+                          </ButtonGroup>
+                        </Box>
+                      </Flex>
+                    )
+                  })}
+                {Object.keys(installedComponents)
+                  .filter(c =>
+                    c.toLowerCase().includes(searchTerm.toLowerCase()),
+                  )
+                  .map(componentPath => {
+                    const name = componentPath.split('.').slice(-1)[0]
+                    return (
+                      <Flex
+                        alignItems={'center'}
+                        justifyContent="space-between"
+                        key={name}
+                      >
+                        <Box flex={1} width="60%">
+                          <DragItem
+                            isInstalled
+                            key={name}
+                            custom={true}
+                            label={name}
+                            type={name}
+                            id={name}
+                            rootParentType={name}
+                            isSelected={false}
+                          >
+                            {name}
+                          </DragItem>
+                        </Box>
                         <ButtonGroup
                           size="xs"
                           isAttached
                           variant="outline"
                           colorScheme="teal"
                         >
-                          <IconButton
-                            aria-label="Edit"
-                            onClick={() => {
-                              handleEditClick(name)
-                            }}
-                            disabled={name === selectedComponent}
-                          >
-                            <EditIcon color="gray.300" />
-                          </IconButton>
-                          <DeleteComponent name={name} />
+                          <Popover placement="right">
+                            <PopoverTrigger>
+                              <Button
+                                onClick={() => {
+                                  getParameters(name, installedComponents[name])
+                                }}
+                              >
+                                +
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              color="whiteAlpha.900"
+                              backgroundColor="#1A202C"
+                              fontSize="sm"
+                              width="max-content"
+                              borderRadius={0}
+                              borderColor="#319795"
+                            >
+                              <PopoverArrow />
+                              <PopoverCloseButton />
+                              <PopoverBody>
+                                <InstalledPropTable param={param} />
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                          <DeleteComponent name={name} isInstalled />
                         </ButtonGroup>
                       </Flex>
                     )

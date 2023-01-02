@@ -97,6 +97,18 @@ export const menuItems: MenuItems = {
     },
   },
   Loop: {},
+  Menu: {
+    children: {
+      Menu: {},
+      MenuButton: {},
+      MenuList: {},
+      MenuItem: {},
+      MenuItemOption: {},
+      MenuGroup: {},
+      MenuOptionGroup: {},
+      MenuDivider: {},
+    },
+  },
   Kbd: {},
   Modal: {
     children: {
@@ -132,6 +144,23 @@ export const menuItems: MenuItems = {
   Skeleton: {},
   SkeletonCircle: {},
   SkeletonText: {},
+  Slider: {
+    children: {
+      Slider: {},
+      SliderTrack: {},
+      SliderFilledTrack: {},
+      SliderThumb: {},
+      SliderMark: {},
+    },
+  },
+  RangeSlider: {
+    children: {
+      RangeSlider: {},
+      RangeSliderTrack: {},
+      RangeSliderFilledTrack: {},
+      RangeSliderThumb: {},
+    },
+  },
   Spinner: {},
   Select: {},
   Stack: {},
@@ -183,7 +212,6 @@ export const menuItems: MenuItems = {
   Text: {},
   Textarea: {},
   Tooltip: {},
-  Menu: { soon: true },
 }
 
 export const componentsList: ComponentType[] = [
@@ -239,6 +267,13 @@ export const componentsList: ComponentType[] = [
   'ListItem',
   'Loop',
   'Menu',
+  'MenuButton',
+  'MenuList',
+  'MenuItem',
+  'MenuItemOption',
+  'MenuGroup',
+  'MenuOptionGroup',
+  'MenuDivider',
   'Modal',
   'ModalOverlay',
   'ModalContent',
@@ -265,6 +300,11 @@ export const componentsList: ComponentType[] = [
   'Skeleton',
   'SkeletonCircle',
   'SkeletonText',
+  'Slider',
+  'SliderTrack',
+  'SliderFilledTrack',
+  'SliderThumb',
+  'SliderMark',
   'Stack',
   'Stat',
   'StatArrow',
@@ -295,4 +335,8 @@ export const componentsList: ComponentType[] = [
   'Text',
   'Textarea',
   'Tooltip',
+  'RangeSlider',
+  'RangeSliderTrack',
+  'RangeSliderFilledTrack',
+  'RangeSliderThumb',
 ]

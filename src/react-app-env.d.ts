@@ -54,6 +54,13 @@ type ComponentType =
   | 'ListIcon'
   | 'Kbd'
   | 'Menu'
+  | 'MenuButton'
+  | 'MenuList'
+  | 'MenuItem'
+  | 'MenuItemOption'
+  | 'MenuGroup'
+  | 'MenuOptionGroup'
+  | 'MenuDivider'
   | 'Modal'
   | 'ModalOverlay'
   | 'ModalContent'
@@ -67,7 +74,7 @@ type ComponentType =
   | 'PopoverContent'
   | 'PopoverHeader'
   | 'PopoverBody'
-  | 'PopoverFooter' 
+  | 'PopoverFooter'
   | 'PopoverArrow'
   | 'PopoverCloseButton'
   | 'PopoverAnchor'
@@ -80,6 +87,15 @@ type ComponentType =
   | 'Skeleton'
   | 'SkeletonCircle'
   | 'SkeletonText'
+  | 'Slider'
+  | 'SliderTrack'
+  | 'SliderFilledTrack'
+  | 'SliderThumb'
+  | 'SliderMark'
+  | 'RangeSlider'
+  | 'RangeSliderTrack'
+  | 'RangeSliderFilledTrack'
+  | 'RangeSliderThumb'
   | 'Stack'
   | 'Stat'
   | 'StatLabel'
@@ -128,6 +144,9 @@ type MetaComponentType =
   | 'CardMeta'
   | 'TagMeta'
   | 'PopoverMeta'
+  | 'MenuMeta'
+  | 'SliderMeta'
+  | 'RangeSliderMeta'
 
 interface ParametersType {
   name: string
@@ -165,6 +184,7 @@ interface ComponentItemProps {
   isChild?: boolean
   isSelected?: boolean
   isMeta?: boolean
+  isInstalled?: boolean
   soon?: boolean
   custom?: boolean
   rootParentType?: ComponentType

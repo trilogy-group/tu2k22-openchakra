@@ -113,6 +113,23 @@ const destructureParams = (params: any) => {
     .toString()} } = props`
 }
 
+const buildMenuButtonProps = (
+  propNames: string[],
+  childComponent: IComponent,
+) => {
+  let props = []
+  if (childComponent.props['as'] === 'Button') {
+    props = propNames.filter((prop: string) => {
+      return prop !== 'isRound' && prop !== 'icon'
+    })
+  } else {
+    props = propNames.filter((prop: string) => {
+      return prop !== 'leftIcon' && prop !== 'rightIcon' && prop !== 'children'
+    })
+  }
+  return props
+}
+
 const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
   let propsContent = ``
 
@@ -200,12 +217,15 @@ const buildSingleBlock = ({
   } else if (forceBuildBlock || !childComponent.componentName) {
     const componentName = convertToPascal(childComponent.type)
     let propsContent = ''
-    const propsNames = Object.keys(childComponent.props).filter(propName => {
+    let propsNames = Object.keys(childComponent.props).filter(propName => {
       if (childComponent.type === 'Icon') {
         return propName !== 'icon'
       }
       return true
     })
+    if (componentName === 'MenuButton') {
+      propsNames = buildMenuButtonProps(propsNames, childComponent)
+    }
     // Special case for Highlight component
     if (componentName === 'Highlight') {
       const [query, children, ...restProps] = propsNames
@@ -218,7 +238,8 @@ const buildSingleBlock = ({
     }
     if (
       typeof childComponent.props.children === 'string' &&
-      childComponent.children.length === 0
+      childComponent.children.length === 0 &&
+      propsNames.includes('children')
     ) {
       content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
     } else if (childComponent.type === 'Icon') {
@@ -303,12 +324,15 @@ const buildBlock = ({
     } else if (forceBuildBlock || !childComponent.componentName) {
       const componentName = convertToPascal(childComponent.type)
       let propsContent = ''
-      const propsNames = Object.keys(childComponent.props).filter(propName => {
+      let propsNames = Object.keys(childComponent.props).filter(propName => {
         if (childComponent.type === 'Icon') {
           return propName !== 'icon'
         }
         return true
       })
+      if (componentName === 'MenuButton') {
+        propsNames = buildMenuButtonProps(propsNames, childComponent)
+      }
       // Special case for Highlight component
       if (componentName === 'Highlight') {
         const [query, children, ...restProps] = propsNames
@@ -323,7 +347,8 @@ const buildBlock = ({
       }
       if (
         typeof childComponent.props.children === 'string' &&
-        childComponent.children.length === 0
+        childComponent.children.length === 0 &&
+        propsNames.includes('children')
       ) {
         content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
       } else if (childComponent.type === 'Icon') {
@@ -446,7 +471,12 @@ const ${componentName} = () => (
 const getIconsImports = (components: IComponents) => {
   return Object.keys(components).flatMap(name => {
     return Object.keys(components[name].props)
-      .filter(prop => prop.toLowerCase().includes('icon'))
+      .filter(
+        prop =>
+          (prop.toLowerCase().includes('icon') && prop !== 'iconSpacing') ||
+          (prop.toLowerCase() === 'as' &&
+            Object.keys(icons).includes(components[name].props[prop])),
+      )
       .filter(prop => !!components[name].props[prop])
       .map(prop => components[name].props[prop])
   })
@@ -475,6 +505,7 @@ export const generateMainTsx = (params: any, fileName: string) => {
 export const generateCode = async (
   components: IComponents,
   currentComponents: CustomDictionary,
+  installedComponents: CustomDictionary,
 ) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
@@ -482,19 +513,33 @@ export const generateCode = async (
   const iconImports = Array.from(new Set(getIconsImports(components)))
 
   let imports = [
-    ...new Set(
-      Object.keys(components)
-        .filter(
-          name =>
-            name !== 'root' &&
-            components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            components[name].type !== 'Card' &&
-            !Object.keys(currentComponents).includes(components[name].type),
-        )
-        .map(name => components[name].type),
-    ),
+    ...new Set([
+      ...new Set(
+        Object.keys(components)
+          .filter(
+            name =>
+              name !== 'root' &&
+              components[name].type !== 'Conditional' &&
+              components[name].type !== 'Loop' &&
+              components[name].type !== 'Box' &&
+              !Object.keys(currentComponents).includes(components[name].type) &&
+              !Object.keys(installedComponents).includes(components[name].type),
+          )
+          .map(name => components[name].type),
+      ),
+      ...new Set(
+        Object.keys(components).flatMap(name => {
+          return Object.keys(components[name].props)
+            .filter(
+              prop =>
+                prop.toLowerCase() === 'as' &&
+                !Object.keys(icons).includes(components[name].props[prop]),
+            )
+            .filter(prop => !!components[name].props[prop])
+            .map(prop => components[name].props[prop])
+        }),
+      ),
+    ]),
   ]
 
   const customImports = [
@@ -504,6 +549,9 @@ export const generateCode = async (
           name =>
             name !== 'root' &&
             components[name].type !== 'Conditional' &&
+            components[name].type !== 'Loop' &&
+            components[name].type !== 'Box' &&
+            components[name].type !== 'Card' &&
             Object.keys(currentComponents).includes(components[name].type),
         )
         .map(
@@ -517,74 +565,19 @@ export const generateCode = async (
     ),
   ]
 
-  code = `import React, {RefObject} from 'react';
-import {
-  ChakraProvider,
-  Box,
-  ${imports.join(',')}
-} from "@chakra-ui/react";${
-    iconImports.length
-      ? `
-import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
-      : ''
-  }
-
-  ${customImports.join(';')}
-
-${paramTypes ? paramTypes : ''}
-
-${componentsCodes}
-
-const App = (${params ? params : ''}) => (
-  <>
-    ${code}
-  </>
-);
-
-export default App;`
-  return await formatCode(code)
-}
-
-export const generateOcTsxCode = async (
-  components: IComponents,
-  currentComponents: CustomDictionary = {},
-) => {
-  let code = buildBlock({ component: components.root, components })
-  let componentsCodes = buildComponents(components)
-  const { paramTypes, params } = buildParams(components.root.params, true)
-  const iconImports = Array.from(new Set(getIconsImports(components)))
-
-  let imports = [
+  const installedImports = [
     ...new Set(
       Object.keys(components)
         .filter(
           name =>
             name !== 'root' &&
             components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            components[name].type !== 'Card' &&
-            !Object.keys(currentComponents).includes(components[name].type),
-        )
-        .map(name => components[name].type),
-    ),
-  ]
-
-  const customImports = [
-    ...new Set(
-      Object.keys(components)
-        .filter(
-          name =>
-            name !== 'root' &&
-            components[name].type !== 'Conditional' &&
-            Object.keys(currentComponents).includes(components[name].type),
+            Object.keys(installedComponents).includes(components[name].type),
         )
         .map(
           name =>
-            `import { ${convertToPascal(
-              currentComponents[components[name].type],
-            )} } from 'src/custom-components/customOcTsx/${
-              components[name].type
+            `import { ${components[name].type} } from '${
+              installedComponents[components[name].type]
             }';`,
         ),
     ),
@@ -603,6 +596,117 @@ import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
   }
 
   ${customImports.join(';')}
+  ${installedImports.join(';')}
+
+${paramTypes ? paramTypes : ''}
+
+${componentsCodes}
+
+const App = (${params ? params : ''}) => (
+  <>
+    ${code}
+  </>
+);
+
+export default App;`
+  return await formatCode(code)
+}
+
+export const generateOcTsxCode = async (
+  components: IComponents,
+  currentComponents: CustomDictionary = {},
+  installedComponents: CustomDictionary = {},
+) => {
+  let code = buildBlock({ component: components.root, components })
+  let componentsCodes = buildComponents(components)
+  const { paramTypes, params } = buildParams(components.root.params, true)
+  const iconImports = Array.from(new Set(getIconsImports(components)))
+
+  let imports = [
+    ...new Set([
+      ...new Set(
+        Object.keys(components)
+          .filter(
+            name =>
+              name !== 'root' &&
+              components[name].type !== 'Conditional' &&
+              components[name].type !== 'Loop' &&
+              components[name].type !== 'Box' &&
+              !Object.keys(currentComponents).includes(components[name].type) &&
+              !Object.keys(installedComponents).includes(components[name].type),
+          )
+          .map(name => components[name].type),
+      ),
+      ...new Set(
+        Object.keys(components).flatMap(name => {
+          return Object.keys(components[name].props)
+            .filter(
+              prop =>
+                prop.toLowerCase() === 'as' &&
+                !Object.keys(icons).includes(components[name].props[prop]),
+            )
+            .filter(prop => !!components[name].props[prop])
+            .map(prop => components[name].props[prop])
+        }),
+      ),
+    ]),
+  ]
+
+  const customImports = [
+    ...new Set(
+      Object.keys(components)
+        .filter(
+          name =>
+            name !== 'root' &&
+            components[name].type !== 'Conditional' &&
+            components[name].type !== 'Loop' &&
+            components[name].type !== 'Box' &&
+            components[name].type !== 'Card' &&
+            Object.keys(currentComponents).includes(components[name].type),
+        )
+        .map(
+          name =>
+            `import { ${convertToPascal(
+              currentComponents[components[name].type],
+            )} } from 'src/custom-components/customOcTsx/${
+              components[name].type
+            }';`,
+        ),
+    ),
+  ]
+
+  const installedImports = [
+    ...new Set(
+      Object.keys(components)
+        .filter(
+          name =>
+            name !== 'root' &&
+            components[name].type !== 'Conditional' &&
+            Object.keys(installedComponents).includes(components[name].type),
+        )
+        .map(
+          name =>
+            `import { ${components[name].type} } from '${
+              installedComponents[components[name].type]
+            }';`,
+        ),
+    ),
+  ]
+
+  code = `import React, {RefObject} from 'react';
+import {
+  ChakraProvider,
+  Box,
+  ${imports.join(',')}
+} from "@chakra-ui/react";${
+    iconImports.length
+      ? `
+import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
+      : ''
+  }
+
+  ${customImports.join(';')}
+  ${installedImports.join(';')}
 
 ${paramTypes ? paramTypes : ''}
 
@@ -873,4 +977,40 @@ export const generatePanel = async (
 
   panelCode = await formatCode(panelCode)
   return panelCode
+}
+
+export const generateICPreview = async (
+  fileName: string,
+  selectedComponent?: string,
+) => {
+  let code = `import React from 'react'
+  import { useDropComponent } from '~hooks/useDropComponent'
+  import { useInteractive } from '~hooks/useInteractive'
+  import { Box } from "@chakra-ui/react";
+
+  ${`import { ${fileName} } from '${selectedComponent}';`}
+
+  interface Props {
+    component: IComponent
+  }
+
+  const ${fileName}Preview = ({ component }: Props) => {
+
+  const { isOver } = useDropComponent(component.id)
+  const { props, ref } = useInteractive(component, true)
+
+  if (isOver) {
+      props.bg = 'teal.50'
+    }
+
+
+    return (<Box {...props} ref={ref}>
+      ${`<${fileName}  {...props}/>`}
+    </Box>)
+  }
+
+  export default ${fileName}Preview`
+
+  code = await formatCode(code)
+  return code
 }

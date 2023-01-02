@@ -30,20 +30,28 @@ import { generateCode } from '~utils/code'
 import useDispatch from '~hooks/useDispatch'
 import { useSelector } from 'react-redux'
 import { getComponents } from '~core/selectors/components'
-import { getCustomComponents } from '~core/selectors/customComponents'
+import {
+  getCustomComponents,
+  getInstalledComponents,
+} from '~core/selectors/customComponents'
 import { getShowLayout, getShowCode } from '~core/selectors/app'
 import HeaderMenu from '~components/headerMenu/HeaderMenu'
 import { FaReact } from 'react-icons/fa'
-import Themer from './Themer'
+import Themer from './themer/Themer'
 
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
   const componentsList = useSelector(getCustomComponents)
+  const installedComponentsList = useSelector(getInstalledComponents)
   const [isLoading, setIsLoading] = useState(false)
 
   const exportToCodeSandbox = async (isTypeScript: boolean) => {
     setIsLoading(true)
-    const code = await generateCode(components, componentsList)
+    const code = await generateCode(
+      components,
+      componentsList,
+      installedComponentsList,
+    )
     setIsLoading(false)
     const parameters = buildParameters(code, isTypeScript)
 
@@ -123,6 +131,7 @@ const Header = () => {
   return (
     <DarkMode>
       <Flex
+        className="header"
         justifyContent="space-between"
         bg="#1a202c"
         as="header"
