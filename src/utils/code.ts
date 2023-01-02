@@ -522,6 +522,7 @@ export const generateCode = async (
               components[name].type !== 'Conditional' &&
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
+              components[name].type !== 'Card' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
@@ -549,9 +550,6 @@ export const generateCode = async (
           name =>
             name !== 'root' &&
             components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            components[name].type !== 'Card' &&
             Object.keys(currentComponents).includes(components[name].type),
         )
         .map(
@@ -632,6 +630,7 @@ export const generateOcTsxCode = async (
               components[name].type !== 'Conditional' &&
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
+              components[name].type !== 'Card' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
@@ -659,9 +658,6 @@ export const generateOcTsxCode = async (
           name =>
             name !== 'root' &&
             components[name].type !== 'Conditional' &&
-            components[name].type !== 'Loop' &&
-            components[name].type !== 'Box' &&
-            components[name].type !== 'Card' &&
             Object.keys(currentComponents).includes(components[name].type),
         )
         .map(
