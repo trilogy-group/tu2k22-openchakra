@@ -26,7 +26,7 @@ import {
   getNewTheme,
   getSelectedCustomComponentId,
 } from '~core/selectors/customComponents'
-import { getShowLayout, getShowCode } from '~core/selectors/app'
+import { getShowLayout, getShowCode, getRefreshProp } from '~core/selectors/app'
 import ComponentPreview from '~components/editor/ComponentPreview'
 import { omit } from 'lodash'
 import myTheme from './myTheme'
@@ -58,6 +58,7 @@ const Editor: React.FC = () => {
   const showLayout = useSelector(getShowLayout)
   const components = useSelector(getComponents)
   const newThemeState = useSelector(getNewTheme)
+  const refreshProp = useSelector(getRefreshProp)
   const dispatch = useDispatch()
 
   const { drop } = useDropComponent('root')
@@ -68,6 +69,7 @@ const Editor: React.FC = () => {
   const installedComponents = useSelector(getInstalledComponents)
   const selectedComponent = useSelector(getSelectedCustomComponentId)
   const [code, setCode] = useState<string | undefined>(undefined)
+
 
   useEffect(() => {
     const getCode = async () => {
@@ -101,7 +103,7 @@ const Editor: React.FC = () => {
     dispatch.app.toggleLoader()
     getCode()
     dispatch.app.toggleLoader()
-  }, [components, selectedComponent])
+  }, [components, selectedComponent, refreshProp])
 
   let editorBackgroundProps = {}
 

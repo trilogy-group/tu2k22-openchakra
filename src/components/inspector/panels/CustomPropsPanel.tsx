@@ -49,10 +49,6 @@ const CustomPropsPanel = () => {
       id,
       name: propsName,
     })
-    dispatch.app.toggleCodePanel()
-    setTimeout(() => {
-      dispatch.app.toggleCodePanel()
-    }, 1);
   }
 
   const activeProps = activePropsRef || []
@@ -64,10 +60,6 @@ const CustomPropsPanel = () => {
     <>
       <form
         onSubmit={(event: FormEvent) => {
-          dispatch.app.toggleCodePanel()
-          setTimeout(() => {
-            dispatch.app.toggleCodePanel()
-          }, 1);
 
           event.preventDefault()
           if (quickProps.name && quickProps.value) {
@@ -82,6 +74,7 @@ const CustomPropsPanel = () => {
             setValue(quickProps.name, quickProps.value)
             setQuickProps(DEFAULT_CUSTOM_PROPS)
             setError(false)
+            dispatch.app.toggleRefreshProp()
           } else {
             setError(true)
           }

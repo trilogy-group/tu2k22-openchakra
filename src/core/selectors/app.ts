@@ -12,3 +12,5 @@ export const getFocusedComponent = (id: IComponent['id']) => (
 
 export const getInputTextFocused = (state: RootState) =>
   state.app.inputTextFocused
+
+export const getRefreshProp = (state: RootState) => state.app.refreshProp

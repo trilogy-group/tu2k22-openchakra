@@ -8,6 +8,7 @@ export type AppState = {
   showLoader: boolean
   inputTextFocused: boolean
   overlay: undefined | Overlay
+  refreshProp: boolean
 }
 
 const app = createModel({
@@ -17,6 +18,7 @@ const app = createModel({
     showLoader: false,
     inputTextFocused: false,
     overlay: undefined,
+    refreshProp: false
   } as AppState,
   reducers: {
     toggleBuilderMode(state: AppState): AppState {
@@ -47,6 +49,12 @@ const app = createModel({
       return {
         ...state,
         overlay,
+      }
+    },
+    toggleRefreshProp(state: AppState): AppState {
+      return {
+        ...state,
+        refreshProp: !state.refreshProp,
       }
     },
     'components/deleteComponent': (state: AppState): AppState => {
