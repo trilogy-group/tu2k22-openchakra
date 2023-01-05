@@ -35,7 +35,6 @@ export default async function handler(req, res) {
       'utf-8',
     )
 
-    shell.exec(`rm pnpm-lock.yaml`)
     shell.exec(`pnpm i ${req.body.path}`)
 
     res.status(200).json(componentName)
