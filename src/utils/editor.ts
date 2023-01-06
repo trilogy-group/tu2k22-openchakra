@@ -154,6 +154,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   // Allow custom components
   'Conditional',
   'Loop',
+  'FAB',
 ]
 
 export const AccordionWhitelist: (

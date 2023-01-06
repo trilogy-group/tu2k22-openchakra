@@ -88,6 +88,7 @@ import SliderPreview from './previews/SliderPreview'
 import SliderTrackPreview from './previews/SliderTrackPreview'
 import SliderThumbPreview from './previews/SliderThumbPreview'
 import { convertToPascal } from './Editor'
+import FABPreview from './previews/FABPreview'
 
 const importView = (component: string, isInstalled: boolean = false) => {
   if (isInstalled) {
@@ -379,6 +380,8 @@ const ComponentPreview: React.FC<{
       return <SliderPreview component={component} />
     case 'SliderThumb':
       return <SliderThumbPreview component={component} />
+    case 'FAB':
+      return <FABPreview component={component} />
     default:
       return null
   }

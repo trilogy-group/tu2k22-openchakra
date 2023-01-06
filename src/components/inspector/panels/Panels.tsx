@@ -79,6 +79,7 @@ import MenuItemPanel from './components/MenuItemPanel'
 import MenuButtonPanel from './components/MenuButtonPanel'
 import SliderPanel from '~components/inspector/panels/components/SliderPanel'
 import SliderMarkPanel from './components/SliderMarkPanel'
+import FabPanel from './components/FabPanel'
 
 const importView = (component: string) => {
   component = convertToPascal(component)
@@ -205,6 +206,7 @@ const Panels: React.FC<{
       {type === 'MenuButton' && <MenuButtonPanel />}
       {type === 'Slider' && <SliderPanel />}
       {type === 'SliderMark' && <SliderMarkPanel />}
+      {type === 'FAB' && <FabPanel />}
     </>
   )
 }
