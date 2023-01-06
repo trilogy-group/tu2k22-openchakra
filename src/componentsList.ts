@@ -216,6 +216,7 @@ export const menuItems: MenuItems = {
   Textarea: {},
   Tooltip: {},
   FAB: {},
+  Chip: {},
 }
 
 export const componentsList: ComponentType[] = [
@@ -347,4 +348,5 @@ export const componentsList: ComponentType[] = [
   'RangeSliderFilledTrack',
   'RangeSliderThumb',
   'FAB',
+  'Chip',
 ]

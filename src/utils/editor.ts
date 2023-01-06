@@ -155,6 +155,7 @@ const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Conditional',
   'Loop',
   'FAB',
+  'Chip',
 ]
 
 export const AccordionWhitelist: (
