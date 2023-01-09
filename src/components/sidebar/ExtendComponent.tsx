@@ -43,7 +43,7 @@ const ExtendComponent = () => {
     if (!componentValid(componentPath)) return
     onClose()
     dispatch.app.toggleLoader()
-    const res = await API.post('/create-non-builtin-component', {
+    const res = await API.post('/extend-builtin', {
       path: componentPath,
     })
     dispatch.customComponents.addCustomComponent(

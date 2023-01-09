@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     ])
     shell.ln(
       '-sf',
-      `../../../../remote/${req.body.path}/${component}.tsx`,
+      `../../../../remote/${componentPath}/${component}.tsx`,
       `src/custom-components/customOcTsx/${component}.tsx`,
     )
     const writePreview = fs.promises.writeFile(
