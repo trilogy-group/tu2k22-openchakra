@@ -68,7 +68,7 @@ const ExtendComponent = () => {
           color="white"
         >
           <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
-            BIT
+            Extend
           </Text>
         </Button>
       </PopoverTrigger>
