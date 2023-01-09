@@ -95,13 +95,6 @@ const importView = (
   isInstalled: boolean = false,
   isExtended: boolean = false,
 ) => {
-  if (isExtended) {
-    return lazy(() =>
-      import(
-        `src/custom-components/editor/previews/${component}Preview.oc.tsx`
-      ).catch(() => import('src/custom-components/fallback')),
-    )
-  }
   if (isInstalled) {
     return lazy(() =>
       import(`src/installed-components/${component}Preview.ic.tsx`).catch(() =>
@@ -110,6 +103,13 @@ const importView = (
     )
   }
   component = convertToPascal(component)
+  if (isExtended) {
+    return lazy(() =>
+      import(
+        `src/custom-components/editor/previews/${component}Preview.oc.tsx`
+      ).catch(() => import('src/custom-components/fallback')),
+    )
+  }
   return lazy(() =>
     import(
       `src/custom-components/editor/previews/${component}Preview.oc.tsx`

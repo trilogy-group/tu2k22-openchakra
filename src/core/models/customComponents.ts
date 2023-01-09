@@ -198,9 +198,7 @@ const customComponents = createModel({
       isAdded: boolean,
     ): CustomComponentsState {
       return produce(state, (draftState: CustomComponentsState) => {
-        let componentName = convertToPascal(
-          extendedComponentPath.split('/').slice(-1)[0],
-        )
+        let componentName = extendedComponentPath.split('/').slice(-1)[0]
         isAdded
           ? (draftState.extendedComponents[
               componentName
