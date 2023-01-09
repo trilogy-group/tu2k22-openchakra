@@ -12,6 +12,18 @@ function getComponentWithLocation(path) {
   return { comp, dir }
 }
 
+async function listComp() {
+  const repoName = shell.exec('REPO=${PWD%/*} && echo -n ${REPO##*/}').stdout
+  let jsons = {}
+  const files = glob.sync(`../remote/**/*.tsx`, {})
+  files?.forEach(element => {
+    const { comp, dir } = getComponentWithLocation(element)
+    if(comp != 'app' && comp != repoName)
+      jsons[comp] = dir
+  })
+  return { jsons}
+}
+
 async function getJsons() {
   let jsons = {}
   const files = glob.sync(`../remote/**/*.oc.json`, {})
@@ -78,9 +90,10 @@ export default async function handler(req, res) {
     // 3 Read theme.json
     const fileContent = fs.readFileSync(themePath, { encoding: 'utf-8' })
     const newTheme = JSON.parse(fileContent)
+    const ListComponents = await listComp()
 
     res.statusCode = 200
-    res.json({ newComponentsList: jsons, themePath, newTheme, installedList })
+    res.json({ newComponentsList: ListComponents['jsons'], themePath, newTheme, installedList })
   } catch (err) {
     console.log(err)
     res.statusCode = 400

@@ -42,6 +42,7 @@ import AddComponent from './AddComponent'
 import DeleteComponent from './DeleteComponent'
 import InstallComponent from './InstallComponent'
 import InstalledPropTable from './InstalledPropTable'
+import ExtendComponent from './ExtendComponent'
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -245,6 +246,7 @@ const Menu = () => {
                 >
                   <AddComponent />
                   <InstallComponent />
+                  <ExtendComponent />
                 </ButtonGroup>
 
                 {(Object.keys(customComponents) as ComponentType[])

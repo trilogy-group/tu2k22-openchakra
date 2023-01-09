@@ -959,3 +959,55 @@ export const generateICPreview = async (
   code = await formatCode(code)
   return code
 }
+
+export const ExtendBuiltInPreview = async (
+  fileName: string,
+  component?: string
+) => {
+  let code = `import React from 'react'
+  import { useDropComponent } from '~hooks/useDropComponent'
+  import { useInteractive } from '~hooks/useInteractive'
+  import { Box } from "@chakra-ui/react";
+  ${`import { ${fileName} } from 'src/custom-components/customOcTsx/${component}';`}
+
+  interface Props {
+    component: IComponent
+  }
+
+  const ${fileName}Preview = ({ component }: Props) => {
+
+  const { isOver } = useDropComponent(component.id)
+  const { props, ref } = useInteractive(component, true)
+
+  if (isOver) {
+      props.bg = 'teal.50'
+    }
+
+
+    return (<Box {...props} ref={ref}>
+      ${`<${fileName}  {...props}/>`}
+    </Box>)
+  }
+
+  export default ${fileName}Preview`
+
+
+  code = await formatCode(code)
+  return code
+}
+
+export const ExtendBuiltInPanel = async (
+  Component: string
+) => {
+  let code = `import React, { memo } from 'react'
+
+  const ${Component} = () => {
+  return <></>
+  }
+  
+  export default memo(${Component})`
+
+  code = await formatCode(code)
+  return code
+}
+
