@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
   try {
     // 2.0 Read Installed-Components Names
-    let installedList = JSON.parse(
+    const installedList = JSON.parse(
       fs.readFileSync('src/installed-components/installedList.json', {
         encoding: 'utf-8',
       }),
@@ -79,8 +79,21 @@ export default async function handler(req, res) {
     const fileContent = fs.readFileSync(themePath, { encoding: 'utf-8' })
     const newTheme = JSON.parse(fileContent)
 
+    // 4 Read Extended-Components Names
+    const extendedList = JSON.parse(
+      fs.readFileSync('src/extended-components/extendedList.json', {
+        encoding: 'utf-8',
+      }),
+    )
+
     res.statusCode = 200
-    res.json({ newComponentsList: jsons, themePath, newTheme, installedList })
+    res.json({
+      newComponentsList: jsons,
+      themePath,
+      newTheme,
+      installedList,
+      extendedList,
+    })
   } catch (err) {
     console.log(err)
     res.statusCode = 400

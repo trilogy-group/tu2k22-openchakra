@@ -33,6 +33,7 @@ import { menuItems, MenuItem } from '~componentsList'
 import { useSelector } from 'react-redux'
 import {
   getCustomComponents,
+  getExtendedComponents,
   getInstalledComponents,
   getSelectedCustomComponentId,
 } from '~core/selectors/customComponents'
@@ -42,12 +43,14 @@ import AddComponent from './AddComponent'
 import DeleteComponent from './DeleteComponent'
 import InstallComponent from './InstallComponent'
 import InstalledPropTable from './InstalledPropTable'
+import ExtendComponent from './ExtendComponent'
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const dispatch = useDispatch()
   const customComponents = useSelector(getCustomComponents)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
   const selectedComponent = useSelector(getSelectedCustomComponentId)
 
   const handleEditClick = async (name: string) => {
@@ -77,10 +80,12 @@ const Menu = () => {
         themePath,
         newTheme,
         installedList,
+        extendedList,
       } = await API.post('/init').then(res => res.data)
       dispatch.customComponents.updateCustomComponents(newComponentsList)
       dispatch.customComponents.setTheme(themePath, newTheme)
       dispatch.customComponents.initInstalledComponents(installedList)
+      dispatch.customComponents.initExtendedComponents(extendedList)
     }
     dispatch.app.toggleLoader()
     initFunction()
@@ -244,7 +249,7 @@ const Menu = () => {
                   alignItems="center"
                 >
                   <AddComponent />
-                  <InstallComponent />
+                  <ExtendComponent />
                 </ButtonGroup>
 
                 {(Object.keys(customComponents) as ComponentType[])
@@ -293,12 +298,47 @@ const Menu = () => {
                       </Flex>
                     )
                   })}
+                {Object.keys(extendedComponents)
+                  .filter(c =>
+                    c.toLowerCase().includes(searchTerm.toLowerCase()),
+                  )
+                  .map(name => {
+                    return (
+                      <Flex
+                        alignItems={'center'}
+                        justifyContent="space-between"
+                        key={name}
+                      >
+                        <Box flex={1} width="60%">
+                          <DragItem
+                            isExtended
+                            key={name}
+                            custom={true}
+                            label={name}
+                            type={name}
+                            id={name}
+                            rootParentType={name}
+                            isSelected={false}
+                          >
+                            {name}
+                          </DragItem>
+                        </Box>
+                        <ButtonGroup
+                          size="xs"
+                          isAttached
+                          variant="outline"
+                          colorScheme="teal"
+                        >
+                          <DeleteComponent name={name} isExtended />
+                        </ButtonGroup>
+                      </Flex>
+                    )
+                  })}
                 {Object.keys(installedComponents)
                   .filter(c =>
                     c.toLowerCase().includes(searchTerm.toLowerCase()),
                   )
-                  .map(componentPath => {
-                    const name = componentPath.split('.').slice(-1)[0]
+                  .map(name => {
                     return (
                       <Flex
                         alignItems={'center'}

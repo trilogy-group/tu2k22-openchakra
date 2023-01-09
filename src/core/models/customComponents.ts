@@ -23,6 +23,7 @@ export interface NewThemeType {
 
 export type CustomComponentsState = {
   components: CustomDictionary
+  extendedComponents: CustomDictionary
   installedComponents: CustomDictionary
   selectedId?: IComponent['type']
   parameters: ComponentParametersType
@@ -48,6 +49,7 @@ const INITIAL_NEW_THEME: NewThemeType = {
 const customComponents = createModel({
   state: {
     components: INITIAL_COMPONENTS,
+    extendedComponents: {},
     installedComponents: {},
     parameters: INITIAL_PARAMETERS,
     selectedId: DEFAULT_ID,
@@ -188,6 +190,30 @@ const customComponents = createModel({
     ): CustomComponentsState {
       return produce(state, (draftState: CustomComponentsState) => {
         draftState.installedComponents = components
+      })
+    },
+    updateExtendedComponents(
+      state: CustomComponentsState,
+      extendedComponentPath: string,
+      isAdded: boolean,
+    ): CustomComponentsState {
+      return produce(state, (draftState: CustomComponentsState) => {
+        let componentName = convertToPascal(
+          extendedComponentPath.split('/').splice(-1)[0],
+        )
+        isAdded
+          ? (draftState.extendedComponents[
+              componentName
+            ] = extendedComponentPath)
+          : delete draftState.extendedComponents[componentName]
+      })
+    },
+    initExtendedComponents(
+      state: CustomComponentsState,
+      components: CustomDictionary,
+    ): CustomComponentsState {
+      return produce(state, (draftState: CustomComponentsState) => {
+        draftState.extendedComponents = components
       })
     },
     updateNewTheme(

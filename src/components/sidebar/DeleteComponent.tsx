@@ -15,6 +15,7 @@ import useDispatch from '~hooks/useDispatch'
 import { useSelector } from 'react-redux'
 import {
   getCustomComponents,
+  getExtendedComponents,
   getInstalledComponents,
   getSelectedCustomComponentId,
 } from '~core/selectors/customComponents'
@@ -23,20 +24,28 @@ import { DeleteIcon } from '@chakra-ui/icons'
 const DeleteComponent = ({
   name,
   isInstalled = false,
+  isExtended = false,
 }: {
   name: string
   isInstalled?: boolean
+  isExtended?: boolean
 }) => {
   const selectedComponent = useSelector(getSelectedCustomComponentId)
   const customComponents = useSelector(getCustomComponents)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const dispatch = useDispatch()
   const cancelRef = useRef<any>(null)
 
   const handleDeleteClick = async () => {
     dispatch.app.toggleLoader()
-    if (isInstalled) {
+    if (isExtended) {
+      dispatch.customComponents.updateExtendedComponents(name, false)
+      await API.post('/delete-component', {
+        path: extendedComponents[name],
+      })
+    } else if (isInstalled) {
       dispatch.customComponents.updateInstalledComponents(name, false)
       await API.post('/uninstall-component', {
         path: installedComponents[name],
