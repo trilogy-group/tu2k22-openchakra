@@ -18,6 +18,7 @@ const TABLE_COMPONENTS: (ComponentType | MetaComponentType)[] = [
 
 const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   ...ALERT_COMPONENTS,
+  'DataGrid',
   'Avatar',
   'AvatarBadge',
   'AvatarGroup',

@@ -81,6 +81,7 @@ import SliderPanel from '~components/inspector/panels/components/SliderPanel'
 import SliderMarkPanel from './components/SliderMarkPanel'
 import FabPanel from './components/FabPanel'
 import ChipPanel from './components/ChipPanel'
+import DataGridPanel from './components/DataGridPanel'
 
 const importView = (component: string) => {
   component = convertToPascal(component)
@@ -209,6 +210,7 @@ const Panels: React.FC<{
       {type === 'SliderMark' && <SliderMarkPanel />}
       {type === 'FAB' && <FabPanel />}
       {type === 'Chip' && <ChipPanel />}
+      {type === 'DataGrid' && <DataGridPanel />}
     </>
   )
 }

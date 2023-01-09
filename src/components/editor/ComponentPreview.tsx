@@ -90,6 +90,7 @@ import SliderThumbPreview from './previews/SliderThumbPreview'
 import { convertToPascal } from './Editor'
 import FABPreview from './previews/FABPreview'
 import ChipPreview from './previews/ChipPreview'
+import DataGridPreview from './previews/DataGridPreview'
 
 const importView = (component: string, isInstalled: boolean = false) => {
   if (isInstalled) {
@@ -385,6 +386,8 @@ const ComponentPreview: React.FC<{
       return <FABPreview component={component} />
     case 'Chip':
       return <ChipPreview component={component} />
+    case 'DataGrid':
+      return <DataGridPreview component={component} />
     default:
       return null
   }

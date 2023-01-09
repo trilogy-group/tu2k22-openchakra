@@ -3,7 +3,7 @@ import { useDropComponent } from '~hooks/useDropComponent'
 import { useInteractive } from '~hooks/useInteractive'
 import icons from '~iconsList'
 import { createTheme, Fab, ThemeProvider } from '@mui/material'
-import { theme as defaultChakraTheme, useTheme } from '@chakra-ui/react'
+import { useTheme } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { getNewTheme } from '~core/selectors/customComponents'
 

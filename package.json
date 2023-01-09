@@ -23,6 +23,7 @@
     "@mdx-js/react": "1.5.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
+    "@mui/x-data-grid": "^5.17.18",
     "@reach/combobox": "0.7.3",
     "@react-native-community/async-storage": "^1.12.1",
     "@rehooks/local-storage": "2.1.1",

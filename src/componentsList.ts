@@ -11,6 +11,7 @@ type MenuItems = Partial<
 >
 
 export const menuItems: MenuItems = {
+  DataGrid: {},
   Accordion: {
     children: {
       Accordion: {},
@@ -220,6 +221,7 @@ export const menuItems: MenuItems = {
 }
 
 export const componentsList: ComponentType[] = [
+  'DataGrid',
   'Accordion',
   'AccordionIcon',
   'AccordionItem',

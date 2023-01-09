@@ -113,7 +113,6 @@ import {
 } from '@chakra-ui/react'
 
 import iconsList from '~iconsList'
-import { AddIcon } from '@chakra-ui/icons'
 
 type PropsWithForm<T> = T & { form?: T }
 
@@ -481,7 +480,10 @@ export const DEFAULT_PROPS: PreviewDefaultProps | any = {
   Table: { variant: 'simple' },
   Conditional: { condition: false },
   Loop: { list: [1, 2, 3, 4] },
-  Tooltip: { label: 'This is my label', 'aria-label': 'beautiful tooltip' },
+  Tooltip: {
+    label: 'This is my label',
+    'aria-label': 'beautiful tooltip',
+  },
 }
 
 export const getDefaultFormProps = (type: ComponentType) => {
