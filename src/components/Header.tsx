@@ -33,6 +33,7 @@ import { useSelector } from 'react-redux'
 import { getComponents } from '~core/selectors/components'
 import {
   getCustomComponents,
+  getExtendedComponents,
   getInstalledComponents,
 } from '~core/selectors/customComponents'
 import { getShowLayout, getShowCode } from '~core/selectors/app'
@@ -45,6 +46,8 @@ const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
   const componentsList = useSelector(getCustomComponents)
   const installedComponentsList = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
+
   const [isLoading, setIsLoading] = useState(false)
 
   const exportToCodeSandbox = async (isTypeScript: boolean) => {
@@ -53,6 +56,7 @@ const CodeSandboxButton = () => {
       components,
       componentsList,
       installedComponentsList,
+      extendedComponents,
     )
     setIsLoading(false)
     const parameters = buildParameters(code, isTypeScript)

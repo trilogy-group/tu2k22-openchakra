@@ -22,6 +22,7 @@ import API from '~custom-components/api'
 import { getComponents } from '~core/selectors/components'
 import {
   getCustomComponents,
+  getExtendedComponents,
   getInstalledComponents,
   getNewTheme,
   getSelectedCustomComponentId,
@@ -66,14 +67,26 @@ const Editor: React.FC = () => {
 
   const customComponents = useSelector(getCustomComponents)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
+
   const selectedComponent = useSelector(getSelectedCustomComponentId)
   const [code, setCode] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const getCode = async () => {
       const [code, ocTsxCode] = await Promise.all([
-        generateCode(components, customComponents, installedComponents),
-        generateOcTsxCode(components, customComponents, installedComponents),
+        generateCode(
+          components,
+          customComponents,
+          installedComponents,
+          extendedComponents,
+        ),
+        generateOcTsxCode(
+          components,
+          customComponents,
+          installedComponents,
+          extendedComponents,
+        ),
       ])
       setCode(code)
       if (selectedComponent !== undefined) {

@@ -4,6 +4,7 @@ import useDispatch from './useDispatch'
 import builder from '~core/models/composer/builder'
 import {
   getCustomComponentNames,
+  getExtendedComponents,
   getInstalledComponents,
 } from '~core/selectors/customComponents'
 import { useSelector } from 'react-redux'
@@ -16,11 +17,13 @@ export const useDropComponent = (
   const dispatch = useDispatch()
   const customComponents = useSelector(getCustomComponentNames)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
 
   const [{ isOver }, drop] = useDrop({
     accept: [
       ...accept,
       ...customComponents,
+      ...Object.keys(extendedComponents),
       ...Object.keys(installedComponents),
     ],
     collect: monitor => ({

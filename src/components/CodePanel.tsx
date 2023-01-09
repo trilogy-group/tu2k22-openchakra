@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { getComponents } from '~core/selectors/components'
 import {
   getCustomComponents,
+  getExtendedComponents,
   getInstalledComponents,
 } from '~core/selectors/customComponents'
 
@@ -14,6 +15,7 @@ const CodePanel = () => {
   const components = useSelector(getComponents)
   const customComponents = useSelector(getCustomComponents)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
   const [code, setCode] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -22,6 +24,7 @@ const CodePanel = () => {
         components,
         customComponents,
         installedComponents,
+        extendedComponents,
       )
       setCode(code)
     }

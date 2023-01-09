@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       'utf-8',
     )
     extendedList = JSON.parse(extendedList)
-    extendedList[componentName] = componentPath
+    extendedList[componentName] = `../remote/${componentPath}`
     fs.writeFileSync(
       'src/extended-components/extendedList.json',
       JSON.stringify(extendedList),

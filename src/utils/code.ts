@@ -457,6 +457,7 @@ export const generateCode = async (
   components: IComponents,
   currentComponents: CustomDictionary,
   installedComponents: CustomDictionary,
+  extendedComponents: CustomDictionary,
 ) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
@@ -474,6 +475,9 @@ export const generateCode = async (
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
+              !Object.keys(extendedComponents).includes(
+                components[name].type,
+              ) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
           .map(name => components[name].type),
@@ -531,6 +535,26 @@ export const generateCode = async (
     ),
   ]
 
+  const extendedImports = [
+    ...new Set(
+      Object.keys(components)
+        .filter(
+          name =>
+            name !== 'root' &&
+            components[name].type !== 'Conditional' &&
+            Object.keys(extendedComponents).includes(components[name].type),
+        )
+        .map(
+          name =>
+            `import { ${convertToPascal(
+              extendedComponents[components[name].type],
+            )} } from '@tiui/${extendedComponents[components[name].type]
+              .slice(3)
+              .replaceAll('/', '.')}';`,
+        ),
+    ),
+  ]
+
   code = `import React, {RefObject} from 'react';
 import {
   ChakraProvider,
@@ -545,6 +569,7 @@ import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
 
   ${customImports.join(';')}
   ${installedImports.join(';')}
+  ${extendedImports.join(';')}
 
 ${paramTypes ? paramTypes : ''}
 
@@ -564,6 +589,7 @@ export const generateOcTsxCode = async (
   components: IComponents,
   currentComponents: CustomDictionary = {},
   installedComponents: CustomDictionary = {},
+  extendedComponents: CustomDictionary = {},
 ) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
@@ -581,6 +607,9 @@ export const generateOcTsxCode = async (
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
+              !Object.keys(extendedComponents).includes(
+                components[name].type,
+              ) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
           .map(name => components[name].type),
@@ -638,6 +667,26 @@ export const generateOcTsxCode = async (
     ),
   ]
 
+  const extendedImports = [
+    ...new Set(
+      Object.keys(components)
+        .filter(
+          name =>
+            name !== 'root' &&
+            components[name].type !== 'Conditional' &&
+            Object.keys(extendedComponents).includes(components[name].type),
+        )
+        .map(
+          name =>
+            `import { ${convertToPascal(
+              extendedComponents[components[name].type],
+            )} } from 'src/custom-components/customOcTsx/${
+              components[name].type
+            }';`,
+        ),
+    ),
+  ]
+
   code = `import React, {RefObject} from 'react';
 import {
   ChakraProvider,
@@ -652,6 +701,7 @@ import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
 
   ${customImports.join(';')}
   ${installedImports.join(';')}
+  ${extendedImports.join(';')}
 
 ${paramTypes ? paramTypes : ''}
 

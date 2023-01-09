@@ -73,6 +73,7 @@ import TagPreview, {
 } from './previews/TagPreview'
 import {
   getCustomComponentNames,
+  getExtendedComponents,
   getInstalledComponents,
 } from '~core/selectors/customComponents'
 import MenuPreview, {
@@ -89,7 +90,18 @@ import SliderTrackPreview from './previews/SliderTrackPreview'
 import SliderThumbPreview from './previews/SliderThumbPreview'
 import { convertToPascal } from './Editor'
 
-const importView = (component: string, isInstalled: boolean = false) => {
+const importView = (
+  component: string,
+  isInstalled: boolean = false,
+  isExtended: boolean = false,
+) => {
+  if (isExtended) {
+    return lazy(() =>
+      import(
+        `src/custom-components/editor/previews/${component}Preview.oc.tsx`
+      ).catch(() => import('src/custom-components/fallback')),
+    )
+  }
   if (isInstalled) {
     return lazy(() =>
       import(`src/installed-components/${component}Preview.ic.tsx`).catch(() =>
@@ -115,8 +127,10 @@ const ComponentPreview: React.FC<{
   const type = (component && component.type) || null
   const [view, setView] = useState<any>()
   const [instView, setInstView] = useState<any>()
+  const [extView, setExtView] = useState<any>()
   const customComponents = useSelector(getCustomComponentNames)
   const installedComponents = useSelector(getInstalledComponents)
+  const extendedComponents = useSelector(getExtendedComponents)
 
   useEffect(() => {
     async function loadViews() {
@@ -131,6 +145,17 @@ const ComponentPreview: React.FC<{
 
   useEffect(() => {
     async function loadViews() {
+      if (type) {
+        const View = await importView(type, false, true)
+        const loadedComponent = <View component={component} />
+        Promise.all([loadedComponent]).then(setExtView)
+      }
+    }
+    loadViews()
+  }, [extendedComponents])
+
+  useEffect(() => {
+    async function loadViews() {
       const installedComponent = componentName.split('-')[0]
       const View = await importView(installedComponent, true)
       const loadedComponent = <View component={component} />
@@ -138,6 +163,10 @@ const ComponentPreview: React.FC<{
     }
     loadViews()
   }, [installedComponents])
+
+  if (type && Object.keys(extendedComponents).includes(type)) {
+    return <Suspense fallback={'Loading...'}>{extView}</Suspense>
+  }
 
   if (type && Object.keys(installedComponents).includes(type)) {
     return <Suspense fallback={'Loading...'}>{instView}</Suspense>
