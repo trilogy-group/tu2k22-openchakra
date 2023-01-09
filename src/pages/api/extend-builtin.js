@@ -22,7 +22,6 @@ export default async function handler(req, res) {
       `../../../../remote/${req.body.path}/${component}.tsx`,
       `src/custom-components/customOcTsx/${component}.tsx`,
     )
-      console.log("done2")
     const writePreview = fs.promises.writeFile(
       `src/custom-components/editor/previews/${componentName}Preview.oc.tsx`,
       previewCode,

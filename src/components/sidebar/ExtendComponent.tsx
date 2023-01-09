@@ -46,13 +46,10 @@ const ExtendComponent = () => {
     const res = await API.post('/create-non-builtin-component', {
       path: componentPath,
     })
-    console.log(componentPath, "dlkjnc");
     dispatch.customComponents.addCustomComponent(
       res.data,
       `../remote/${componentPath}`,
     )
-    console.log(      res.data,
-        `../remote/${componentPath}`, "defg")
     dispatch.app.toggleLoader()
   }
 
