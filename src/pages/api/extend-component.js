@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     const componentName = convertToPascal(component)
     const [previewCode, panelCode] = await Promise.all([
       generateExtendedPreview(component),
-      generateExtendedPanel(component),
+      generateExtendedPanel(componentName),
     ])
 
     // 2.4 Create symlink
@@ -36,6 +36,20 @@ export default async function handler(req, res) {
       panelCode,
     )
     await Promise.all([writePreview, writePanel])
+
+    // 3 Write to extendedList.json
+    let extendedList = fs.readFileSync(
+      'src/extended-components/extendedList.json',
+      'utf-8',
+    )
+    extendedList = JSON.parse(extendedList)
+    extendedList[componentName] = componentPath
+    fs.writeFileSync(
+      'src/extended-components/extendedList.json',
+      JSON.stringify(extendedList),
+      'utf-8',
+    )
+
     res.status(200).json(componentPath)
   } catch (err) {
     console.log(err)

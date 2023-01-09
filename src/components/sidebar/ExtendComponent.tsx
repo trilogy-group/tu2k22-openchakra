@@ -69,7 +69,7 @@ const ExtendComponent = () => {
           leftIcon={<AddIcon />}
         >
           <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
-            Create
+            Extend
           </Text>
         </Button>
       </PopoverTrigger>
@@ -101,7 +101,7 @@ const ExtendComponent = () => {
               createComponent()
             }}
           >
-            Extend
+            Create
           </Button>
         </PopoverFooter>
       </PopoverContent>

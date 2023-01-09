@@ -175,7 +175,7 @@ const customComponents = createModel({
     ): CustomComponentsState {
       return produce(state, (draftState: CustomComponentsState) => {
         let componentName = convertToPascal(
-          installedComponentPath.split('.').splice(-1)[0],
+          installedComponentPath.split('.').slice(-1)[0],
         )
         isAdded
           ? (draftState.installedComponents[
@@ -199,7 +199,7 @@ const customComponents = createModel({
     ): CustomComponentsState {
       return produce(state, (draftState: CustomComponentsState) => {
         let componentName = convertToPascal(
-          extendedComponentPath.split('/').splice(-1)[0],
+          extendedComponentPath.split('/').slice(-1)[0],
         )
         isAdded
           ? (draftState.extendedComponents[
