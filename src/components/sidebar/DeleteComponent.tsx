@@ -8,8 +8,14 @@ import {
   Button,
   IconButton,
   useDisclosure,
+  Tag,
+  TagLeftIcon,
+  TagLabel,
+  TagCloseButton,
+  Box,
 } from '@chakra-ui/react'
-import React, { useRef } from 'react'
+import { WarningTwoIcon } from '@chakra-ui/icons'
+import React, { useRef, useState } from 'react'
 import API from '~custom-components/api'
 import useDispatch from '~hooks/useDispatch'
 import { useSelector } from 'react-redux'
@@ -50,11 +56,24 @@ const DeleteComponent = ({
     dispatch.app.toggleLoader()
   }
 
+  const [list, setList] = useState([])
+
+  const getParameters = async (name: string) => {
+    const res = await API.post('/safe-deletion', {
+      componentDelete: name,
+      customCmp: customComponents,
+    })
+    setList(res.data['listUsed'])
+  }
+
   return (
     <>
       <IconButton
         aria-label="Delete"
-        onClick={onOpen}
+        onClick={() => {
+          onOpen()
+          getParameters(name)
+        }}
         disabled={name === selectedComponent}
       >
         <DeleteIcon color="red" />
@@ -72,7 +91,29 @@ const DeleteComponent = ({
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You cannot undo this action afterwards.
+              {list.length ? (
+                <>
+                  <Box>
+                    <Box mb={3}>
+                      Remove it from the following components before deleting
+                    </Box>
+                    {list.map((property: string) => (
+                      <Tag
+                        rounded="full"
+                        variant="solid"
+                        backgroundColor="#2F918F"
+                        p={3}
+                        m={1}
+                      >
+                        <TagLeftIcon as={WarningTwoIcon} />
+                        <TagLabel>{property}</TagLabel>
+                      </Tag>
+                    ))}
+                  </Box>
+                </>
+              ) : (
+                <>Are you sure? You cannot undo this action afterwards.</>
+              )}
             </AlertDialogBody>
 
             <AlertDialogFooter>
