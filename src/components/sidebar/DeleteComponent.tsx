@@ -12,7 +12,7 @@ import {
   TagLeftIcon,
   TagLabel,
   TagCloseButton,
-  Box
+  Box,
 } from '@chakra-ui/react'
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import React, { useRef, useState } from 'react'
@@ -25,7 +25,6 @@ import {
   getSelectedCustomComponentId,
 } from '~core/selectors/customComponents'
 import { DeleteIcon } from '@chakra-ui/icons'
-
 
 const DeleteComponent = ({
   name,
@@ -62,9 +61,9 @@ const DeleteComponent = ({
   const getParameters = async (name: string) => {
     const res = await API.post('/safe-deletion', {
       componentDelete: name,
-      customCmp: customComponents
+      customCmp: customComponents,
     })
-    setList(res.data["listUsed"])
+    setList(res.data['listUsed'])
   }
 
   return (
@@ -99,7 +98,13 @@ const DeleteComponent = ({
                       Remove it from the following components before deleting
                     </Box>
                     {list.map((property: string) => (
-                      <Tag rounded="full" variant="solid" backgroundColor="#2F918F" p={3} m={1}>
+                      <Tag
+                        rounded="full"
+                        variant="solid"
+                        backgroundColor="#2F918F"
+                        p={3}
+                        m={1}
+                      >
                         <TagLeftIcon as={WarningTwoIcon} />
                         <TagLabel>{property}</TagLabel>
                       </Tag>
@@ -107,9 +112,7 @@ const DeleteComponent = ({
                   </Box>
                 </>
               ) : (
-                <>
-                  Are you sure? You cannot undo this action afterwards.
-                </>
+                <>Are you sure? You cannot undo this action afterwards.</>
               )}
             </AlertDialogBody>
 

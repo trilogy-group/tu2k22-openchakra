@@ -1,22 +1,22 @@
 import fs from 'fs'
 
-
 export default async function handler(req, res) {
-let listUsed = []
-const componentDelete = req.body.componentDelete;
-const jsons = req.body.customCmp;
+  let listUsed = []
+  const componentDelete = req.body.componentDelete
+  const jsons = req.body.customCmp
 
-console.log(jsons)
-Object.keys(jsons).map(async component => {
+  Object.keys(jsons).map(async component => {
     const fileContent = fs.readFileSync(
       `${jsons[component]}/${component}.oc.json`,
       { encoding: 'utf-8' },
     )
-    let result = fileContent.toLowerCase().includes(componentDelete.toLowerCase());
-    if(result){
-        listUsed.push(component);
+    let result = fileContent
+      .toLowerCase()
+      .includes(componentDelete.toLowerCase())
+    if (result) {
+      listUsed.push(component)
     }
-})
+  })
 
   try {
     res.statusCode = 200
