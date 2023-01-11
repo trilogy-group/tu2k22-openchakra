@@ -38,6 +38,7 @@ type BuildSingleBlockParams = {
   forceBuildBlock?: boolean
 }
 
+
 const buildParams = (paramsName: any, customOcTsx: boolean = false) => {
   let paramTypes = ``
   let params = ``
@@ -433,8 +434,13 @@ const getIconsImports = (components: IComponents) => {
   })
 }
 
+export const initializeParams = (params: any) => {
+  let paramsCode = ``
+}
+
 export const generateMainTsx = (params: any, fileName: string) => {
   let refsCode = ``
+  let paramsCode = ``
   let appCode = `return <${fileName}OC \n`
   params.map((param: any) => {
     appCode += `${
@@ -448,9 +454,18 @@ export const generateMainTsx = (params: any, fileName: string) => {
       )}] = useState${param.type.replace('RefObject', '').slice(0, -1) +
         ' | null >'}();\n`
     }
+    else {
+      let operand =
+        param.type == 'string'
+          ? `'${param.value}'`
+          : param.type == 'Function'
+          ? `${param.value.slice(1, param.value.length - 1)}`
+          : `${param.value}`
+      paramsCode += `let ${param.name} = ${operand}\n`
+    }
   })
   appCode += `/>;`
-  return { refsCode, appCode }
+  return { refsCode, appCode, paramsCode }
 }
 
 export const generateCode = async (
