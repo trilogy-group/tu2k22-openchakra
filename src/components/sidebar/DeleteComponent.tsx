@@ -72,7 +72,6 @@ const DeleteComponent = ({
         aria-label="Delete"
         onClick={() => {
           onOpen()
-          console.log(name)
           getParameters(name)
         }}
         disabled={name === selectedComponent}
