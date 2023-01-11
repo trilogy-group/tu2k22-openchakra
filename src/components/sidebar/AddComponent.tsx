@@ -63,24 +63,24 @@ const AddComponent = () => {
       placement="right"
     >
       <PopoverTrigger>
-        <Tooltip
-          label="Create a new custom component"
-          fontFamily="sans-serif"
-          fontSize="sm"
-          hasArrow
-          placement="bottom"
+        <Button
+          bgColor="teal.500"
+          _hover={{ bgColor: 'teal.300' }}
+          color="white"
+          leftIcon={<AddIcon />}
         >
-          <Button
-            bgColor="teal.500"
-            _hover={{ bgColor: 'teal.300' }}
-            color="white"
-            leftIcon={<AddIcon />}
+          <Tooltip
+            label="Create a new custom component"
+            fontFamily="sans-serif"
+            fontSize="sm"
+            hasArrow
+            placement="bottom"
           >
             <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
               Create
             </Text>
-          </Button>
-        </Tooltip>
+          </Tooltip>
+        </Button>
       </PopoverTrigger>
       <PopoverContent p={5} bgColor="white" color="black">
         <PopoverArrow bgColor="white" />

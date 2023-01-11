@@ -57,24 +57,24 @@ const DeployButton = () => {
       placement="right"
     >
       <PopoverTrigger>
-        <Tooltip
-          label="Commit and push all custom components to git"
-          fontFamily="sans-serif"
-          fontSize="sm"
-          hasArrow
-          placement="bottom"
+        <Button
+          bgColor="teal.500"
+          _hover={{ bgColor: 'teal.300' }}
+          color="white"
+          leftIcon={<BiGitCommit />}
         >
-          <Button
-            bgColor="teal.500"
-            _hover={{ bgColor: 'teal.300' }}
-            color="white"
-            leftIcon={<BiGitCommit />}
+          <Tooltip
+            label="Commit and push all custom components to git"
+            fontFamily="sans-serif"
+            fontSize="sm"
+            hasArrow
+            placement="bottom"
           >
             <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
               Deploy
             </Text>
-          </Button>
-        </Tooltip>
+          </Tooltip>
+        </Button>
       </PopoverTrigger>
       <PopoverContent p={5} bgColor="white" color="black">
         <PopoverArrow bgColor="white" />
