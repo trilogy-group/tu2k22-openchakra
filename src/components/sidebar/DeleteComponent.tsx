@@ -61,7 +61,8 @@ const DeleteComponent = ({
 
   const getParameters = async (name: string) => {
     const res = await API.post('/safe-deletion', {
-      componentDelete: name
+      componentDelete: name,
+      customCmp: customComponents
     })
     setList(res.data["listUsed"])
   }
