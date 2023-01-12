@@ -458,7 +458,7 @@ export const generateMainTsx = (params: any, fileName: string) => {
       let operand =
         param.type == 'string'
           ? `'${param.value}'`
-          : param.type == 'Function'
+          : param.type == 'Function' && param.value.slice(0, 1) === '{'
           ? `${param.value.slice(1, param.value.length - 1)}`
           : `${param.value}`
       paramsCode += `let ${param.name} = ${operand}\n`
