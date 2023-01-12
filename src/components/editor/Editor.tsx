@@ -78,7 +78,7 @@ const Editor: React.FC = () => {
       setCode(code)
       if (selectedComponent !== undefined) {
         let fileName = convertToPascal(customComponents[selectedComponent])
-        const { refsCode, appCode } = generateMainTsx(
+        const { refsCode, appCode, paramsCode } = generateMainTsx(
           components.root.params,
           fileName,
         )
@@ -93,6 +93,7 @@ const Editor: React.FC = () => {
           previewBody: previewCode,
           panelBody: panelCode,
           refsBody: refsCode,
+          paramsBody: paramsCode,
           appBody: appCode,
           path: customComponents[selectedComponent],
         })

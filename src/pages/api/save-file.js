@@ -45,7 +45,7 @@ export default async function handler(req, res) {
     let mainArray = fileContent.split(
       '// Refs are declared in here do not edit content and comments\n',
     )
-    mainArray[1] = `${req.body.refsBody}\n`
+    mainArray[1] = `${req.body.refsBody}${req.body.paramsBody}\n`
     let appArray = mainArray[2].split(
       `// ${pascalName}OC's props are updated automatically do not edit content and comments\n`,
     )
