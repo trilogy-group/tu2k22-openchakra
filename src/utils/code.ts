@@ -20,6 +20,9 @@ export const formatCode = async (code: string) => {
       plugins: [babylonParser],
       semi: true,
       singleQuote: true,
+      trailingComma: 'es5',
+      tabWidth: 2,
+      endOfLine: 'lf',
     })
   } catch (e) {}
 
@@ -37,7 +40,6 @@ type BuildSingleBlockParams = {
   components: IComponents
   forceBuildBlock?: boolean
 }
-
 
 const buildParams = (paramsName: any, customOcTsx: boolean = false) => {
   let paramTypes = ``
@@ -453,8 +455,7 @@ export const generateMainTsx = (params: any, fileName: string) => {
         param.name,
       )}] = useState${param.type.replace('RefObject', '').slice(0, -1) +
         ' | null >'}();\n`
-    }
-    else {
+    } else {
       let operand =
         param.type == 'string'
           ? `'${param.value}'`
