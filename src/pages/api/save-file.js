@@ -42,7 +42,7 @@ export default async function handler(req, res) {
       `// 🚨 Your props contains invalid code\n`,
       '',
     )
-    let mainArray = fileContent.split(
+    /*let mainArray = fileContent.split(
       '// Refs are declared in here do not edit content and comments\n',
     )
     mainArray[1] = `${req.body.refsBody}\n`
@@ -55,6 +55,26 @@ export default async function handler(req, res) {
     )
     fileContent = mainArray.join(
       '// Refs are declared in here do not edit content and comments\n',
+    )*/
+    let mainArray = fileContent.split(
+      '// Any custom code written beyond this point will be overwritten, do not edit or delete this comment\n',
+    )
+    mainArray[1] = `${req.body.appBody}\n}`
+    let tempArray = mainArray[0].split(
+      '// Refs are declared below do not edit content and comments\n',
+    )
+    let tmp = tempArray[1].split(
+      '// Refs are declared above, custom code can be written below, do not edit content and comments\n',
+    )
+    tmp[0] = `${req.body.refsBody}`
+    tempArray[1] = tmp.join(
+      '// Refs are declared above, custom code can be written below, do not edit content and comments\n',
+    )
+    mainArray[0] = tempArray.join(
+      '// Refs are declared below do not edit content and comments\n',
+    )
+    fileContent = mainArray.join(
+      '// Any custom code written beyond this point will be overwritten, do not edit or delete this comment\n',
     )
     fileContent = await formatCode(fileContent)
     const writeTSX = fs.writeFile(
