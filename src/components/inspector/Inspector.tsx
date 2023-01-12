@@ -19,7 +19,7 @@ import {
   useDisclosure,
   Text,
 } from '@chakra-ui/react'
-import { CopyIcon, CheckIcon, EditIcon } from '@chakra-ui/icons'
+import { CopyIcon, CheckIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import Panels from '~components/inspector/panels/Panels'
 import { GoRepo, GoCode } from 'react-icons/go'
 import { FiTrash2 } from 'react-icons/fi'
@@ -38,7 +38,7 @@ import { generateComponentCode, formatCode } from '~utils/code'
 import useClipboard from '~hooks/useClipboard'
 import { useInspectorUpdate } from '~contexts/inspector-context'
 import { componentsList } from '~componentsList'
-import { getCustomComponentNames } from '~core/selectors/customComponents'
+import { getCustomComponentNames, getInstalledComponents } from '~core/selectors/customComponents'
 import { ComponentWithRefs } from '~custom-components/refComponents'
 
 const CodeActionButton = memo(() => {
@@ -84,6 +84,8 @@ const Inspector = () => {
   const [componentName, onChangeComponentName] = useState('')
   const componentsNames = useSelector(getComponentNames)
   const customComponentsNames = useSelector(getCustomComponentNames)
+  const installedComponents = useSelector(getInstalledComponents)
+  const installedComponentsNames = Object.keys(installedComponents)
 
   const { clearActiveProps } = useInspectorUpdate()
 
@@ -110,6 +112,7 @@ const Inspector = () => {
   const isRoot = id === 'root'
   const parentIsRoot = component.parent === 'root'
   const isCustom = customComponentsNames.includes(type)
+  const isInstalled = installedComponentsNames.includes(type)
 
   const docType = rootParentType || type
   const componentHasChildren = children.length > 0
@@ -152,6 +155,19 @@ const Inspector = () => {
     handleChildrenDelete(component.children)
   }
 
+  function splitPascalCase(word: string) {
+    var wordRe = /($[a-z])|[A-Z][^A-Z]+/g;
+    return word.match(wordRe)!.join("-").toLowerCase();
+  }
+
+  const openExt = (component: string) => {
+    component = splitPascalCase(component)
+    window.open(
+      `https://chakra-ui.com/docs/components/${component}/props`,
+      '_blank',
+    )
+  }
+
   return (
     <>
       <Box bg="white" color="black">
@@ -167,7 +183,19 @@ const Inspector = () => {
           justifyContent="space-between"
           flexDir="column"
         >
-          {isRoot ? 'Document' : type}
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            {isRoot ? 'Document' : type}
+            {!(isCustom || isInstalled) && (<Button
+              onClick={() => {
+                openExt(type)
+              }}
+              rightIcon={<ExternalLinkIcon path="" />}
+              variant="ghost"
+              size="xs"
+            >
+              Props
+            </Button>)}
+          </Box>
           <Box color="yellow.500" fontSize="xs">
             {!isRoot && id}
           </Box>
