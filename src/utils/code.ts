@@ -18,7 +18,7 @@ export const formatCode = async (code: string) => {
     formattedCode = prettier.format(code, {
       parser: 'babel',
       plugins: [babylonParser],
-      semi: false,
+      semi: true,
       singleQuote: true,
     })
   } catch (e) {}

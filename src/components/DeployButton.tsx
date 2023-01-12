@@ -54,25 +54,23 @@ const DeployButton = () => {
       isOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}
-      placement="bottom"
+      placement="right"
     >
       <PopoverTrigger>
         <Button
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          rightIcon={<BiGitCommit />}
-          variant="ghost"
-          size="xs"
+          bgColor="teal.500"
+          _hover={{ bgColor: 'teal.300' }}
+          color="white"
+          leftIcon={<BiGitCommit />}
         >
           <Tooltip
-            label="Commit and push to git"
+            label="Commit and push all custom components to git"
             fontFamily="sans-serif"
             fontSize="sm"
             hasArrow
             placement="bottom"
           >
-            <Text letterSpacing="wide" fontSize="xs" textTransform="capitalize">
+            <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
               Deploy
             </Text>
           </Tooltip>

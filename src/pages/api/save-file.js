@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     )
     const writeJson = fs.writeFile(
       `${req.body.path}/${fileName}.oc.json`,
-      JSON.stringify(req.body.jsonBody),
+      JSON.stringify(req.body.jsonBody, null, 2),
     )
     const writePreview = fs.writeFile(
       `src/custom-components/editor/previews/${pascalName}Preview.oc.tsx`,
@@ -32,10 +32,16 @@ export default async function handler(req, res) {
       `src/custom-components/inspector/panels/components/${pascalName}Panel.oc.tsx`,
       req.body.panelBody,
     )
-    let fileContent = await fs.readFile(`${req.body.path}/${fileName}.tsx`, {
-      encoding: 'utf-8',
-    })
-    fileContent = fileContent.replace(`// 🚨 Your props contains invalid code\n`, '')
+    let fileContent = await fs.readFile(
+      `${req.body.path}/${fileName}/index.tsx`,
+      {
+        encoding: 'utf-8',
+      },
+    )
+    fileContent = fileContent.replace(
+      `// 🚨 Your props contains invalid code\n`,
+      '',
+    )
     let mainArray = fileContent.split(
       '// Refs are declared in here do not edit content and comments\n',
     )
@@ -52,7 +58,7 @@ export default async function handler(req, res) {
     )
     fileContent = await formatCode(fileContent)
     const writeTSX = fs.writeFile(
-      `${req.body.path}/${fileName}.tsx`,
+      `${req.body.path}/${fileName}/index.tsx`,
       fileContent,
     )
     await Promise.all([

@@ -16,6 +16,7 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Text,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useRef } from 'react'
@@ -68,9 +69,17 @@ const AddComponent = () => {
           color="white"
           leftIcon={<AddIcon />}
         >
-          <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
-            Create
-          </Text>
+          <Tooltip
+            label="Create a new custom component"
+            fontFamily="sans-serif"
+            fontSize="sm"
+            hasArrow
+            placement="bottom"
+          >
+            <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
+              Create
+            </Text>
+          </Tooltip>
         </Button>
       </PopoverTrigger>
       <PopoverContent p={5} bgColor="white" color="black">
