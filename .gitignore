@@ -24,3 +24,4 @@ yarn-error.log*
 
 .next
 pnpm-lock.yaml
+/.history
