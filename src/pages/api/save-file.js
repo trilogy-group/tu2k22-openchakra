@@ -24,14 +24,14 @@ export default async function handler(req, res) {
       `${req.body.path}/${fileName}.oc.json`,
       JSON.stringify(req.body.jsonBody, null, 2),
     )
-    const writePreview = fs.writeFile(
-      `src/custom-components/editor/previews/${pascalName}Preview.oc.tsx`,
-      req.body.previewBody,
-    )
-    const writePanel = fs.writeFile(
-      `src/custom-components/inspector/panels/components/${pascalName}Panel.oc.tsx`,
-      req.body.panelBody,
-    )
+    // const writePreview = fs.writeFile(
+    //   `src/custom-components/editor/previews/${pascalName}Preview.oc.tsx`,
+    //   req.body.previewBody,
+    // )
+    // const writePanel = fs.writeFile(
+    //   `src/custom-components/inspector/panels/components/${pascalName}Panel.oc.tsx`,
+    //   req.body.panelBody,
+    // )
     let fileContent = await fs.readFile(
       `${req.body.path}/${fileName}/index.tsx`,
       {
@@ -64,8 +64,8 @@ export default async function handler(req, res) {
     await Promise.all([
       writeCode,
       writeJson,
-      writePreview,
-      writePanel,
+      // writePreview,
+      // writePanel,
       writeTSX,
     ])
     res.statusCode = 200
