@@ -457,7 +457,7 @@ export const generateMainTsx = (params: any, fileName: string) => {
     }
   })
   appCode += `/>;`
-  return { refsCode, appCode }
+  return { refsCode, appCode}
 }
 
 export const generateCode = async (
