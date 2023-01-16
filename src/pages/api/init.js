@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       const [previewCode, panelCode, ocTsxCode] = await Promise.all([
         generatePreview(json, componentName, component),
         generatePanel(json, componentName),
-        generateOcTsxCode(json, jsons),
+        generateOcTsxCode(json, jsons, installedList),
       ])
 
       // 2.3 Create symlink
