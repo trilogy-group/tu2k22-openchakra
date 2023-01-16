@@ -11,13 +11,7 @@ import SplitPane from 'react-split-pane'
 import CodePanel from '~components/CodePanel'
 import { useSelector } from 'react-redux'
 import useDispatch from '~hooks/useDispatch'
-import {
-  generateCode,
-  generatePreview,
-  generatePanel,
-  generateOcTsxCode,
-  generateMainTsx,
-} from '~utils/code'
+import { generateCode, generateOcTsxCode, generateMainTsx } from '~utils/code'
 import API from '~custom-components/api'
 import { getComponents } from '~core/selectors/components'
 import {
@@ -82,16 +76,16 @@ const Editor: React.FC = () => {
           components.root.params,
           fileName,
         )
-        const [previewCode, panelCode] = await Promise.all([
-          generatePreview(components, fileName, selectedComponent),
-          generatePanel(components, fileName),
-        ])
+        // const [previewCode, panelCode] = await Promise.all([
+        //   generatePreview(components, fileName, selectedComponent),
+        //   generatePanel(components, fileName),
+        // ])
         await API.post('/save-file', {
           codeBody: code,
           ocTsxBody: ocTsxCode,
           jsonBody: components,
-          previewBody: previewCode,
-          panelBody: panelCode,
+          // previewBody: previewCode,
+          // panelBody: panelCode,
           refsBody: refsCode,
           paramsBody: paramsCode,
           appBody: appCode,

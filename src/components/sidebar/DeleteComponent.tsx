@@ -99,6 +99,7 @@ const DeleteComponent = ({
                     </Box>
                     {list.map((property: string) => (
                       <Tag
+                        key={property}
                         rounded="full"
                         variant="solid"
                         backgroundColor="#2F918F"
@@ -120,17 +121,18 @@ const DeleteComponent = ({
               <Button ref={cancelRef} onClick={onClose} color="teal.300">
                 Cancel
               </Button>
-              {!list.length && 
-              <Button
-                color="red"
-                onClick={() => {
-                  handleDeleteClick()
-                  onClose()
-                }}
-                ml={3}
-              >
-                Delete
-              </Button>}
+              {!list.length && (
+                <Button
+                  color="red"
+                  onClick={() => {
+                    handleDeleteClick()
+                    onClose()
+                  }}
+                  ml={3}
+                >
+                  Delete
+                </Button>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
