@@ -120,6 +120,7 @@ const DeleteComponent = ({
               <Button ref={cancelRef} onClick={onClose} color="teal.300">
                 Cancel
               </Button>
+              {!list.length && 
               <Button
                 color="red"
                 onClick={() => {
@@ -129,7 +130,7 @@ const DeleteComponent = ({
                 ml={3}
               >
                 Delete
-              </Button>
+              </Button>}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
