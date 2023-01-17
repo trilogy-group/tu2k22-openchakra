@@ -94,6 +94,13 @@ const Menu = () => {
     dispatch.app.toggleLoader()
   }, [customComponents])
 
+  useEffect(() => {
+    const writeFunction = async () => {
+      await API.post('/write-installed-panels');
+    };
+    writeFunction();
+  }, []);
+
   const [param, setParam] = useState('[{}]')
 
   const getParameters = async (name: string, pathPackage: string) => {

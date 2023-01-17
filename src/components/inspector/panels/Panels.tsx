@@ -63,7 +63,10 @@ import TablePanel from './components/TablePanel'
 import ConditionalPanel from './components/ConditionalPanel'
 import LoopPanel from './components/LoopPanel'
 import { useSelector } from 'react-redux'
-import { getCustomComponentNames } from '~core/selectors/customComponents'
+import {
+  getCustomComponentNames,
+  getInstalledComponents,
+} from '~core/selectors/customComponents'
 import { convertToPascal } from '~components/editor/Editor'
 import TdPanel from './components/TdPanel'
 import TableCaptionPanel from './components/TableCaptionPanel'
@@ -80,7 +83,14 @@ import MenuButtonPanel from './components/MenuButtonPanel'
 import SliderPanel from '~components/inspector/panels/components/SliderPanel'
 import SliderMarkPanel from './components/SliderMarkPanel'
 
-const importView = (component: string) => {
+const importView = (component: string, isInstalled: boolean = false) => {
+  if (isInstalled) {
+    return lazy(() =>
+      import(`src/installed-components/${component}Panel.ic.tsx`).catch(() =>
+        import('src/custom-components/fallback'),
+      ),
+    )
+  }
   component = convertToPascal(component)
   return lazy(() =>
     import(
@@ -93,10 +103,13 @@ const Panels: React.FC<{
   component: IComponent
   isRoot: boolean
   isCustom?: boolean
-}> = ({ component, isRoot, isCustom = false }) => {
+  isInstalled?: boolean
+}> = ({ component, isRoot, isCustom = false, isInstalled = false }) => {
   const { type } = component
   const [view, setView] = useState<any>()
   const customComponents = useSelector(getCustomComponentNames)
+  const [instView, setInstView] = useState<any>()
+  const installedComponents = useSelector(getInstalledComponents)
 
   useEffect(() => {
     async function loadViews() {
@@ -109,12 +122,25 @@ const Panels: React.FC<{
     loadViews()
   }, [customComponents])
 
+  useEffect(() => {
+    async function loadViews() {
+      const View = await importView(type, true)
+      const loadedPanel = <View component={component} />
+      Promise.all([loadedPanel]).then(setInstView)
+    }
+    loadViews()
+  }, [installedComponents])
+
   if (isRoot) {
     return null
   }
 
   if (isCustom) {
     return <Suspense fallback={'Loading...'}>{view}</Suspense>
+  }
+
+  if (isInstalled) {
+    return <Suspense fallback={'Loading...'}>{instView}</Suspense>
   }
 
   return (
