@@ -24,13 +24,13 @@ export default async function handler(req, res) {
 
     // 2.3 Write to installedList.json file
     let installedList = fs.readFileSync(
-      'src/installed-components/installedList.json',
+      '../installedList.json',
       'utf-8',
     )
     installedList = JSON.parse(installedList)
     installedList[componentName] = componentPath
     fs.writeFileSync(
-      'src/installed-components/installedList.json',
+      '../installedList.json',
       JSON.stringify(installedList, null, 2),
       'utf-8',
     )

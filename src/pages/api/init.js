@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   try {
     // 2.0 Read Installed-Components Names
     let installedList = JSON.parse(
-      fs.readFileSync('src/installed-components/installedList.json', {
+      fs.readFileSync('../installedList.json', {
         encoding: 'utf-8',
       }),
     )
