@@ -119,7 +119,8 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
       }
     } else if (
       propName.toLowerCase() === 'as' &&
-      childComponent.type !== 'Icon'
+      childComponent.type !== 'Icon' &&
+      childComponent.type !== 'Heading'
     ) {
       let operand = `={${propsValue}}`
       propsContent += `${propName}${operand} `
@@ -469,6 +470,7 @@ export const generateCode = async (
   let componentsCodes = buildComponents(components)
   const { paramTypes, params } = buildParams(components.root.params)
   const iconImports = Array.from(new Set(getIconsImports(components)))
+  const nonImports = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
   let imports = [
     ...new Set([
@@ -491,7 +493,8 @@ export const generateCode = async (
             .filter(
               prop =>
                 prop.toLowerCase() === 'as' &&
-                !Object.keys(icons).includes(components[name].props[prop]),
+                !Object.keys(icons).includes(components[name].props[prop]) &&
+                !nonImports.includes(components[name].props[prop]),
             )
             .filter(prop => !!components[name].props[prop])
             .map(prop => components[name].props[prop])
@@ -576,6 +579,7 @@ export const generateOcTsxCode = async (
   let componentsCodes = buildComponents(components)
   const { paramTypes, params } = buildParams(components.root.params, true)
   const iconImports = Array.from(new Set(getIconsImports(components)))
+  const nonImports = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
   let imports = [
     ...new Set([
@@ -598,7 +602,8 @@ export const generateOcTsxCode = async (
             .filter(
               prop =>
                 prop.toLowerCase() === 'as' &&
-                !Object.keys(icons).includes(components[name].props[prop]),
+                !Object.keys(icons).includes(components[name].props[prop]) &&
+                !nonImports.includes(components[name].props[prop]),
             )
             .filter(prop => !!components[name].props[prop])
             .map(prop => components[name].props[prop])
