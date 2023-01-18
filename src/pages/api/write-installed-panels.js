@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   try {
     //BIT Login to get cookie
     let installedList = JSON.parse(
-        fs.readFileSync('src/installed-components/installedList.json', {
+        fs.readFileSync('../../resources/installedList.json', {
           encoding: 'utf-8',
         }),
       );
