@@ -63,10 +63,7 @@ import TablePanel from './components/TablePanel'
 import ConditionalPanel from './components/ConditionalPanel'
 import LoopPanel from './components/LoopPanel'
 import { useSelector } from 'react-redux'
-import {
-  getCustomComponentNames,
-  getInstalledComponents,
-} from '~core/selectors/customComponents'
+import { getCustomComponentNames } from '~core/selectors/customComponents'
 import { convertToPascal } from '~components/editor/Editor'
 import TdPanel from './components/TdPanel'
 import TableCaptionPanel from './components/TableCaptionPanel'
@@ -109,27 +106,22 @@ const Panels: React.FC<{
   const [view, setView] = useState<any>()
   const customComponents = useSelector(getCustomComponentNames)
   const [instView, setInstView] = useState<any>()
-  const installedComponents = useSelector(getInstalledComponents)
 
   useEffect(() => {
     async function loadViews() {
       if (type) {
-        const View = await importView(type)
+        const View = importView(type)
+        const InstView = importView(type, true)
+        await Promise.all([View, InstView])
         const loadedPanel = <View />
-        Promise.all([loadedPanel]).then(setView)
+        const iLoadedPanel = <InstView />
+        Promise.all([loadedPanel, iLoadedPanel])
+        setView(loadedPanel)
+        setInstView(iLoadedPanel)
       }
     }
     loadViews()
   }, [customComponents])
-
-  useEffect(() => {
-    async function loadViews() {
-      const View = await importView(type, true)
-      const loadedPanel = <View component={component} />
-      Promise.all([loadedPanel]).then(setInstView)
-    }
-    loadViews()
-  }, [installedComponents])
 
   if (isRoot) {
     return null
