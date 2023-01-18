@@ -2,7 +2,7 @@ import fs from 'fs'
 import glob from 'glob'
 import shell from 'shelljs'
 import { convertToPascal } from '~components/editor/Editor'
-import { generateOcTsxCode, generatePanel, generatePreview } from '~utils/code'
+import { generateOcTsxCode, generatePanel, generatePreview, generateICPreview } from '~utils/code'
 
 function getComponentWithLocation(path) {
   let arr = path.split('/')
