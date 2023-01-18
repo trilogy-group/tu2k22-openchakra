@@ -35,6 +35,15 @@ export default async function handler(req, res) {
         encoding: 'utf-8',
       }),
     )
+    
+    let jsonKeys = Object.keys(installedList);
+    for(let i=0 ; i<jsonKeys.length ; i++){
+      const previewCode = await generateICPreview(jsonKeys[i], installedList[jsonKeys[i]])
+          fs.writeFileSync(
+      `src/installed-components/${jsonKeys[i]}Preview.ic.tsx`,
+      previewCode,
+    )
+    }
 
     Object.keys(jsons).map(async component => {
       // 2.1 Read json
