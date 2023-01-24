@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     installedList[componentName] = componentPath
     fs.writeFileSync(
       '../../resources/installedList.json',
-      JSON.stringify(installedList, null, 2),
+      JSON.stringify(installedList, null, 2) + '\n',
       'utf-8',
     )
 

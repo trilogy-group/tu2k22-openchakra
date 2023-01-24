@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     delete installedList[componentName]
     fs.writeFileSync(
       '../../resources/installedList.json',
-      JSON.stringify(installedList, null, 2),
+      JSON.stringify(installedList, null, 2) + '\n',
       'utf-8',
     )
 
