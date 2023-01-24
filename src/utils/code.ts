@@ -772,7 +772,7 @@ export const generatePreview = async (
 
   code = `import React from 'react'
   import { useDropComponent } from '~hooks/useDropComponent'
-  import { useInteractive } from '~hooks/useInteractive'
+  import { useCustomInteractive } from '~hooks/useCustomInteractive'
   import { Box } from "@chakra-ui/react";
 
   ${`import { ${fileName} } from 'src/custom-components/customOcTsx/${selectedComponent}';`}
@@ -790,7 +790,7 @@ export const generatePreview = async (
 
   const ${fileName}Preview = ({ component }: Props) => {
   const { isOver } = useDropComponent(component.id)
-  const { props, ref } = useInteractive(component, true)
+  const { props, ref } = useCustomInteractive(component, true)
 
   if (isOver) {
       props.bg = 'teal.50'
