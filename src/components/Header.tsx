@@ -244,7 +244,7 @@ const Header = () => {
                     </Button>
                   </PopoverTrigger>
                   <LightMode>
-                    <PopoverContent zIndex={100} bg="white">
+                    <PopoverContent zIndex={100} bg="white" color="black">
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverHeader>Are you sure?</PopoverHeader>
