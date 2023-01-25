@@ -34,7 +34,6 @@ const Themer = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // TODO: layer & text styles
     const updateThemeJson = async () => {
       if (themePath)
         await API.post('/save-theme', {
@@ -49,18 +48,29 @@ const Themer = () => {
 
   return (
     <>
-      <Button
-        mx={4}
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        rightIcon={<GiLargePaintBrush />}
-        variant="ghost"
-        size="xs"
-        onClick={onOpen}
+      <Tooltip
+        zIndex={100}
+        hasArrow
+        bg="yellow.100"
+        aria-label="Theme help"
+        fontFamily="sans-serif"
+        fontSize="xs"
+        label="Customize theme colors and font for the whole app"
       >
-        Theme
-      </Button>
+        <Button
+          mx={4}
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          rightIcon={<GiLargePaintBrush />}
+          variant="ghost"
+          size="xs"
+          onClick={onOpen}
+        >
+          Theme
+        </Button>
+      </Tooltip>
+
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size="xl">
         <DrawerOverlay />
         <DrawerContent
