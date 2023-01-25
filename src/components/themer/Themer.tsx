@@ -48,28 +48,18 @@ const Themer = () => {
 
   return (
     <>
-      <Tooltip
-        zIndex={100}
-        hasArrow
-        bg="yellow.100"
-        aria-label="Theme help"
-        fontFamily="sans-serif"
-        fontSize="xs"
-        label="Customize theme colors and font for the whole app"
+      <Button
+        mx={4}
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        rightIcon={<GiLargePaintBrush />}
+        variant="ghost"
+        size="xs"
+        onClick={onOpen}
       >
-        <Button
-          mx={4}
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          rightIcon={<GiLargePaintBrush />}
-          variant="ghost"
-          size="xs"
-          onClick={onOpen}
-        >
-          Theme
-        </Button>
-      </Tooltip>
+        Theme
+      </Button>
 
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size="xl">
         <DrawerOverlay />
