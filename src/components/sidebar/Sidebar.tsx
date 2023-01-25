@@ -137,7 +137,7 @@ const Menu = () => {
             <Input
               value={searchTerm}
               color="gray.300"
-              placeholder="Search ..."
+              placeholder="Search component"
               _placeholder={{
                 color: 'gray',
               }}

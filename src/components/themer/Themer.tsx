@@ -7,7 +7,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useDisclosure,
-  theme as baseTheme,
   Divider,
   Tooltip,
   Tabs,
@@ -15,7 +14,6 @@ import {
   TabPanels,
   TabList,
   Tab,
-  LightMode,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
