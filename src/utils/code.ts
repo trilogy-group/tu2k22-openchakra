@@ -684,30 +684,30 @@ export const generateICPanel = async (
   fileName: string,
   paramList: CustomDictionary[],
 ) => {
-  let boolArray = paramList.filter(param => param.type === 'boolean');
+  let boolArray = paramList.filter(param => param.type === 'boolean')
   let textArray = paramList.filter(
     param => param.type === 'string' || param.type === 'number',
-  );
+  )
   let enumArray = paramList.filter(param => {
-    param.type.includes('|');
-  });
+    param.type.includes('|')
+  })
   let boolCode = boolArray.map(param => {
-    return `<SwitchControl label="${param.name}" name="${param.name}" />`;
-  });
+    return `<SwitchControl label="${param.name}" name="${param.name}" />`
+  })
   let textCode = textArray.map(param => {
-    return `<TextControl label="${param.name}" name="${param.name}" />`;
-  });
+    return `<TextControl label="${param.name}" name="${param.name}" />`
+  })
   let selectCode = enumArray.map(param => {
-    return `const ${param.name} = usePropsSelector('${param.name}')`;
-  });
+    return `const ${param.name} = usePropsSelector('${param.name}')`
+  })
 
   const controlCodeOptions = (options: string) => {
-    let optionArray = options.split('|');
+    let optionArray = options.split('|')
     optionArray = optionArray.map(opt => {
-      return `<option>${opt.trim()}</option>`;
-    });
-    return optionArray.join('\n');
-  };
+      return `<option>${opt.trim()}</option>`
+    })
+    return optionArray.join('\n')
+  }
 
   let controlCode = enumArray.map(param => {
     return `<FormControl htmlFor="${param.name}" label="${param.name}">
@@ -720,8 +720,8 @@ export const generateICPanel = async (
     >
       ${controlCodeOptions(param.type)}
     </Select>
-  </FormControl>`;
-  });
+  </FormControl>`
+  })
   let code = `import React, { memo } from 'react'
   ${
     boolArray.length > 0
@@ -755,11 +755,11 @@ export const generateICPanel = async (
     )
   }
   
-  export default memo(${fileName}Panel)`;
-  code = await formatCode(code);
+  export default memo(${fileName}Panel)`
+  code = await formatCode(code)
 
-  return code;
-};
+  return code
+}
 
 export const generatePreview = async (
   components: IComponents,

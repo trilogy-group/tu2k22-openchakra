@@ -11,12 +11,15 @@ export default async function handler(req, res) {
       { encoding: 'utf-8' },
     )
 
-    let result = false;
+    let result = false
     let jsonVal = JSON.parse(fileContent)
-    let jsonKeys = Object.keys(jsonVal);
-    for(let i=0 ; i<jsonKeys.length ; i++){
-      if(jsonVal[jsonKeys[i]]['type'].toLowerCase() == componentDelete.toLowerCase()){
-          result = true;
+    let jsonKeys = Object.keys(jsonVal)
+    for (let i = 0; i < jsonKeys.length; i++) {
+      if (
+        jsonVal[jsonKeys[i]]['type'].toLowerCase() ==
+        componentDelete.toLowerCase()
+      ) {
+        result = true
       }
     }
 
