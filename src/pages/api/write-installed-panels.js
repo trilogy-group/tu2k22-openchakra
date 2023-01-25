@@ -3,7 +3,17 @@ import fs from 'fs'
 import { generateICPanel } from '~utils/code'
 
 function packageToComponent(packageName) {
-  return 'tiui.' + packageName.split('/')[1].replaceAll('.', '/');
+  var component;
+  component = packageName.replace('@', '');
+  const myArray = component.split('.');
+  component = '';
+  var arrayLen = myArray.length;
+  for (var i = 0; i < arrayLen; i++) {
+    component += myArray[i];
+    if (i != arrayLen - 1) component += '/';
+  }
+  component = component.replace('/', '.');
+  return component;
 }
 
 export default async function handler(req, res) {
