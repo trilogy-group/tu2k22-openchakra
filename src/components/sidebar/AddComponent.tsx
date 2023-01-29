@@ -87,7 +87,7 @@ const AddComponent = () => {
         <PopoverCloseButton />
         <PopoverBody>
           <FormControl isRequired isInvalid={!componentValid()}>
-            <FormLabel fontWeight="bold">Location</FormLabel>
+            <FormLabel fontWeight="bold">Component Name</FormLabel>
             <Input
               outlineColor="teal"
               ref={ref}

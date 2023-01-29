@@ -41,7 +41,13 @@ const ColorSchemePicker = ({
             ? themeColor + '.' + hue
             : themeColor
           return (
-            <Tooltip key={fullThemeColor} label={fullThemeColor}>
+            <Tooltip
+              key={fullThemeColor}
+              label={fullThemeColor}
+              hasArrow
+              fontFamily="sans-serif"
+              fontSize="xs"
+            >
               <IconButton
                 bg={`${themeColor}.${withFullColor ? hue : 500}`}
                 mr={2}
@@ -104,7 +110,7 @@ const ParentColorPicker = ({
   }
   return (
     <>
-      <Popover placement="top">
+      <Popover placement="top" arrowShadowColor="gray">
         <PopoverTrigger>
           <IconButton
             {...propsIconButton}
@@ -115,8 +121,8 @@ const ParentColorPicker = ({
             size="sm"
           />
         </PopoverTrigger>
-        <PopoverContent width={200} borderColor="gray.200">
-          <PopoverArrow />
+        <PopoverContent width={200} borderColor="gray.200" bg="white">
+          <PopoverArrow bg="white" />
           <PopoverBody alignItems="center" justifyContent="center">
             {withFullColor ? (
               <Tabs size="sm" variant="soft-rounded" colorScheme="teal">

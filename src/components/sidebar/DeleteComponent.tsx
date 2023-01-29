@@ -11,7 +11,7 @@ import {
   Tag,
   TagLeftIcon,
   TagLabel,
-  TagCloseButton,
+  Text,
   Box,
 } from '@chakra-ui/react'
 import { WarningTwoIcon } from '@chakra-ui/icons'
@@ -85,35 +85,39 @@ const DeleteComponent = ({
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent bgColor="white">
+          <AlertDialogContent
+            bgColor="white"
+            fontFamily="sans-serif"
+            color="black"
+          >
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Component
             </AlertDialogHeader>
 
             <AlertDialogBody>
               {list.length ? (
-                <>
-                  <Box>
-                    <Box mb={3}>
-                      Remove it from the following components before deleting
-                    </Box>
-                    {list.map((property: string) => (
-                      <Tag
-                        key={property}
-                        rounded="full"
-                        variant="solid"
-                        backgroundColor="#2F918F"
-                        p={3}
-                        m={1}
-                      >
-                        <TagLeftIcon as={WarningTwoIcon} />
-                        <TagLabel>{property}</TagLabel>
-                      </Tag>
-                    ))}
-                  </Box>
-                </>
+                <Box>
+                  <Text>
+                    Remove it from the following components before deleting:
+                  </Text>
+                  {list.map((property: string) => (
+                    <Tag
+                      key={property}
+                      rounded="full"
+                      variant="solid"
+                      backgroundColor="#2F918F"
+                      p={3}
+                      m={1}
+                    >
+                      <TagLeftIcon as={WarningTwoIcon} />
+                      <TagLabel>{property}</TagLabel>
+                    </Tag>
+                  ))}
+                </Box>
               ) : (
-                <>Are you sure? You cannot undo this action afterwards.</>
+                <Text>
+                  Are you sure? You cannot undo this action afterwards.
+                </Text>
               )}
             </AlertDialogBody>
 

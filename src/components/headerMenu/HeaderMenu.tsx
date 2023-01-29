@@ -58,7 +58,12 @@ const HeaderMenu = () => {
       </CustomMenuButton>
       <Portal>
         <LightMode>
-          <MenuList bg="white" zIndex={999}>
+          <MenuList
+            bg="white"
+            zIndex={999}
+            fontFamily="sans-serif"
+            color="black"
+          >
             <ExportMenuItem />
             <ImportMenuItem />
 

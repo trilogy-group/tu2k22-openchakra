@@ -7,7 +7,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useDisclosure,
-  theme as baseTheme,
   Divider,
   Tooltip,
   Tabs,
@@ -15,7 +14,6 @@ import {
   TabPanels,
   TabList,
   Tab,
-  LightMode,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -34,7 +32,6 @@ const Themer = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // TODO: layer & text styles
     const updateThemeJson = async () => {
       if (themePath)
         await API.post('/save-theme', {
@@ -61,6 +58,7 @@ const Themer = () => {
       >
         Theme
       </Button>
+
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size="xl">
         <DrawerOverlay />
         <DrawerContent

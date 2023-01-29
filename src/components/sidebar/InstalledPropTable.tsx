@@ -1,23 +1,13 @@
-import { AddIcon } from '@chakra-ui/icons'
 import {
-  Box,
-  Button,
-  Flex,
-  Text,
-  useDisclosure,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
-import React, { useRef } from 'react'
-import API from '~custom-components/api'
-import useDispatch from '~hooks/useDispatch'
+import React from 'react'
 
 type installPropTable = {
   param: string
@@ -30,11 +20,11 @@ const InstalledPropTable = ({ param }: installPropTable) => {
       <Table variant="simple" size="sm" maxWidth="max-content">
         <Thead>
           <Tr backgroundColor="#384150">
-            <Th>Name</Th>
-            <Th>Type</Th>
-            <Th>Description</Th>
-            <Th>Required</Th>
-            <Th>Default</Th>
+            <Th fontFamily="sans-serif">Name</Th>
+            <Th fontFamily="sans-serif">Type</Th>
+            <Th fontFamily="sans-serif">Description</Th>
+            <Th fontFamily="sans-serif">Required</Th>
+            <Th fontFamily="sans-serif">Default</Th>
           </Tr>
         </Thead>
         <Tbody>
