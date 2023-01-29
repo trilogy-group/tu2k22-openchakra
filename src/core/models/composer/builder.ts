@@ -412,13 +412,21 @@ export const buildCard = (parent: string): ComposedComponent => {
   const composer = new Composer()
 
   const nodeId = composer.addNode({ type: 'Card', parent })
-  const header = composer.addNode({ type: 'CardHeader', parent: nodeId })
+  const header = composer.addNode({
+    type: 'Box',
+    parent: nodeId,
+    props: { p: 5 },
+  })
   composer.addNode({
     type: 'Heading',
     parent: header,
-    props: { children: 'Card Title' },
+    props: { children: 'Card Header' },
   })
-  const body = composer.addNode({ type: 'CardBody', parent: nodeId })
+  const body = composer.addNode({
+    type: 'Box',
+    parent: nodeId,
+    props: { p: 5 },
+  })
   composer.addNode({
     type: 'Text',
     parent: body,
@@ -427,7 +435,11 @@ export const buildCard = (parent: string): ComposedComponent => {
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore.',
     },
   })
-  const footer = composer.addNode({ type: 'CardFooter', parent: nodeId })
+  const footer = composer.addNode({
+    type: 'Box',
+    parent: nodeId,
+    props: { p: 5 },
+  })
   composer.addNode({
     type: 'Button',
     parent: footer,

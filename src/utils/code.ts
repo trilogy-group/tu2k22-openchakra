@@ -79,6 +79,37 @@ const buildParams = (paramsName: any, customOcTsx: boolean = false) => {
   return { paramTypes, params }
 }
 
+const buildCardProps = (propNames: string[], childComponent: IComponent) => {
+  let propsContent = ''
+  propNames.forEach((propName: string) => {
+    const propsValue = childComponent.props[propName]
+
+    if (propName === 'variant') {
+      if (propsValue === 'outline') {
+        propsContent += `borderColor='blackAlpha.200' `
+        propsContent += `border='1px' `
+      } else {
+        propsContent += `boxShadow='lg'`
+      }
+    } else if (propName !== 'children' && propsValue) {
+      let operand = `='${propsValue}'`
+      if (propsValue[0] === '{' && propsValue[propsValue.length - 1] === '}') {
+        operand = `=${propsValue}`
+      } else if (propsValue === true || propsValue === 'true') {
+        operand = ``
+      } else if (
+        propsValue === 'false' ||
+        isBoolean(propsValue) ||
+        !isNaN(propsValue)
+      ) {
+        operand = `={${propsValue}}`
+      }
+      propsContent += `${propName}${operand} `
+    }
+  })
+  return propsContent
+}
+
 const destructureParams = (params: any) => {
   return `const { ${params
     .map((param: any) => param.name)
@@ -217,6 +248,15 @@ const buildSingleBlock = ({
       content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
     } else if (childComponent.type === 'Icon') {
       content += `<${childComponent.props.icon} ${propsContent} />`
+    } else if (componentName === 'Card') {
+      propsContent = buildCardProps(propsNames, childComponent)
+      content += `<Box ${propsContent}>
+      ${buildBlock({
+        component: childComponent,
+        components,
+        forceBuildBlock,
+      })}
+      </Box>`
     } else if (
       childComponent.children.length &&
       componentName !== 'Conditional' &&
@@ -317,6 +357,15 @@ const buildBlock = ({
         content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
       } else if (childComponent.type === 'Icon') {
         content += `<${childComponent.props.icon} ${propsContent} />`
+      } else if (componentName === 'Card') {
+        propsContent = buildCardProps(propsNames, childComponent)
+        content += `<Box ${propsContent}>
+        ${buildBlock({
+          component: childComponent,
+          components,
+          forceBuildBlock,
+        })}
+        </Box>`
       } else if (
         childComponent.children.length &&
         componentName !== 'Conditional' &&
@@ -482,6 +531,7 @@ export const generateCode = async (
               components[name].type !== 'Conditional' &&
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
+              components[name].type !== 'Card' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
@@ -591,6 +641,7 @@ export const generateOcTsxCode = async (
               components[name].type !== 'Conditional' &&
               components[name].type !== 'Loop' &&
               components[name].type !== 'Box' &&
+              components[name].type !== 'Card' &&
               !Object.keys(currentComponents).includes(components[name].type) &&
               !Object.keys(installedComponents).includes(components[name].type),
           )
