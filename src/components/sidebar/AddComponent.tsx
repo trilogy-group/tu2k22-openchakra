@@ -16,6 +16,7 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Text,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
 import React, { useRef } from 'react'
@@ -39,16 +40,16 @@ const AddComponent = () => {
   }
 
   const createComponent = async () => {
-    const componentPath = ref.current?.value
-    if (!componentValid(componentPath)) return
+    const component = ref.current?.value
+    if (!componentValid(component)) return
     onClose()
     dispatch.app.toggleLoader()
     const res = await API.post('/add-component', {
-      path: componentPath,
+      path: component,
     })
     dispatch.customComponents.addCustomComponent(
-      res.data,
-      `../remote/${componentPath}`,
+      component ?? '',
+      `../remote/${res.data}`,
     )
     dispatch.app.toggleLoader()
   }
@@ -68,21 +69,29 @@ const AddComponent = () => {
           color="white"
           leftIcon={<AddIcon />}
         >
-          <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
-            Create
-          </Text>
+          <Tooltip
+            label="Create a new custom component"
+            fontFamily="sans-serif"
+            fontSize="sm"
+            hasArrow
+            placement="bottom"
+          >
+            <Text letterSpacing="wide" fontSize="sm" textTransform="capitalize">
+              Create
+            </Text>
+          </Tooltip>
         </Button>
       </PopoverTrigger>
-      <PopoverContent p={5} bgColor="white">
+      <PopoverContent p={5} bgColor="white" color="black">
         <PopoverArrow bgColor="white" />
         <PopoverCloseButton />
         <PopoverBody>
           <FormControl isRequired isInvalid={!componentValid()}>
-            <FormLabel fontWeight="bold">Location</FormLabel>
+            <FormLabel fontWeight="bold">Component Name</FormLabel>
             <Input
               outlineColor="teal"
               ref={ref}
-              placeholder="<repo-name>/<component-name>"
+              placeholder="<component-name>"
               _placeholder={{ color: 'gray.400' }}
               size="sm"
             />

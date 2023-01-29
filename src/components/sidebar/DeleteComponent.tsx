@@ -8,8 +8,14 @@ import {
   Button,
   IconButton,
   useDisclosure,
+  Tag,
+  TagLeftIcon,
+  TagLabel,
+  Text,
+  Box,
 } from '@chakra-ui/react'
-import React, { useRef } from 'react'
+import { WarningTwoIcon } from '@chakra-ui/icons'
+import React, { useRef, useState } from 'react'
 import API from '~custom-components/api'
 import useDispatch from '~hooks/useDispatch'
 import { useSelector } from 'react-redux'
@@ -50,11 +56,24 @@ const DeleteComponent = ({
     dispatch.app.toggleLoader()
   }
 
+  const [list, setList] = useState([])
+
+  const getParameters = async (name: string) => {
+    const res = await API.post('/safe-deletion', {
+      componentDelete: name,
+      customCmp: customComponents,
+    })
+    setList(res.data['listUsed'])
+  }
+
   return (
     <>
       <IconButton
         aria-label="Delete"
-        onClick={onOpen}
+        onClick={() => {
+          onOpen()
+          getParameters(name)
+        }}
         disabled={name === selectedComponent}
       >
         <DeleteIcon color="red" />
@@ -66,29 +85,58 @@ const DeleteComponent = ({
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent bgColor="white">
+          <AlertDialogContent
+            bgColor="white"
+            fontFamily="sans-serif"
+            color="black"
+          >
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Component
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You cannot undo this action afterwards.
+              {list.length ? (
+                <Box>
+                  <Text>
+                    Remove it from the following components before deleting:
+                  </Text>
+                  {list.map((property: string) => (
+                    <Tag
+                      key={property}
+                      rounded="full"
+                      variant="solid"
+                      backgroundColor="#2F918F"
+                      p={3}
+                      m={1}
+                    >
+                      <TagLeftIcon as={WarningTwoIcon} />
+                      <TagLabel>{property}</TagLabel>
+                    </Tag>
+                  ))}
+                </Box>
+              ) : (
+                <Text>
+                  Are you sure? You cannot undo this action afterwards.
+                </Text>
+              )}
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose} color="teal.300">
                 Cancel
               </Button>
-              <Button
-                color="red"
-                onClick={() => {
-                  handleDeleteClick()
-                  onClose()
-                }}
-                ml={3}
-              >
-                Delete
-              </Button>
+              {!list.length && (
+                <Button
+                  color="red"
+                  onClick={() => {
+                    handleDeleteClick()
+                    onClose()
+                  }}
+                  ml={3}
+                >
+                  Delete
+                </Button>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>

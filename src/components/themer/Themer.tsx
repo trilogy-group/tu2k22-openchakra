@@ -7,7 +7,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useDisclosure,
-  theme as baseTheme,
   Divider,
   Tooltip,
   Tabs,
@@ -15,7 +14,6 @@ import {
   TabPanels,
   TabList,
   Tab,
-  LightMode,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -25,6 +23,7 @@ import API from '~custom-components/api'
 import ThemeCustomStyles from './CustomStyles'
 import ThemeColorPalette from './ThemeColorPalette'
 import ThemeFonts from './ThemeFonts'
+import { GiLargePaintBrush } from 'react-icons/gi'
 
 const Themer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,7 +32,6 @@ const Themer = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // TODO: layer & text styles
     const updateThemeJson = async () => {
       if (themePath)
         await API.post('/save-theme', {
@@ -47,23 +45,20 @@ const Themer = () => {
   }, [newThemeState])
 
   return (
-    <LightMode>
+    <>
       <Button
-        px={6}
-        bgGradient="linear(to-br, blue.300, green.300, yellow.300, red.300)"
+        mx={4}
         display="flex"
         flexDirection="row"
         alignItems="center"
-        fontSize="sm"
-        whiteSpace="nowrap"
-        _hover={{
-          bgGradient: 'linear(to-br, blue.200, green.200, yellow.200, red.200)',
-        }}
+        rightIcon={<GiLargePaintBrush />}
+        variant="ghost"
+        size="xs"
         onClick={onOpen}
-        color="black"
       >
         Theme
       </Button>
+
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size="xl">
         <DrawerOverlay />
         <DrawerContent
@@ -86,7 +81,7 @@ const Themer = () => {
               <TabList>
                 <Tab>
                   <Tooltip
-                    label="Set default CSS properties"
+                    label="Customize the colorScheme and different colors for your project"
                     fontFamily="sans-serif"
                     fontSize="sm"
                     hasArrow
@@ -98,7 +93,7 @@ const Themer = () => {
                 <Divider />
                 <Tab>
                   <Tooltip
-                    label="Add theme layers where the lower layer overrides the theme configuration set in above layers"
+                    label="Customise the heading and body font family"
                     fontFamily="sans-serif"
                     fontSize="sm"
                     hasArrow
@@ -135,7 +130,7 @@ const Themer = () => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </LightMode>
+    </>
   )
 }
 

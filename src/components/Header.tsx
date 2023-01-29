@@ -20,6 +20,7 @@ import {
   PopoverFooter,
   Tooltip,
   HStack,
+  Spacer,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
@@ -164,6 +165,8 @@ const Header = () => {
                 hasArrow
                 bg="yellow.100"
                 aria-label="Builder mode help"
+                fontFamily="sans-serif"
+                fontSize="xs"
                 label="Builder mode adds extra padding/borders"
               >
                 <FormLabel
@@ -191,17 +194,27 @@ const Header = () => {
             </FormControl>
 
             <FormControl display="flex" flexDirection="row" alignItems="center">
-              <FormLabel
-                color="gray.200"
+              <Tooltip
+                zIndex={100}
+                hasArrow
+                bg="yellow.100"
+                aria-label="Code Panel help"
+                fontFamily="sans-serif"
                 fontSize="xs"
-                mr={2}
-                mb={0}
-                pb={0}
-                htmlFor="code"
-                whiteSpace="nowrap"
+                label="Code Panel shows the generated code for the current component"
               >
-                Code panel
-              </FormLabel>
+                <FormLabel
+                  color="gray.200"
+                  fontSize="xs"
+                  mr={2}
+                  mb={0}
+                  pb={0}
+                  htmlFor="code"
+                  whiteSpace="nowrap"
+                >
+                  Code panel
+                </FormLabel>
+              </Tooltip>
               <LightMode>
                 <Switch
                   isChecked={showCode}
@@ -212,9 +225,9 @@ const Header = () => {
                 />
               </LightMode>
             </FormControl>
-            <Themer />
           </HStack>
-
+          <Themer />
+          <Spacer />
           <Stack direction="row">
             <CodeSandboxButton />
             <Popover>
@@ -231,7 +244,7 @@ const Header = () => {
                     </Button>
                   </PopoverTrigger>
                   <LightMode>
-                    <PopoverContent zIndex={100} bg="white">
+                    <PopoverContent zIndex={100} bg="white" color="black">
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverHeader>Are you sure?</PopoverHeader>

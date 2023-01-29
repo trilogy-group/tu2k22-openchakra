@@ -27,7 +27,7 @@ import {
   Text,
   list,
 } from '@chakra-ui/react'
-import { CloseIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
+import { CloseIcon, EditIcon, SearchIcon, ViewIcon } from '@chakra-ui/icons'
 import DragItem from './DragItem'
 import { menuItems, MenuItem } from '~componentsList'
 import { useSelector } from 'react-redux'
@@ -42,6 +42,7 @@ import AddComponent from './AddComponent'
 import DeleteComponent from './DeleteComponent'
 import InstallComponent from './InstallComponent'
 import InstalledPropTable from './InstalledPropTable'
+import DeployButton from '~components/DeployButton'
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -93,6 +94,11 @@ const Menu = () => {
     dispatch.app.toggleLoader()
   }, [customComponents])
 
+  useEffect(() => {
+    const writeFunction = async () => await API.post('/write-installed-panels')
+    writeFunction()
+  }, [])
+
   const [param, setParam] = useState('[{}]')
 
   const getParameters = async (name: string, pathPackage: string) => {
@@ -131,7 +137,7 @@ const Menu = () => {
             <Input
               value={searchTerm}
               color="gray.300"
-              placeholder="Search ..."
+              placeholder="Search component"
               _placeholder={{
                 color: 'gray',
               }}
@@ -244,7 +250,7 @@ const Menu = () => {
                   alignItems="center"
                 >
                   <AddComponent />
-                  <InstallComponent />
+                  <DeployButton />
                 </ButtonGroup>
 
                 {(Object.keys(customComponents) as ComponentType[])
@@ -327,13 +333,14 @@ const Menu = () => {
                         >
                           <Popover placement="right">
                             <PopoverTrigger>
-                              <Button
+                              <IconButton
+                                aria-label="ViewProps"
                                 onClick={() => {
                                   getParameters(name, installedComponents[name])
                                 }}
                               >
-                                +
-                              </Button>
+                                <ViewIcon color="gray.300" />
+                              </IconButton>
                             </PopoverTrigger>
                             <PopoverContent
                               color="whiteAlpha.900"

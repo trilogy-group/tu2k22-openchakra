@@ -2,7 +2,12 @@ import fs from 'fs'
 import glob from 'glob'
 import shell from 'shelljs'
 import { convertToPascal } from '~components/editor/Editor'
-import { generateOcTsxCode, generatePanel, generatePreview } from '~utils/code'
+import {
+  generateOcTsxCode,
+  generatePanel,
+  generatePreview,
+  generateICPreview,
+} from '~utils/code'
 
 function getComponentWithLocation(path) {
   let arr = path.split('/')
@@ -31,10 +36,21 @@ export default async function handler(req, res) {
   try {
     // 2.0 Read Installed-Components Names
     let installedList = JSON.parse(
-      fs.readFileSync('src/installed-components/installedList.json', {
+      fs.readFileSync('../../resources/installedList.json', {
         encoding: 'utf-8',
       }),
     )
+
+    Object.keys(installedList).map(async component => {
+      const previewCode = await generateICPreview(
+        component,
+        installedList[component],
+      )
+      fs.writeFileSync(
+        `src/installed-components/${component}Preview.ic.tsx`,
+        previewCode,
+      )
+    })
 
     Object.keys(jsons).map(async component => {
       // 2.1 Read json
@@ -49,14 +65,14 @@ export default async function handler(req, res) {
       const [previewCode, panelCode, ocTsxCode] = await Promise.all([
         generatePreview(json, componentName, component),
         generatePanel(json, componentName),
-        generateOcTsxCode(json, jsons),
+        generateOcTsxCode(json, jsons, installedList),
       ])
 
       // 2.3 Create symlink
       shell.ln(
         '-sf',
-        `../../../${jsons[component]}/${component}.tsx`,
-        `src/custom-components/customOcTsx/${component}.tsx`,
+        `../../../${jsons[component]}/${component}`,
+        `src/custom-components/customOcTsx/${component}`,
       )
 
       // 2.4 Write the generated files

@@ -17,14 +17,14 @@ export default async function handler(req, res) {
 
     // 2.3 Write to installedList.json file
     let installedList = fs.readFileSync(
-      'src/installed-components/installedList.json',
+      '../../resources/installedList.json',
       'utf-8',
     )
     installedList = JSON.parse(installedList)
     delete installedList[componentName]
     fs.writeFileSync(
-      'src/installed-components/installedList.json',
-      JSON.stringify(installedList),
+      '../../resources/installedList.json',
+      JSON.stringify(installedList, null, 2) + '\n',
       'utf-8',
     )
 

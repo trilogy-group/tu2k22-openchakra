@@ -80,7 +80,14 @@ import MenuButtonPanel from './components/MenuButtonPanel'
 import SliderPanel from '~components/inspector/panels/components/SliderPanel'
 import SliderMarkPanel from './components/SliderMarkPanel'
 
-const importView = (component: string) => {
+const importView = (component: string, isInstalled: boolean = false) => {
+  if (isInstalled) {
+    return lazy(() =>
+      import(`src/installed-components/${component}Panel.ic.tsx`).catch(() =>
+        import('src/custom-components/fallback'),
+      ),
+    )
+  }
   component = convertToPascal(component)
   return lazy(() =>
     import(
@@ -93,17 +100,24 @@ const Panels: React.FC<{
   component: IComponent
   isRoot: boolean
   isCustom?: boolean
-}> = ({ component, isRoot, isCustom = false }) => {
+  isInstalled?: boolean
+}> = ({ component, isRoot, isCustom = false, isInstalled = false }) => {
   const { type } = component
   const [view, setView] = useState<any>()
   const customComponents = useSelector(getCustomComponentNames)
+  const [instView, setInstView] = useState<any>()
 
   useEffect(() => {
     async function loadViews() {
       if (type) {
-        const View = await importView(type)
+        const View = importView(type)
+        const InstView = importView(type, true)
+        await Promise.all([View, InstView])
         const loadedPanel = <View />
-        Promise.all([loadedPanel]).then(setView)
+        const iLoadedPanel = <InstView />
+        Promise.all([loadedPanel, iLoadedPanel])
+        setView(loadedPanel)
+        setInstView(iLoadedPanel)
       }
     }
     loadViews()
@@ -115,6 +129,10 @@ const Panels: React.FC<{
 
   if (isCustom) {
     return <Suspense fallback={'Loading...'}>{view}</Suspense>
+  }
+
+  if (isInstalled) {
+    return <Suspense fallback={'Loading...'}>{instView}</Suspense>
   }
 
   return (
